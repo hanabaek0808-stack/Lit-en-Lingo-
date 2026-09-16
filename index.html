@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#7c3aed">
+<meta name="description" content="Lit en Lingo — Literature, Languages and Literary Analysis">
+<title>Lit en Lingo — Literature & Language Learning</title>
+
+<style>
+/* =========================================================
+   LIT EN LINGO — AESTHETIC DESIGN SYSTEM
+   ========================================================= */
+
+:root{
+ --bg:#f7f5fc;
+ --surface:rgba(255,255,255,.82);
+ --surface-solid:#fff;
+ --surface2:#f0ebfa;
+ --text:#191523;
+ --muted:#6d6878;
+ --primary:#7c3aed;
+ --primary2:#a855f7;
+ --pink:#ec4899;
+ --blue:#38bdf8;
+ --green:#22c55e;
+ --red:#ef4444;
+ --border:rgba(124,58,237,.14);
+ --shadow:0 14px 45px rgba(48,25,85,.10);
+ --radius:22px;
+ --glass:rgba(255,255,255,.65);
+}
+
+[data-theme="dark"]{
+ --bg:#0b0911;
+ --surface:rgba(24,19,34,.82);
+ --surface-solid:#181321;
+ --surface2:#241d31;
+ --text:#f8f5ff;
+ --muted:#aaa2b8;
+ --primary:#a78bfa;
+ --primary2:#c084fc;
+ --pink:#f472b6;
+ --blue:#38bdf8;
+ --border:rgba(196,181,253,.15);
+ --shadow:0 18px 55px rgba(0,0,0,.35);
+ --glass:rgba(24,19,34,.68);
+}
+
+*{box-sizing:border-box}
+
+html{
+ scroll-behavior:smooth;
+}
+
+body{
+ margin:0;
+ color:var(--text);
+ background:
+   radial-gradient(circle at 10% 10%,rgba(124,58,237,.16),transparent 27%),
+   radial-gradient(circle at 90% 15%,rgba(236,72,153,.13),transparent 25%),
+   radial-gradient(circle at 50% 100%,rgba(56,189,248,.10),transparent 30%),
+   var(--bg);
+ background-attachment:fixed;
+ font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ line-height:1.6;
+ overflow-x:hidden;
+}
+
+body:before,
+body:after{
+ content:"";
+ position:fixed;
+ z-index:-1;
+ border-radius:50%;
+ filter:blur(70px);
+ pointer-events:none;
+ animation:orbMove 14s ease-in-out infinite alternate;
+}
+
+body:before{
+ width:300px;
+ height:300px;
+ left:-100px;
+ top:30%;
+ background:rgba(124,58,237,.13);
+}
+
+body:after{
+ width:260px;
+ height:260px;
+ right:-80px;
+ bottom:10%;
+ background:rgba(236,72,153,.10);
+ animation-delay:-5s;
+}
+
+@keyframes orbMove{
+ 0%{transform:translate(0,0) scale(1)}
+ 50%{transform:translate(50px,-35px) scale(1.12)}
+ 100%{transform:translate(-25px,30px) scale(.95)}
+}
+
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.65}
+a{color:inherit}
+
+::selection{
+ background:var(--primary);
+ color:white;
+}
+
+/* ---------- Floating literary particles ---------- */
+
+.particles{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ overflow:hidden;
+ z-index:-1;
+}
+
+.particle{
+ position:absolute;
+ color:var(--primary);
+ opacity:.12;
+ font-family:Georgia,serif;
+ animation:floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+ from{transform:translateY(110vh) rotate(0deg)}
+ to{transform:translateY(-120px) rotate(360deg)}
+}
+
+/* ---------- Topbar ---------- */
+
+.topbar{
+ position:sticky;
+ top:0;
+ z-index:100;
+ border-bottom:1px solid var(--border);
+ background:var(--glass);
+ backdrop-filter:blur(20px);
+ -webkit-backdrop-filter:blur(20px);
+}
+
+.topbar-inner{
+ max-width:1250px;
+ margin:auto;
+ padding:11px 18px;
+ display:flex;
+ align-items:center;
+ gap:13px;
+}
+
+.logo{
+ border:0;
+ background:none;
+ color:var(--text);
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:0;
+ min-width:max-content;
+}
+
+.logo-mark{
+ width:46px;
+ height:46px;
+ border-radius:16px;
+ display:grid;
+ place-items:center;
+ color:white;
+ font-size:24px;
+ font-weight:1000;
+ letter-spacing:-3px;
+ background:linear-gradient(135deg,var(--primary),var(--pink));
+ box-shadow:0 9px 25px rgba(124,58,237,.30);
+ animation:logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse{
+ 0%,100%{transform:translateY(0) rotate(0)}
+ 50%{transform:translateY(-3px) rotate(-2deg)}
+}
+
+.logo-text{
+ font-size:20px;
+ font-weight:950;
+ letter-spacing:-.8px;
+}
+
+.logo-text span{color:var(--primary)}
+
+.search{
+ flex:1;
+ max-width:500px;
+ position:relative;
+ margin-left:auto;
+}
+
+.search input{
+ width:100%;
+ padding:12px 15px 12px 43px;
+ border:1px solid var(--border);
+ border-radius:15px;
+ outline:none;
+ color:var(--text);
+ background:var(--surface2);
+ transition:.25s;
+}
+
+.search input:focus{
+ border-color:var(--primary);
+ box-shadow:0 0 0 4px rgba(124,58,237,.10);
+ transform:translateY(-1px);
+}
+
+.search-icon{
+ position:absolute;
+ left:14px;
+ top:8px;
+ font-size:20px;
+ pointer-events:none;
+}
+
+.icon-btn,
+.theme-btn,
+.menu-btn{
+ border:1px solid var(--border);
+ background:var(--surface);
+ color:var(--text);
+ border-radius:13px;
+ padding:9px 12px;
+ transition:.2s;
+}
+
+.icon-btn:hover,
+.theme-btn:hover,
+.menu-btn:hover{
+ transform:translateY(-2px);
+ border-color:var(--primary);
+ color:var(--primary);
+}
+
+.menu-btn{display:none}
+
+/* ---------- Layout ---------- */
+
+.layout{
+ max-width:1250px;
+ margin:auto;
+ display:grid;
+ grid-template-columns:245px 1fr;
+ gap:23px;
+ padding:23px 18px;
+}
+
+.sidebar{
+ position:sticky;
+ top:82px;
+ height:calc(100vh - 105px);
+ overflow:auto;
+ padding:7px;
+}
+
+.nav-title{
+ color:var(--muted);
+ font-size:10px;
+ font-weight:900;
+ letter-spacing:1.6px;
+ text-transform:uppercase;
+ margin:17px 11px 7px;
+}
+
+.nav-btn{
+ width:100%;
+ border:0;
+ background:transparent;
+ color:var(--text);
+ padding:11px 13px;
+ border-radius:13px;
+ display:flex;
+ align-items:center;
+ gap:10px;
+ text-align:left;
+ margin:2px 0;
+ transition:.2s;
+}
+
+.nav-btn:hover{
+ background:var(--surface2);
+ transform:translateX(3px);
+}
+
+.nav-btn.active{
+ background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(236,72,153,.08));
+ color:var(--primary);
+ font-weight:850;
+ box-shadow:inset 3px 0 var(--primary);
+}
+
+/* ---------- General ---------- */
+
+.content{min-width:0}
+
+.hero{
+ position:relative;
+ overflow:hidden;
+ padding:39px;
+ border-radius:30px;
+ color:white;
+ background:
+   radial-gradient(circle at 90% 10%,rgba(255,255,255,.17),transparent 24%),
+   radial-gradient(circle at 10% 90%,rgba(56,189,248,.16),transparent 28%),
+   linear-gradient(135deg,#6d28d9,#4c1d95 52%,#db2777);
+ box-shadow:0 25px 70px rgba(76,29,149,.22);
+ animation:heroIn .7s ease both;
+}
+
+.hero:before{
+ content:"";
+ position:absolute;
+ width:250px;
+ height:250px;
+ right:-90px;
+ top:-100px;
+ border:1px solid rgba(255,255,255,.18);
+ border-radius:50%;
+ box-shadow:0 0 0 40px rgba(255,255,255,.03),
+            0 0 0 80px rgba(255,255,255,.02);
+ animation:spinSlow 20s linear infinite;
+}
+
+.hero:after{
+ content:"EN";
+ position:absolute;
+ right:20px;
+ bottom:-55px;
+ font-size:190px;
+ line-height:1;
+ font-weight:1000;
+ letter-spacing:-25px;
+ opacity:.08;
+}
+
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+
+@keyframes heroIn{
+ from{opacity:0;transform:translateY(20px) scale(.98)}
+ to{opacity:1;transform:none}
+}
+
+.hero h1{
+ position:relative;
+ z-index:1;
+ font-family:Georgia,"Times New Roman",serif;
+ font-size:clamp(34px,5vw,60px);
+ line-height:1;
+ margin:0 0 14px;
+ letter-spacing:-2px;
+ max-width:750px;
+}
+
+.hero p{
+ position:relative;
+ z-index:1;
+ max-width:720px;
+ color:#f3eaff;
+ font-size:17px;
+ margin:0 0 23px;
+}
+
+.hero-actions{
+ position:relative;
+ z-index:2;
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+}
+
+.btn{
+ border:0;
+ border-radius:13px;
+ padding:11px 17px;
+ font-weight:850;
+ color:white;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ box-shadow:0 8px 20px rgba(124,58,237,.18);
+ transition:.2s;
+}
+
+.btn:hover{
+ transform:translateY(-3px);
+ box-shadow:0 13px 28px rgba(124,58,237,.25);
+}
+
+.btn.light{
+ background:white;
+ color:#4c1d95;
+}
+
+.btn.ghost{
+ background:transparent;
+ border:1px solid var(--border);
+ color:var(--text);
+ box-shadow:none;
+}
+
+.hero .ghost{
+ color:white;
+ border-color:rgba(255,255,255,.35);
+}
+
+/* ---------- Stats ---------- */
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:13px;
+ margin:18px 0;
+}
+
+.stat{
+ position:relative;
+ overflow:hidden;
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:17px;
+ box-shadow:var(--shadow);
+ backdrop-filter:blur(10px);
+ animation:rise .55s ease both;
+}
+
+.stat:nth-child(2){animation-delay:.08s}
+.stat:nth-child(3){animation-delay:.16s}
+.stat:nth-child(4){animation-delay:.24s}
+
+@keyframes rise{
+ from{opacity:0;transform:translateY(15px)}
+ to{opacity:1;transform:none}
+}
+
+.stat:after{
+ content:"";
+ position:absolute;
+ width:80px;
+ height:80px;
+ border-radius:50%;
+ background:var(--primary);
+ opacity:.05;
+ right:-30px;
+ top:-30px;
+}
+
+.stat b{
+ display:block;
+ color:var(--primary);
+ font-size:27px;
+ line-height:1.1;
+}
+
+.stat span{
+ color:var(--muted);
+ font-size:12px;
+}
+
+/* ---------- Sections ---------- */
+
+.section{
+ margin:32px 0;
+ animation:sectionIn .4s ease both;
+}
+
+@keyframes sectionIn{
+ from{opacity:0;transform:translateY(8px)}
+ to{opacity:1;transform:none}
+}
+
+.section-head{
+ display:flex;
+ align-items:end;
+ justify-content:space-between;
+ gap:12px;
+ margin-bottom:14px;
+}
+
+.section h2{
+ margin:0;
+ font-family:Georgia,"Times New Roman",serif;
+ font-size:27px;
+ letter-spacing:-.6px;
+}
+
+.section-sub{
+ margin:2px 0 0;
+ color:var(--muted);
+ font-size:14px;
+}
+
+/* ---------- Cards ---------- */
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:14px;
+}
+
+.card{
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:19px;
+ box-shadow:var(--shadow);
+ backdrop-filter:blur(10px);
+ transition:.25s;
+ animation:cardIn .45s ease both;
+}
+
+.card:hover{
+ transform:translateY(-5px);
+ box-shadow:0 20px 50px rgba(48,25,85,.14);
+ border-color:rgba(124,58,237,.27);
+}
+
+@keyframes cardIn{
+ from{opacity:0;transform:translateY(13px)}
+ to{opacity:1;transform:none}
+}
+
+.card-top{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+}
+
+.card h3{
+ margin:8px 0 4px;
+ font-size:18px;
+}
+
+.card p{
+ margin:5px 0;
+ color:var(--muted);
+ font-size:14px;
+}
+
+.emoji{
+ font-size:30px;
+}
+
+.tag{
+ display:inline-flex;
+ align-items:center;
+ border:1px solid var(--border);
+ background:var(--surface2);
+ color:var(--text);
+ padding:4px 9px;
+ border-radius:999px;
+ font-size:11px;
+ font-weight:800;
+ margin:3px 3px 0 0;
+}
+
+.card-actions{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+ margin-top:13px;
+}
+
+.small-btn{
+ border:1px solid var(--border);
+ background:var(--surface2);
+ color:var(--text);
+ border-radius:10px;
+ padding:7px 10px;
+ font-size:12px;
+ font-weight:800;
+ transition:.2s;
+}
+
+.small-btn:hover{
+ transform:translateY(-2px);
+ border-color:var(--primary);
+}
+
+.small-btn.primary{
+ color:white;
+ background:var(--primary);
+ border-color:var(--primary);
+}
+
+/* ---------- Toolbar ---------- */
+
+.toolbar{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-bottom:15px;
+}
+
+.toolbar input,
+.toolbar select{
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:10px 12px;
+ background:var(--surface);
+ color:var(--text);
+ outline:none;
+}
+
+.toolbar input:focus,
+.toolbar select:focus{
+ border-color:var(--primary);
+}
+
+/* ---------- Chips ---------- */
+
+.chips{
+ display:flex;
+ gap:7px;
+ overflow:auto;
+ padding-bottom:5px;
+}
+
+.chip{
+ white-space:nowrap;
+ border:1px solid var(--border);
+ background:var(--surface);
+ color:var(--text);
+ padding:8px 13px;
+ border-radius:999px;
+ font-size:12px;
+ font-weight:800;
+ transition:.2s;
+}
+
+.chip:hover{transform:translateY(-2px)}
+
+.chip.active{
+ background:var(--primary);
+ color:white;
+ border-color:var(--primary);
+}
+
+/* ---------- Work cards ---------- */
+
+.work-card{
+ display:grid;
+ grid-template-columns:72px 1fr;
+ gap:14px;
+}
+
+.work-icon{
+ width:72px;
+ height:72px;
+ display:grid;
+ place-items:center;
+ border-radius:17px;
+ background:linear-gradient(135deg,var(--surface2),rgba(124,58,237,.10));
+ font-size:32px;
+}
+
+/* ---------- Lessons ---------- */
+
+.lesson{
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:21px;
+ margin-bottom:14px;
+ box-shadow:var(--shadow);
+}
+
+.lesson h3{margin-top:0}
+
+.lesson ol,
+.lesson ul{
+ padding-left:23px;
+}
+
+.example{
+ background:var(--surface2);
+ border-left:4px solid var(--primary);
+ padding:12px 15px;
+ border-radius:0 12px 12px 0;
+ margin:11px 0;
+}
+
+/* ---------- Progress ---------- */
+
+.progress-wrap{
+ height:10px;
+ background:var(--surface2);
+ border-radius:99px;
+ overflow:hidden;
+}
+
+.progress{
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,var(--primary),var(--pink),var(--blue));
+ border-radius:99px;
+ transition:width .7s ease;
+}
+
+/* ---------- Notes ---------- */
+
+.note-area{
+ width:100%;
+ min-height:180px;
+ resize:vertical;
+ border:1px solid var(--border);
+ border-radius:15px;
+ padding:14px;
+ background:var(--surface);
+ color:var(--text);
+ outline:none;
+}
+
+.note-area:focus{
+ border-color:var(--primary);
+ box-shadow:0 0 0 4px rgba(124,58,237,.08);
+}
+
+/* ---------- Quiz ---------- */
+
+.quiz-option{
+ width:100%;
+ text-align:left;
+ border:1px solid var(--border);
+ background:var(--surface);
+ color:var(--text);
+ border-radius:12px;
+ padding:12px;
+ margin:6px 0;
+ transition:.2s;
+}
+
+.quiz-option:hover{
+ border-color:var(--primary);
+ transform:translateX(3px);
+}
+
+.quiz-option.correct{
+ border-color:var(--green);
+ background:rgba(34,197,94,.12);
+}
+
+.quiz-option.wrong{
+ border-color:var(--red);
+ background:rgba(239,68,68,.12);
+}
+
+/* ---------- Definition ---------- */
+
+.definition-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:14px;
+}
+
+/* ---------- Modal ---------- */
+
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:300;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ background:rgba(0,0,0,.62);
+ backdrop-filter:blur(8px);
+}
+
+.modal.open{
+ display:flex;
+ animation:fadeIn .2s ease;
+}
+
+@keyframes fadeIn{
+ from{opacity:0}
+ to{opacity:1}
+}
+
+.modal-box{
+ width:100%;
+ max-width:800px;
+ max-height:90vh;
+ overflow:auto;
+ background:var(--surface-solid);
+ border:1px solid var(--border);
+ border-radius:25px;
+ padding:25px;
+ box-shadow:0 35px 100px rgba(0,0,0,.4);
+ animation:modalIn .3s ease;
+}
+
+@keyframes modalIn{
+ from{opacity:0;transform:translateY(25px) scale(.96)}
+ to{opacity:1;transform:none}
+}
+
+.modal-head{
+ display:flex;
+ justify-content:space-between;
+ gap:15px;
+ align-items:start;
+}
+
+.close{
+ border:0;
+ background:var(--surface2);
+ color:var(--text);
+ border-radius:10px;
+ padding:7px 11px;
+}
+
+.close:hover{color:var(--primary)}
+
+/* ---------- Toast ---------- */
+
+.toast{
+ position:fixed;
+ right:18px;
+ bottom:18px;
+ z-index:500;
+ padding:12px 16px;
+ border-radius:13px;
+ background:var(--text);
+ color:var(--bg);
+ box-shadow:var(--shadow);
+ opacity:0;
+ transform:translateY(15px);
+ transition:.25s;
+ pointer-events:none;
+}
+
+.toast.show{
+ opacity:1;
+ transform:none;
+}
+
+/* ---------- Empty ---------- */
+
+.empty{
+ padding:40px 20px;
+ text-align:center;
+ border:1px dashed var(--border);
+ border-radius:20px;
+ color:var(--muted);
+}
+
+/* ---------- Footer ---------- */
+
+.footer{
+ margin-top:55px;
+ padding:30px 10px;
+ text-align:center;
+ color:var(--muted);
+ font-size:13px;
+ border-top:1px solid var(--border);
+}
+
+.footer strong{color:var(--primary)}
+
+/* ---------- Utility ---------- */
+
+.hide{display:none!important}
+
+.kbd{
+ font-size:10px;
+ border:1px solid var(--border);
+ background:var(--surface2);
+ padding:2px 6px;
+ border-radius:5px;
+ color:var(--muted);
+}
+
+.favorite{
+ font-size:18px;
+ border:0;
+ background:none;
+ color:var(--muted);
+ transition:.2s;
+}
+
+.favorite:hover{
+ transform:scale(1.2);
+ color:var(--pink);
+}
+
+.favorite.active{color:var(--pink)}
+
+.table-wrap{overflow:auto}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+}
+
+th,td{
+ padding:9px;
+ border-bottom:1px solid var(--border);
+ text-align:left;
+}
+
+th{font-size:12px}
+td{font-size:13px}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:950px){
+ .layout{
+  grid-template-columns:1fr;
+ }
+ .sidebar{
+  position:fixed;
+  z-index:200;
+  top:69px;
+  left:0;
+  width:285px;
+  height:calc(100vh - 69px);
+  padding:12px;
+  background:var(--surface-solid);
+  border-right:1px solid var(--border);
+  transform:translateX(-110%);
+  transition:.3s;
+  box-shadow:20px 0 60px rgba(0,0,0,.15);
+ }
+ .sidebar.open{transform:none}
+ .menu-btn{display:block}
+ .grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:650px){
+ .topbar-inner{
+  padding:9px 10px;
+  gap:7px;
+ }
+ .logo-text{display:none}
+ .logo-mark{
+  width:42px;
+  height:42px;
+ }
+ .search{max-width:none}
+ .layout{padding:14px 11px}
+ .hero{
+  padding:27px 20px;
+  border-radius:23px;
+ }
+ .hero h1{font-size:35px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .grid,
+ .definition-grid{
+  grid-template-columns:1fr;
+ }
+ .section h2{font-size:22px}
+ .work-card{grid-template-columns:60px 1fr}
+ .work-icon{
+  width:60px;
+  height:60px;
+ }
+}
+
+@media(prefers-reduced-motion:reduce){
+ *,
+ *:before,
+ *:after{
+  animation-duration:.01ms!important;
+  animation-iteration-count:1!important;
+  scroll-behavior:auto!important;
+  transition-duration:.01ms!important;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<div class="particles" id="particles"></div>
+
+<header class="topbar">
+ <div class="topbar-inner">
+
+  <button class="logo" onclick="showPage('home')">
+   <div class="logo-mark">en</div>
+   <div class="logo-text">Lit <span>en</span> Lingo</div>
+  </button>
+
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+  <div class="search">
+   <span class="search-icon">⌕</span>
+   <input id="globalSearch"
+          placeholder="Search literature, writers, works..."
+          onkeydown="if(event.key==='Enter')globalSearch(this.value)">
+  </div>
+
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☾</button>
+ </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+
+ <div class="nav-title">Explore</div>
+
+ <button class="nav-btn active" data-page="home" onclick="showPage('home')">🏠 Home</button>
+ <button class="nav-btn" data-page="literature" onclick="showPage('literature')">📚 Literature Library</button>
+ <button class="nav-btn" data-page="writers" onclick="showPage('writers')">✍️ Writers & Poets</button>
+ <button class="nav-btn" data-page="works" onclick="showPage('works')">📖 Works & Summaries</button>
+ <button class="nav-btn" data-page="themes" onclick="showPage('themes')">🎭 Themes & Genres</button>
+ <button class="nav-btn" data-page="devices" onclick="showPage('devices')">🧩 Literary Devices</button>
+ <button class="nav-btn" data-page="compare" onclick="showPage('compare')">⚖️ Compare Writers</button>
+
+ <div class="nav-title">Language</div>
+
+ <button class="nav-btn" data-page="languages" onclick="showPage('languages')">🌍 Language Lab</button>
+
+ <div class="nav-title">Practice</div>
+
+ <button class="nav-btn" data-page="quiz" onclick="showPage('quiz')">🧠 Practice Quiz</button>
+ <button class="nav-btn" data-page="notes" onclick="showPage('notes')">📝 My Notes</button>
+ <button class="nav-btn" data-page="favorites" onclick="showPage('favorites')">♡ Favorites</button>
+ <button class="nav-btn" data-page="progress" onclick="showPage('progress')">◔ Progress</button>
+
+ <div class="nav-title">Shortcut</div>
+
+ <div class="card" style="padding:13px">
+  <p style="margin:0;font-size:12px">
+   Press <span class="kbd">Ctrl</span> + <span class="kbd">K</span>
+   to search quickly.
+  </p>
+ </div>
+
+</aside>
+
+<main class="content" id="content"></main>
+
+</div>
+
+<div class="footer">
+ <strong>Lit en Lingo</strong> · Learn literature. Explore languages. Think critically.
+ <br>Everything is stored locally in your browser.
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+ <div class="modal-box">
+  <div class="modal-head">
+   <div id="modalTitle"></div>
+   <button class="close" onclick="closeModal()">✕</button>
+  </div>
+  <div id="modalBody"></div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+
+const literatures=[
+{
+ id:"british",
+ name:"British Literature",
+ flag:"🇬🇧",
+ desc:"A broad tradition shaped by Old English, medieval, Renaissance, Romantic, Victorian and modern writing.",
+ periods:["Old English","Middle English","Renaissance","Restoration & 18th Century","Romantic","Victorian","Modern & Contemporary"],
+ writers:["Geoffrey Chaucer","William Shakespeare","John Milton","Jane Austen","William Wordsworth","Charles Dickens","Virginia Woolf"],
+ works:["The Canterbury Tales","Hamlet","Paradise Lost","Pride and Prejudice","Lyrical Ballads","Great Expectations","Mrs Dalloway"],
+ themes:["Love","Power","Nature","Class","Identity","Mortality"]
+},
+{
+ id:"american",
+ name:"American Literature",
+ flag:"🇺🇸",
+ desc:"American writing includes Puritan texts, Romanticism, Transcendentalism, Realism, Modernism and contemporary literature.",
+ periods:["Colonial","American Renaissance","Realism","Naturalism","Modernism","Postmodern & Contemporary"],
+ writers:["Edgar Allan Poe","Ralph Waldo Emerson","Emily Dickinson","Mark Twain","F. Scott Fitzgerald","Toni Morrison","Ernest Hemingway"],
+ works:["The Raven","Self-Reliance","Because I could not stop for Death","Adventures of Huckleberry Finn","The Great Gatsby","Beloved","The Old Man and the Sea"],
+ themes:["Freedom","Identity","Death","Reality vs Illusion","Class","Memory"]
+},
+{
+ id:"french",
+ name:"French Literature",
+ flag:"🇫🇷",
+ desc:"A major European tradition associated with classicism, Enlightenment thought, Romanticism, Realism and existentialism.",
+ periods:["Medieval","Renaissance","Classicism","Enlightenment","Romanticism","Realism","Modernism & Existentialism"],
+ writers:["Molière","Voltaire","Victor Hugo","Gustave Flaubert","Charles Baudelaire","Marcel Proust","Albert Camus"],
+ works:["Tartuffe","Candide","Les Misérables","Madame Bovary","Les Fleurs du mal","In Search of Lost Time","The Stranger"],
+ themes:["Society","Freedom","Absurdity","Love","Class","Identity"]
+},
+{
+ id:"italian",
+ name:"Italian Literature",
+ flag:"🇮🇹",
+ desc:"Italian literature includes medieval foundations, Renaissance humanism, Romanticism, Verismo and modern experimentation.",
+ periods:["Medieval","Renaissance","Baroque & Enlightenment","Romanticism","Verismo","Modern & Contemporary"],
+ writers:["Dante Alighieri","Petrarch","Giovanni Boccaccio","Niccolò Machiavelli","Alessandro Manzoni","Luigi Pirandello","Italo Calvino"],
+ works:["The Divine Comedy","Canzoniere","The Decameron","The Prince","The Betrothed","Six Characters in Search of an Author","Invisible Cities"],
+ themes:["Faith","Love","Politics","Identity","Reality","Humanism"]
+},
+{
+ id:"german",
+ name:"German Literature",
+ flag:"🇩🇪",
+ desc:"German literature developed through Enlightenment, Sturm und Drang, Romanticism, Realism, Modernism and postwar writing.",
+ periods:["Medieval","Reformation & Baroque","Enlightenment","Sturm und Drang","Classicism","Romanticism","Modernism"],
+ writers:["Johann Wolfgang von Goethe","Friedrich Schiller","Heinrich Heine","E. T. A. Hoffmann","Franz Kafka","Thomas Mann","Hermann Hesse"],
+ works:["Faust","The Sorrows of Young Werther","The Robbers","The Sandman","The Metamorphosis","The Magic Mountain","Siddhartha"],
+ themes:["Alienation","Freedom","Identity","Reality","Society","Existence"]
+},
+{
+ id:"arabic",
+ name:"Arabic Literature",
+ flag:"🕌",
+ desc:"A long tradition extending from pre-Islamic poetry and classical Arabic prose to Nahda and contemporary literature.",
+ periods:["Pre-Islamic","Early Islamic","Abbasid","Andalusian","Later Classical","Nahda","Modern & Contemporary"],
+ writers:["Imru' al-Qais","Al-Jahiz","Al-Mutanabbi","Abu Nuwas","Al-Ma'arri","Naguib Mahfouz","Mahmoud Darwish"],
+ works:["Mu'allaqat","Book of Animals","Selected Poems","Risalat al-Ghufran","Children of the Alley","Season of Migration to the North","Memory for Forgetfulness"],
+ themes:["Faith","Identity","Exile","Love","Politics","Memory"]
+},
+{
+ id:"spanish",
+ name:"Spanish Literature",
+ flag:"🇪🇸",
+ desc:"Spanish literature ranges from medieval works through the Golden Age, Romanticism, Realism, modernism and contemporary writing.",
+ periods:["Medieval","Golden Age","Enlightenment","Romanticism","Realism","Modernism","Contemporary"],
+ writers:["Miguel de Cervantes","Lope de Vega","Francisco de Quevedo","Gustavo Adolfo Bécquer","Federico García Lorca","Gabriel García Márquez","Jorge Luis Borges"],
+ works:["Don Quixote","Fuenteovejuna","Dreams","Rimas","Blood Wedding","One Hundred Years of Solitude","Ficciones"],
+ themes:["Reality vs Illusion","Love","Honor","Identity","Power","Memory"]
+},
+{
+ id:"african",
+ name:"African Literatures",
+ flag:"🌍",
+ desc:"African literary traditions include rich oral cultures and modern writing addressing colonialism, identity, nationhood and memory.",
+ periods:["Oral Traditions","Colonial Encounter","Early Postcolonial","Independence","Contemporary"],
+ writers:["Chinua Achebe","Wole Soyinka","Ngũgĩ wa Thiong'o","Nadine Gordimer","Chimamanda Ngozi Adichie","Bessie Head","Nawal El Saadawi"],
+ works:["Things Fall Apart","Death and the King's Horseman","A Grain of Wheat","Burger's Daughter","Half of a Yellow Sun","A Question of Power","Woman at Point Zero"],
+ themes:["Colonialism","Identity","Power","Gender","Tradition","Memory"]
+},
+{
+ id:"chinese",
+ name:"Chinese Literature",
+ flag:"🇨🇳",
+ desc:"Chinese literature includes classical philosophy, poetry, fiction and modern literature written across major historical periods.",
+ periods:["Pre-Qin","Han","Six Dynasties","Tang","Song","Yuan–Ming–Qing","Modern & Contemporary"],
+ writers:["Confucius","Qu Yuan","Du Fu","Li Bai","Cao Xueqin","Lu Xun","Mo Yan"],
+ works:["Analects","Li Sao","Poems of Du Fu","Poems of Li Bai","Dream of the Red Chamber","A Madman's Diary","Red Sorghum"],
+ themes:["Nature","Faith","Society","Politics","Family","Identity"]
+},
+{
+ id:"korean",
+ name:"Korean Literature",
+ flag:"🇰🇷",
+ desc:"Korean literature includes classical poetry and prose, colonial-era writing and modern and contemporary literature.",
+ periods:["Three Kingdoms–Goryeo","Joseon","Late Joseon","Colonial Period","Post-1945","Contemporary"],
+ writers:["Kim Sowol","Yi Sang","Hwang Sun-won","Han Yong-un","Park Kyong-ni","Han Kang","Ko Un"],
+ works:["Azaleas","Wings","Cranes","Silence of Love","Toji","Human Acts","The Vegetarian"],
+ themes:["Identity","Memory","War","Trauma","Society","Nature"]
+},
+{
+ id:"japanese",
+ name:"Japanese Literature",
+ flag:"🇯🇵",
+ desc:"Japanese literature includes classical court writing, Buddhist traditions, haiku, modern fiction and contemporary literature.",
+ periods:["Nara/Heian","Kamakura/Muromachi","Edo","Meiji","Taishō/Early Shōwa","Postwar & Contemporary"],
+ writers:["Murasaki Shikibu","Matsuo Bashō","Yosa Buson","Natsume Sōseki","Ryūnosuke Akutagawa","Yasunari Kawabata","Haruki Murakami"],
+ works:["The Tale of Genji","Narrow Road to the Deep North","Haiku","Kokoro","Rashōmon","Snow Country","Kafka on the Shore"],
+ themes:["Nature","Impermanence","Isolation","Love","Identity","Memory"]
+},
+{
+ id:"russian",
+ name:"Russian Literature",
+ flag:"🇷🇺",
+ desc:"Russian literature is especially known for nineteenth-century realism, symbolism, Soviet writing and major philosophical fiction.",
+ periods:["Old Russian","18th Century","Golden Age","Silver Age","Soviet","Post-Soviet"],
+ writers:["Alexander Pushkin","Nikolai Gogol","Fyodor Dostoevsky","Leo Tolstoy","Anton Chekhov","Anna Akhmatova","Boris Pasternak"],
+ works:["Eugene Onegin","The Overcoat","Crime and Punishment","War and Peace","The Cherry Orchard","Requiem","Doctor Zhivago"],
+ themes:["Morality","Faith","Society","Freedom","Death","Identity"]
+}
+];
+
+const writers=[
+["Geoffrey Chaucer","British Literature","Medieval English poet best known for The Canterbury Tales.","Medieval"],
+["William Shakespeare","British Literature","Playwright and poet associated with tragedy, comedy, history and the English Renaissance.","Renaissance"],
+["John Milton","British Literature","Poet whose Paradise Lost explores free will, disobedience, theology and epic form.","Renaissance"],
+["Jane Austen","British Literature","Novelist known for social observation, marriage plots, irony and free indirect discourse.","Romantic/Regency"],
+["William Wordsworth","British Literature","Romantic poet associated with nature, memory, childhood and ordinary language.","Romantic"],
+["Charles Dickens","British Literature","Victorian novelist concerned with class, poverty, institutions and social reform.","Victorian"],
+["Virginia Woolf","British Literature","Modernist writer known for interiority, consciousness, time and experimental narrative.","Modernist"],
+["Edgar Allan Poe","American Literature","American writer associated with Gothic fiction, mystery, horror and psychological narration.","Romantic"],
+["Ralph Waldo Emerson","American Literature","Transcendentalist essayist emphasizing self-reliance, nature and individual thought.","Transcendentalism"],
+["Emily Dickinson","American Literature","Poet known for compressed language, slant rhyme, death, nature and interior experience.","19th Century"],
+["Mark Twain","American Literature","Novelist and humorist whose writing often examines race, society and the American experience.","Realism"],
+["F. Scott Fitzgerald","American Literature","Modernist novelist whose work examines wealth, class, desire and the American Dream.","Modernism"],
+["Toni Morrison","American Literature","Novelist whose writing explores memory, race, history, trauma, community and identity.","Contemporary"],
+["Ernest Hemingway","American Literature","Modernist writer associated with economical prose, war, masculinity and loss.","Modernism"],
+["Molière","French Literature","French dramatist famous for comedy and satire of social hypocrisy.","Classicism"],
+["Voltaire","French Literature","Enlightenment writer associated with satire, reason and criticism of intolerance.","Enlightenment"],
+["Victor Hugo","French Literature","Romantic novelist and poet whose works address justice, society and human dignity.","Romanticism"],
+["Gustave Flaubert","French Literature","Realist novelist known for stylistic precision and social observation.","Realism"],
+["Charles Baudelaire","French Literature","Poet associated with modernity, urban experience, beauty and decay.","Modern Poetry"],
+["Albert Camus","French Literature","Writer and philosopher associated with absurdity, freedom, moral choice and existential questions.","20th Century"],
+["Dante Alighieri","Italian Literature","Medieval Italian poet whose Divine Comedy presents an allegorical journey through the afterlife.","Medieval"],
+["Giovanni Boccaccio","Italian Literature","Writer of The Decameron, a major work of early Italian prose.","Renaissance"],
+["Niccolò Machiavelli","Italian Literature","Political writer best known for The Prince and his analysis of power and political rule.","Renaissance"],
+["Luigi Pirandello","Italian Literature","Dramatist and novelist known for questions about identity, masks and reality.","Modernism"],
+["Johann Wolfgang von Goethe","German Literature","German writer associated with Sturm und Drang, classicism and Romantic-era thought.","German Classicism"],
+["Franz Kafka","German Literature","Writer known for alienation, bureaucracy, anxiety and strange transformations.","Modernism"],
+["Thomas Mann","German Literature","Novelist concerned with illness, society, intellectual life and European culture.","Modernism"],
+["Naguib Mahfouz","Arabic Literature","Egyptian novelist whose work portrays Cairo, society, family and changing modern life.","Modern Arabic"],
+["Mahmoud Darwish","Arabic Literature","Palestinian poet associated with exile, homeland, identity and memory.","Modern Poetry"],
+["Miguel de Cervantes","Spanish Literature","Author of Don Quixote, a foundational work in the history of the modern novel.","Golden Age"],
+["Federico García Lorca","Spanish Literature","Poet and dramatist known for symbolism, desire, death, repression and folk traditions.","20th Century"],
+["Chinua Achebe","African Literatures","Nigerian novelist whose Things Fall Apart examines colonial encounter and cultural change.","Postcolonial"],
+["Wole Soyinka","African Literatures","Nigerian playwright and poet concerned with power, politics, culture and responsibility.","Contemporary"],
+["Chimamanda Ngozi Adichie","African Literatures","Nigerian novelist whose writing examines identity, gender, migration, history and memory.","Contemporary"],
+["Du Fu","Chinese Literature","Tang poet celebrated for social observation, history, war and human suffering.","Tang"],
+["Li Bai","Chinese Literature","Tang poet especially associated with nature, imagination, friendship and wine poetry.","Tang"],
+["Lu Xun","Chinese Literature","Modern Chinese writer whose fiction and essays critique social conditions and tradition.","Modern"],
+["Murasaki Shikibu","Japanese Literature","Heian-era author of The Tale of Genji, often studied as a foundational long prose narrative.","Heian"],
+["Matsuo Bashō","Japanese Literature","Edo-period poet famous for haiku and travel writing.","Edo"],
+["Natsume Sōseki","Japanese Literature","Major modern Japanese novelist exploring individuality, modernization and social pressure.","Meiji"],
+["Alexander Pushkin","Russian Literature","Russian poet and writer central to the development of modern Russian literature.","Golden Age"],
+["Fyodor Dostoevsky","Russian Literature","Novelist concerned with morality, freedom, guilt, faith and psychological conflict.","Golden Age"],
+["Leo Tolstoy","Russian Literature","Novelist known for large-scale social narratives and philosophical questions about life and morality.","Golden Age"],
+["Anton Chekhov","Russian Literature","Playwright and short-story writer known for subtle characterization and ordinary human conflict.","Realism"]
+].map((x,i)=>({id:i,name:x[0],tradition:x[1],bio:x[2],period:x[3]}));
+
+const works=[
+{
+ title:"The Canterbury Tales",
+ author:"Geoffrey Chaucer",
+ tradition:"British Literature",
+ summary:"A collection of stories told by pilgrims travelling toward Canterbury. The frame narrative allows Chaucer to present a diverse social world through competing voices and genres.",
+ themes:["Class","Religion","Storytelling","Identity"],
+ devices:["Frame narrative","Irony","Satire","Characterization"],
+ quote:"Whan that Aprill with his shoures soote...",
+ note:"Useful for studying estates, pilgrimage, medieval society, narrative voice and satire."
+},
+{
+ title:"Hamlet",
+ author:"William Shakespeare",
+ tradition:"British Literature",
+ summary:"Prince Hamlet is commanded to avenge his father's death. The play examines uncertainty, revenge, mortality, performance and the conflict between thought and action.",
+ themes:["Revenge","Mortality","Identity","Appearance vs Reality"],
+ devices:["Soliloquy","Dramatic irony","Symbolism","Foreshadowing"],
+ quote:"To be, or not to be",
+ note:"Soliloquies reveal Hamlet's private reasoning and create dramatic tension."
+},
+{
+ title:"Pride and Prejudice",
+ author:"Jane Austen",
+ tradition:"British Literature",
+ summary:"Elizabeth Bennet's changing relationship with Mr Darcy develops alongside Austen's examination of marriage, class, reputation and social judgment.",
+ themes:["Love","Class","Marriage","Prejudice"],
+ devices:["Irony","Free indirect discourse","Dialogue","Characterization"],
+ quote:"It is a truth universally acknowledged...",
+ note:"Austen frequently uses irony to expose the assumptions of polite society."
+},
+{
+ title:"The Great Gatsby",
+ author:"F. Scott Fitzgerald",
+ tradition:"American Literature",
+ summary:"Nick Carraway observes Jay Gatsby's attempt to recreate an idealized past and win Daisy Buchanan, while the novel critiques wealth, illusion and the American Dream.",
+ themes:["Dream","Class","Memory","Reality vs Illusion"],
+ devices:["Symbolism","Narration","Motif","Irony"],
+ quote:"So we beat on, boats against the current...",
+ note:"The green light is commonly studied as a symbol of desire and unreachable aspiration."
+},
+{
+ title:"Beloved",
+ author:"Toni Morrison",
+ tradition:"American Literature",
+ summary:"Set after the American Civil War, the novel explores the psychological and communal consequences of slavery through fragmented memory and haunting.",
+ themes:["Memory","Trauma","Identity","Freedom"],
+ devices:["Nonlinear narrative","Symbolism","Ghost motif","Multiple perspectives"],
+ quote:"124 was spiteful.",
+ note:"The house becomes a powerful symbol of memory, history and unresolved trauma."
+},
+{
+ title:"The Stranger",
+ author:"Albert Camus",
+ tradition:"French Literature",
+ summary:"Meursault's emotional detachment and confrontation with death lead the novel into questions about absurdity, social expectations and meaning.",
+ themes:["Absurdity","Death","Freedom","Society"],
+ devices:["First-person narration","Irony","Symbolism","Understatement"],
+ quote:"Maman died today. Or yesterday maybe...",
+ note:"The narrative invites discussion of social expectations and existential meaning."
+},
+{
+ title:"The Divine Comedy",
+ author:"Dante Alighieri",
+ tradition:"Italian Literature",
+ summary:"Dante's allegorical journey through Inferno, Purgatorio and Paradiso represents spiritual transformation and moral order.",
+ themes:["Faith","Justice","Sin","Redemption"],
+ devices:["Allegory","Symbolism","Epic","Allusion"],
+ quote:"Midway upon the journey of our life...",
+ note:"Study the journey as both literal narrative and spiritual allegory."
+},
+{
+ title:"The Metamorphosis",
+ author:"Franz Kafka",
+ tradition:"German Literature",
+ summary:"Gregor Samsa awakens transformed into a gigantic insect-like creature. The story explores alienation, family, labor and human value.",
+ themes:["Alienation","Identity","Family","Work"],
+ devices:["Absurdity","Symbolism","Irony","Transformation"],
+ quote:"As Gregor Samsa awoke one morning...",
+ note:"Gregor's transformation can be studied as a symbol while avoiding a single fixed interpretation."
+},
+{
+ title:"Children of the Alley",
+ author:"Naguib Mahfouz",
+ tradition:"Arabic Literature",
+ summary:"An allegorical narrative using generations of an alley to explore authority, knowledge, injustice, violence and the search for justice.",
+ themes:["Power","Faith","Knowledge","Justice"],
+ devices:["Allegory","Symbolism","Mythic structure","Narration"],
+ quote:"Use the work's imagery and recurring figures for close reading.",
+ note:"An important example for studying allegory and social symbolism in modern Arabic fiction."
+},
+{
+ title:"Don Quixote",
+ author:"Miguel de Cervantes",
+ tradition:"Spanish Literature",
+ summary:"An aging gentleman reads so many romances that he decides to become a knight. His adventures continually challenge the boundary between fiction and reality.",
+ themes:["Reality vs Illusion","Identity","Storytelling","Idealism"],
+ devices:["Metafiction","Irony","Parody","Narrative layering"],
+ quote:"In a place in La Mancha...",
+ note:"Often discussed as a foundational modern novel and a major example of metafictional play."
+},
+{
+ title:"Things Fall Apart",
+ author:"Chinua Achebe",
+ tradition:"African Literatures",
+ summary:"Okonkwo's life and his community are disrupted by colonial expansion and missionary activity. The novel explores cultural change, masculinity and identity.",
+ themes:["Colonialism","Tradition","Identity","Power"],
+ devices:["Foreshadowing","Proverbs","Irony","Symbolism"],
+ quote:"Things fall apart; the centre cannot hold.",
+ note:"Proverbs and Igbo cultural references are central to the novel's narrative world."
+},
+{
+ title:"The Analects",
+ author:"Confucius / disciples",
+ tradition:"Chinese Literature",
+ summary:"A collection of sayings and conversations associated with Confucius and his followers, concerned with ethics, education, relationships and responsible conduct.",
+ themes:["Education","Ethics","Society","Leadership"],
+ devices:["Aphorism","Dialogue","Paradox","Parallelism"],
+ quote:"To learn and at due times to repeat what one has learnt...",
+ note:"Useful for studying aphoristic writing and philosophical dialogue."
+},
+{
+ title:"The Tale of Genji",
+ author:"Murasaki Shikibu",
+ tradition:"Japanese Literature",
+ summary:"A long Heian court narrative following Genji and the intricate relationships surrounding him, with strong attention to aesthetics, emotion and social conventions.",
+ themes:["Love","Impermanence","Society","Memory"],
+ devices:["Symbolism","Seasonal imagery","Psychological narration","Motif"],
+ quote:"The world of the tale is shaped by fleeting beauty and impermanence.",
+ note:"Pay attention to seasonal imagery, court culture and mono no aware."
+},
+{
+ title:"Crime and Punishment",
+ author:"Fyodor Dostoevsky",
+ tradition:"Russian Literature",
+ summary:"Raskolnikov commits a murder and becomes increasingly consumed by guilt, isolation and moral conflict.",
+ themes:["Morality","Guilt","Faith","Freedom"],
+ devices:["Psychological realism","Symbolism","Foreshadowing","Internal conflict"],
+ quote:"Pain and suffering are always inevitable for a large intelligence and a deep heart.",
+ note:"Useful for psychological characterization and ethical conflict."
+}
+];
+
+const themes=[
+["Love","Literature uses love to explore desire, intimacy, sacrifice, conflict and social expectations.","Ask: What does love reveal about power, identity or society?"],
+["Identity","Identity concerns how individuals understand themselves and how society defines them.","Look at names, roles, masks, transformation and belonging."],
+["Power","Power examines who controls people, institutions, knowledge, language or resources.","Ask who has authority and how that authority is challenged."],
+["Nature","Nature can function as setting, symbol, emotional mirror or philosophical presence.","Compare physical landscape with the character's inner state."],
+["Alienation","Alienation describes separation from society, family, work, self or meaning.","Look for isolation, exclusion, communication problems and displacement."],
+["Memory","Memory connects past experience with present identity and interpretation.","Ask whether memory is reliable, fragmented or deliberately reconstructed."],
+["Freedom","Freedom concerns choice, responsibility, social restriction and personal agency.","Identify forces that limit or enable the character."],
+["Death & Mortality","Death can shape plot, philosophy, symbolism and ideas about human limitation.","Study how characters respond differently to mortality."],
+["Colonialism","Literature may examine conquest, cultural disruption, resistance, language and representation.","Study whose voice is heard and whose history is marginalized."],
+["Class","Class concerns wealth, status, labor, education, inheritance and social mobility.","Observe how class shapes relationships and opportunities."],
+["Faith","Faith may involve religion, doubt, spirituality, ritual or moral belief.","Compare certainty, doubt and institutional religion."],
+["Reality vs Illusion","Texts often question whether perception, memory, storytelling or social appearances can be trusted.","Look for unreliable narrators, dreams, masks, performance and metafiction."]
+];
+
+const devices=[
+["Metaphor","A direct comparison in which one thing is presented as another.","“Time is a thief.”","Creates conceptual or emotional association."],
+["Simile","A comparison using words such as like or as.","“Her smile was like sunlight.”","Makes an image vivid and accessible."],
+["Personification","Giving human qualities to non-human things.","“The wind whispered.”","Makes nature or objects emotionally expressive."],
+["Alliteration","Repetition of initial consonant sounds.","“Wild winds whistle.”","Creates rhythm, emphasis or musicality."],
+["Assonance","Repetition of vowel sounds.","“The mellow wedding bells.”","Adds sound pattern and mood."],
+["Onomatopoeia","A word imitates or suggests a sound.","“Buzz”, “clang”, “hiss”.","Creates auditory immediacy."],
+["Irony","A contrast between expectation and reality, or between literal and intended meaning.","A supposedly wise character behaves foolishly.","Creates humor, tension or critique."],
+["Symbolism","An object, image or action carries additional meaning.","A road representing choice.","Adds thematic depth."],
+["Imagery","Language that appeals strongly to the senses.","Descriptions of color, sound, taste or texture.","Creates vivid mental experience."],
+["Foreshadowing","Hints that suggest later events.","A warning before a tragedy.","Builds anticipation."],
+["Satire","Humor, irony or exaggeration used to criticize people or institutions.","Social satire.","Encourages critical reflection."],
+["Allegory","A narrative in which characters/events also operate as a sustained symbolic structure.","A journey representing spiritual development.","Allows abstract ideas to be dramatized."],
+["Soliloquy","A dramatic speech in which a character reveals private thoughts, usually while alone on stage.","Hamlet's soliloquies.","Provides direct access to inner conflict."],
+["Dramatic Irony","The audience knows something important that a character does not.","The audience knows a trap is waiting.","Creates suspense."],
+["Stream of Consciousness","Narrative that attempts to represent the flow of thoughts and perceptions.","Modernist interior narration.","Explores consciousness and subjective experience."],
+["Metafiction","Fiction that draws attention to its own status as fiction.","A narrator discussing the act of writing.","Questions storytelling and reality."],
+["Free Indirect Discourse","Third-person narration that blends with a character's thoughts or language.","Austen's narrative technique.","Combines narrator and character perspectives."],
+["Enjambment","A poetic line continues into the next without terminal punctuation.","A sentence crossing line breaks.","Creates movement or ambiguity."],
+["Caesura","A significant pause within a poetic line.","A deliberate mid-line pause.","Controls rhythm and emphasis."],
+["Motif","A recurring image, idea, phrase or pattern.","Repeated water imagery.","Strengthens thematic connections."]
+];
+
+const languages=[
+{
+ id:"chinese",flag:"🇨🇳",name:"Chinese",native:"中文",script:"汉字 / 漢字",
+ tip:"Chinese writing uses characters rather than an alphabetic writing system. Literary Chinese has a long classical tradition.",
+ lessons:[
+ ["Hello","你好","nǐ hǎo"],
+ ["Thank you","谢谢","xièxie"],
+ ["Goodbye","再见","zàijiàn"],
+ ["I / me","我","wǒ"],
+ ["Book","书 / 書","shū"],
+ ["Literature","文学 / 文學","wénxué"],
+ ["Poetry","诗 / 詩","shī"]
+ ]
+},
+{
+ id:"korean",flag:"🇰🇷",name:"Korean",native:"한국어",script:"한글 (Hangul)",
+ tip:"Korean primarily uses Hangul, a systematic alphabetic writing system organized into syllable blocks.",
+ lessons:[
+ ["Hello","안녕하세요","annyeonghaseyo"],
+ ["Thank you","감사합니다","gamsahamnida"],
+ ["Goodbye","안녕히 가세요","annyeonghi gaseyo"],
+ ["I","나","na"],
+ ["Book","책","chaek"],
+ ["Literature","문학","munhak"],
+ ["Poem","시","si"]
+ ]
+},
+{
+ id:"japanese",flag:"🇯🇵",name:"Japanese",native:"日本語",script:"ひらがな・カタカナ・漢字",
+ tip:"Japanese writing combines hiragana, katakana and kanji. Classical literature has a rich tradition of poetry and prose.",
+ lessons:[
+ ["Hello","こんにちは","konnichiwa"],
+ ["Thank you","ありがとう","arigatō"],
+ ["Goodbye","さようなら","sayōnara"],
+ ["I","私","watashi"],
+ ["Book","本","hon"],
+ ["Literature","文学","bungaku"],
+ ["Poetry","詩","shi"]
+ ]
+},
+{
+ id:"russian",flag:"🇷🇺",name:"Russian",native:"Русский язык",script:"Cyrillic",
+ tip:"Russian uses the Cyrillic alphabet and has a major literary tradition including Pushkin, Dostoevsky, Tolstoy and Chekhov.",
+ lessons:[
+ ["Hello","Здравствуйте","zdravstvuyte"],
+ ["Thank you","Спасибо","spasibo"],
+ ["Goodbye","До свидания","do svidaniya"],
+ ["I","Я","ya"],
+ ["Book","Книга","kniga"],
+ ["Literature","Литература","literatura"],
+ ["Poetry","Поэзия","poeziya"]
+ ]
+},
+{
+ id:"arabic",flag:"🕌",name:"Arabic",native:"العربية",script:"Arabic script · RTL",
+ tip:"Arabic is written from right to left. Its literary tradition includes classical poetry, prose, philosophy and modern fiction.",
+ lessons:[
+ ["Hello","مرحبا","marḥaban"],
+ ["Thank you","شكرا","shukran"],
+ ["Goodbye","مع السلامة","maʿa as-salāmah"],
+ ["I","أنا","ana"],
+ ["Book","كتاب","kitāb"],
+ ["Literature","أدب","adab"],
+ ["Poetry","شعر","shiʿr"]
+ ]
+},
+{
+ id:"french",flag:"🇫🇷",name:"French",native:"français",script:"Latin alphabet",
+ tip:"French uses the Latin alphabet with accents. French literature includes classicism, Enlightenment writing, Romanticism, realism and existentialism.",
+ lessons:[
+ ["Hello","Bonjour","bon-zhoor"],
+ ["Thank you","Merci","mehr-see"],
+ ["Goodbye","Au revoir","oh ruh-vwar"],
+ ["I","Je","zhuh"],
+ ["Book","Livre","leevr"],
+ ["Literature","Littérature","lee-tay-ra-toor"],
+ ["Poetry","Poésie","po-ay-zee"]
+ ]
+},
+{
+ id:"spanish",flag:"🇪🇸",name:"Spanish",native:"español",script:"Latin alphabet",
+ tip:"Spanish uses the Latin alphabet and has major literary traditions from medieval writing to the Golden Age and contemporary literature.",
+ lessons:[
+ ["Hello","Hola","oh-la"],
+ ["Thank you","Gracias","grah-see-as"],
+ ["Goodbye","Adiós","ah-dee-os"],
+ ["I","Yo","yo"],
+ ["Book","Libro","lee-bro"],
+ ["Literature","Literatura","lee-teh-ra-too-ra"],
+ ["Poetry","Poesía","po-eh-see-a"]
+ ]
+},
+{
+ id:"italian",flag:"🇮🇹",name:"Italian",native:"italiano",script:"Latin alphabet",
+ tip:"Italian literature is closely associated with Dante, Petrarch, Boccaccio, Renaissance humanism and later modern experimentation.",
+ lessons:[
+ ["Hello","Ciao","chow"],
+ ["Thank you","Grazie","grah-tsyeh"],
+ ["Goodbye","Arrivederci","ah-ree-veh-der-chee"],
+ ["I","Io","ee-oh"],
+ ["Book","Libro","lee-bro"],
+ ["Literature","Letteratura","let-teh-ra-too-ra"],
+ ["Poetry","Poesia","po-eh-zee-a"]
+ ]
+},
+{
+ id:"german",flag:"🇩🇪",name:"German",native:"Deutsch",script:"Latin alphabet",
+ tip:"German uses the Latin alphabet and includes major traditions of Enlightenment, Romanticism, modernism and postwar literature.",
+ lessons:[
+ ["Hello","Hallo","hah-loh"],
+ ["Thank you","Danke","dahn-kuh"],
+ ["Goodbye","Auf Wiedersehen","owf vee-der-zayn"],
+ ["I","Ich","ikh"],
+ ["Book","Buch","boohkh"],
+ ["Literature","Literatur","lee-teh-rah-toor"],
+ ["Poetry","Lyrik","lü-rik"]
+ ]
+}
+];
+
+const quiz=[
+ {q:"Who wrote Hamlet?",o:["William Shakespeare","Charles Dickens","Dante","Goethe"],a:0,e:"Hamlet is a Shakespearean tragedy."},
+ {q:"Which device is a speech revealing a character's private thoughts on stage?",o:["Soliloquy","Simile","Alliteration","Enjambment"],a:0,e:"A soliloquy gives the audience access to a character's private thoughts."},
+ {q:"Who wrote The Divine Comedy?",o:["Dante Alighieri","Cervantes","Camus","Tolstoy"],a:0,e:"Dante Alighieri wrote the Divine Comedy."},
+ {q:"Things Fall Apart was written by:",o:["Chinua Achebe","Wole Soyinka","Ngũgĩ","Mahfouz"],a:0,e:"Chinua Achebe wrote Things Fall Apart."},
+ {q:"Which language uses Hangul?",o:["Korean","Japanese","Chinese","Russian"],a:0,e:"Hangul is the Korean writing system."},
+ {q:"Crime and Punishment was written by:",o:["Dostoevsky","Tolstoy","Pushkin","Chekhov"],a:0,e:"Fyodor Dostoevsky wrote Crime and Punishment."},
+ {q:"A sustained symbolic narrative is called:",o:["Allegory","Caesura","Assonance","Dialogue"],a:0,e:"Allegory uses a sustained symbolic structure."},
+ {q:"Who wrote Pride and Prejudice?",o:["Jane Austen","Virginia Woolf","Emily Dickinson","Toni Morrison"],a:0,e:"Jane Austen wrote Pride and Prejudice."},
+ {q:"Which work is associated with Cervantes?",o:["Don Quixote","Faust","Beloved","Kokoro"],a:0,e:"Don Quixote is by Miguel de Cervantes."},
+ {q:"A comparison using 'like' or 'as' is a:",o:["Simile","Metaphor","Motif","Irony"],a:0,e:"A simile explicitly compares using words such as like or as."}
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let state={
+ theme:localStorage.getItem("litTheme")||"light",
+ favorites:JSON.parse(localStorage.getItem("litFavorites")||"[]"),
+ notes:localStorage.getItem("litNotes")||"",
+ completed:JSON.parse(localStorage.getItem("litCompleted")||"[]"),
+ quizScore:0,
+ quizAnswered:0
+};
+
+document.documentElement.dataset.theme=state.theme;
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+function save(){
+ localStorage.setItem("litTheme",state.theme);
+ localStorage.setItem("litFavorites",JSON.stringify(state.favorites));
+ localStorage.setItem("litNotes",state.notes);
+ localStorage.setItem("litCompleted",JSON.stringify(state.completed));
+}
+
+function toggleTheme(){
+ state.theme=state.theme==="dark"?"light":"dark";
+ document.documentElement.dataset.theme=state.theme;
+ document.getElementById("themeBtn").textContent=state.theme==="dark"?"☀":"☾";
+ save();
+ toast(state.theme==="dark"?"Dark mode enabled":"Light mode enabled");
+}
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,m=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#039;"
+ }[m]));
+}
+
+function isFav(type,id){
+ return state.favorites.includes(type+":"+id);
+}
+
+function toggleFav(type,id){
+ const key=type+":"+id;
+ if(state.favorites.includes(key)){
+  state.favorites=state.favorites.filter(x=>x!==key);
+  toast("Removed from favorites");
+ }else{
+  state.favorites.push(key);
+  toast("Added to favorites ♡");
+ }
+ save();
+ render();
+}
+
+function complete(key){
+ if(!state.completed.includes(key)){
+  state.completed.push(key);
+  save();
+ }
+}
+
+function toast(message){
+ const t=document.getElementById("toast");
+ t.textContent=message;
+ t.classList.add("show");
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+function openModal(title,body){
+ document.getElementById("modalTitle").innerHTML="<h2 style='margin:0'>"+title+"</h2>";
+ document.getElementById("modalBody").innerHTML=body;
+ document.getElementById("modal").classList.add("open");
+ document.body.style.overflow="hidden";
+}
+
+function closeModal(){
+ document.getElementById("modal").classList.remove("open");
+ document.body.style.overflow="";
+}
+
+function toggleSidebar(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showPage(page){
+ document.querySelectorAll(".nav-btn").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===page);
+ });
+
+ document.getElementById("sidebar").classList.remove("open");
+
+ const pages={
+  home:homePage,
+  literature:literaturePage,
+  writers:writersPage,
+  works:worksPage,
+  themes:themesPage,
+  devices:devicesPage,
+  compare:comparePage,
+  languages:languagesPage,
+  quiz:quizPage,
+  favorites:favoritesPage,
+  notes:notesPage,
+  progress:progressPage
+ };
+
+ document.getElementById("content").innerHTML=
+  pages[page]?pages[page]():homePage();
+
+ window.currentPage=page;
+
+ if(page==="quiz")startQuiz();
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+
+function homePage(){
+ return `
+ <section class="hero">
+  <h1>Read deeply.<br>Think creatively.<br>Learn languages.</h1>
+  <p>
+   Welcome to <b>Lit en Lingo</b> — your aesthetic learning space for
+   world literature, literary analysis, writers, poetry, literary devices
+   and language practice.
+  </p>
+  <div class="hero-actions">
+   <button class="btn light" onclick="showPage('literature')">📚 Explore Literature</button>
+   <button class="btn ghost" onclick="showPage('languages')">🌍 Open Language Lab</button>
+   <button class="btn ghost" onclick="showPage('quiz')">🧠 Test Yourself</button>
+  </div>
+ </section>
+
+ <div class="stats">
+  <div class="stat"><b>${literatures.length}</b><span>Literary traditions</span></div>
+  <div class="stat"><b>${writers.length}+</b><span>Writers & poets</span></div>
+  <div class="stat"><b>${devices.length}</b><span>Literary devices</span></div>
+  <div class="stat"><b>${languages.length}</b><span>Language tracks</span></div>
+ </div>
+
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>✨ Your Literature Toolkit</h2>
+    <p class="section-sub">Everything you need for study, revision and literary analysis.</p>
+   </div>
+  </div>
+
+  <div class="grid">
+   ${[
+    ["📚","Literature Library","Explore British, American, French, Italian, German, Arabic, Spanish, African, Chinese, Korean, Japanese and Russian traditions.","literature"],
+    ["✍️","Writers & Poets","Explore authors, periods, major contributions and representative works.","writers"],
+    ["📖","Works & Summaries","Read concise summaries, themes, devices and analytical notes.","works"],
+    ["🎭","Themes & Genres","Understand major literary themes and learn how to analyse them.","themes"],
+    ["🧩","Literary Devices","Learn definitions, examples and the analytical purpose of literary techniques.","devices"],
+    ["🌍","Language Lab","Learn basic vocabulary and writing-system information for nine languages.","languages"],
+    ["⚖️","Compare Writers","Place two writers side-by-side and compare periods, traditions, themes and works.","compare"],
+    ["🧠","Practice Quiz","Test your literature and literary-device knowledge with instant feedback.","quiz"],
+    ["📝","My Notes","Keep your revision notes directly inside the app.","notes"]
+   ].map(x=>`
+    <div class="card">
+     <div class="emoji">${x[0]}</div>
+     <h3>${x[1]}</h3>
+     <p>${x[2]}</p>
+     <div class="card-actions">
+      <button class="small-btn primary" onclick="showPage('${x[3]}')">Open →</button>
+     </div>
+    </div>
+   `).join("")}
+  </div>
+ </section>
+
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>📖 Featured Works</h2>
+    <p class="section-sub">Start with these representative texts.</p>
+   </div>
+   <button class="small-btn" onclick="showPage('works')">View all</button>
+  </div>
+  <div class="grid">${works.slice(0,6).map(workCard).join("")}</div>
+ </section>
+
+ <section class="lesson">
+  <h3>💡 How to analyse any literary work</h3>
+  <ol>
+   <li>Identify the <b>context</b> and literary period.</li>
+   <li>Summarize the central <b>plot, argument or situation</b>.</li>
+   <li>Identify the major <b>themes</b>.</li>
+   <li>Find important <b>literary devices</b>.</li>
+   <li>Explain how each device contributes to <b>meaning</b>.</li>
+   <li>Connect language and form to the writer's <b>purpose and context</b>.</li>
+  </ol>
+ </section>
+ `;
+}
+
+/* =========================================================
+   LITERATURE
+   ========================================================= */
+
+function litCard(l,i){
+ return `
+ <div class="card">
+  <div class="card-top">
+   <span class="emoji">${l.flag}</span>
+   <button class="favorite ${isFav("lit",l.id)?"active":""}"
+    onclick="toggleFav('lit','${l.id}')">
+    ${isFav("lit",l.id)?"♥":"♡"}
+   </button>
+  </div>
+  <h3>${esc(l.name)}</h3>
+  <p>${esc(l.desc)}</p>
+  <div>${l.periods.slice(0,4).map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div>
+  <div class="card-actions">
+   <button class="small-btn primary" onclick="openLiterature(${i})">Explore</button>
+  </div>
+ </div>
+ `;
+}
+
+function literaturePage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>📚 Literature Library</h2>
+    <p class="section-sub">Explore major literary traditions, periods, writers and works.</p>
+   </div>
+  </div>
+
+  <div class="toolbar">
+   <input id="litSearch" placeholder="Search a tradition..." oninput="filterLiterature(this.value)">
+  </div>
+
+  <div class="grid" id="litGrid">${literatures.map(litCard).join("")}</div>
+ </section>
+ `;
+}
+
+function filterLiterature(q){
+ const low=q.toLowerCase();
+ document.getElementById("litGrid").innerHTML=
+ literatures.filter(l=>
+  (l.name+" "+l.desc+" "+l.periods.join(" ")+
+   " "+l.writers.join(" ")+" "+l.themes.join(" "))
+  .toLowerCase().includes(low)
+ ).map(litCard).join("") ||
+ `<div class="empty" style="grid-column:1/-1">No literature tradition found.</div>`;
+}
+
+function openLiterature(i){
+ const l=literatures[i];
+
+ openModal(
+  `${l.flag} ${esc(l.name)}`,
+  `
+  <p>${esc(l.desc)}</p>
+
+  <h3>Historical periods</h3>
+  <div>${l.periods.map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div>
+
+  <h3>Important writers</h3>
+  <div>${l.writers.map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div>
+
+  <h3>Representative works</h3>
+  <ul>${l.works.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+
+  <h3>Major themes</h3>
+  <div>${l.themes.map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div>
+
+  <div class="example">
+   <b>Study method:</b>
+   Learn the period first, then the historical context, important writers,
+   major works, recurring themes and characteristic literary techniques.
+  </div>
+
+  <button class="btn"
+   onclick="complete('lit:${l.id}');closeModal();toast('Literature section completed ✓');render()">
+   Mark as studied ✓
+  </button>
+  `
+ );
+}
+
+/* =========================================================
+   WRITERS
+   ========================================================= */
+
+function writersPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>✍️ Writers & Poets</h2>
+    <p class="section-sub">Study authors by tradition, period and literary contribution.</p>
+   </div>
+  </div>
+
+  <div class="toolbar">
+   <input id="writerSearch" placeholder="Search writer..." oninput="filterWriters(this.value)">
+   <select id="writerTradition" onchange="filterWriters()">
+    <option value="">All traditions</option>
+    ${[...new Set(writers.map(w=>w.tradition))].sort().map(x=>`<option>${esc(x)}</option>`).join("")}
+   </select>
+  </div>
+
+  <div class="grid" id="writerGrid">${writers.map(writerCard).join("")}</div>
+ </section>
+ `;
+}
+
+function writerCard(w,i){
+ return `
+ <div class="card">
+  <div class="card-top">
+   <span class="tag">${esc(w.tradition)}</span>
+   <button class="favorite ${isFav("writer",w.id)?"active":""}"
+    onclick="toggleFav('writer',${w.id})">
+    ${isFav("writer",w.id)?"♥":"♡"}
+   </button>
+  </div>
+  <h3>${esc(w.name)}</h3>
+  <p>${esc(w.bio)}</p>
+  <span class="tag">${esc(w.period)}</span>
+  <div class="card-actions">
+   <button class="small-btn primary" onclick="openWriter(${i})">Profile</button>
+  </div>
+ </div>
+ `;
+}
+
+function filterWriters(q=""){
+ const text=(q||document.getElementById("writerSearch")?.value||"").toLowerCase();
+ const tr=document.getElementById("writerTradition")?.value||"";
+
+ const result=writers.filter(w=>
+  (!tr||w.tradition===tr)&&
+  (w.name+" "+w.bio+" "+w.period+" "+w.tradition).toLowerCase().includes(text)
+ );
+
+ document.getElementById("writerGrid").innerHTML=
+ result.map(writerCard).join("")||
+ `<div class="empty" style="grid-column:1/-1">No writer found.</div>`;
+}
+
+function openWriter(i){
+ const w=writers[i];
+ const related=works.filter(x=>x.author.toLowerCase().includes(w.name.toLowerCase().split(" ").slice(-1)[0].toLowerCase()));
+
+ openModal(
+  `✍️ ${esc(w.name)}`,
+  `
+  <span class="tag">${esc(w.tradition)}</span>
+  <span class="tag">${esc(w.period)}</span>
+
+  <h3>About</h3>
+  <p>${esc(w.bio)}</p>
+
+  <h3>Representative works in Lit en Lingo</h3>
+  ${
+   related.length
+   ? `<ul>${related.map(x=>`<li><b>${esc(x.title)}</b> — ${esc(x.summary.slice(0,180))}...</li>`).join("")}</ul>`
+   : `<p>No representative work is currently connected to this profile.</p>`
+  }
+
+  <h3>Literary analysis checklist</h3>
+  <ul>
+   <li>Historical and cultural context</li>
+   <li>Major genres and forms</li>
+   <li>Recurring themes</li>
+   <li>Language and style</li>
+   <li>Narrative or poetic technique</li>
+   <li>Influence on later literature</li>
+  </ul>
+  `
+ );
+}
+
+/* =========================================================
+   WORKS
+   ========================================================= */
+
+function workCard(w){
+ const i=works.indexOf(w);
+ return `
+ <div class="card">
+  <div class="work-card">
+   <div class="work-icon">📖</div>
+   <div>
+    <div class="card-top">
+     <span class="tag">${esc(w.tradition)}</span>
+     <button class="favorite ${isFav("work",i)?"active":""}"
+      onclick="toggleFav('work',${i})">
+      ${isFav("work",i)?"♥":"♡"}
+     </button>
+    </div>
+    <h3>${esc(w.title)}</h3>
+    <p><b>${esc(w.author)}</b></p>
+    <p>${esc(w.summary.slice(0,155))}${w.summary.length>155?"...":""}</p>
+   </div>
+  </div>
+
+  <div>
+   ${w.themes.map(x=>`<span class="tag">${esc(x)}</span>`).join("")}
+  </div>
+
+  <div class="card-actions">
+   <button class="small-btn primary" onclick="openWork(${i})">Read analysis</button>
+  </div>
+ </div>
+ `;
+}
+
+function worksPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>📖 Works & Summaries</h2>
+    <p class="section-sub">Summaries, themes, devices, quotations and analytical notes.</p>
+   </div>
+  </div>
+
+  <div class="toolbar">
+   <input id="workSearch" placeholder="Search title, author or theme..." oninput="filterWorks(this.value)">
+  </div>
+
+  <div class="grid" id="workGrid">${works.map(workCard).join("")}</div>
+ </section>
+ `;
+}
+
+function filterWorks(q){
+ const low=q.toLowerCase();
+
+ const result=works.filter(w=>
+  (w.title+" "+w.author+" "+w.summary+" "+
+   w.tradition+" "+w.themes.join(" ")+" "+w.devices.join(" "))
+   .toLowerCase().includes(low)
+ );
+
+ document.getElementById("workGrid").innerHTML=
+ result.map(workCard).join("")||
+ `<div class="empty" style="grid-column:1/-1">No work found.</div>`;
+}
+
+function openWork(i){
+ const w=works[i];
+
+ openModal(
+  `📖 ${esc(w.title)}`,
+  `
+  <span class="tag">${esc(w.tradition)}</span>
+  <span class="tag">${esc(w.author)}</span>
+
+  <h3>Summary</h3>
+  <p>${esc(w.summary)}</p>
+
+  <h3>Major themes</h3>
+  <div>${w.themes.map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div>
+
+  <h3>Literary devices & techniques</h3>
+  <div>${w.devices.map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div>
+
+  <h3>Important quotation / textual point</h3>
+  <div class="example">
+   <b>${esc(w.quote)}</b>
+  </div>
+
+  <h3>Literary analysis</h3>
+  <p>${esc(w.note)}</p>
+
+  <h3>How to write about this work</h3>
+  <ol>
+   <li>Introduce the writer and historical context.</li>
+   <li>Give a concise overview of the work.</li>
+   <li>Discuss two or three central themes.</li>
+   <li>Support your discussion with textual evidence.</li>
+   <li>Explain the effect of literary techniques.</li>
+   <li>End by connecting form, theme and context.</li>
+  </ol>
+
+  <button class="btn"
+   onclick="complete('work:${i}');closeModal();toast('Work marked complete ✓');render()">
+   Mark as studied ✓
+  </button>
+  `
+ );
+}
+
+/* =========================================================
+   THEMES
+   ========================================================= */
+
+function themesPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>🎭 Themes & Genres</h2>
+    <p class="section-sub">Definitions plus questions you can use in literary analysis.</p>
+   </div>
+  </div>
+
+  <div class="definition-grid">
+   ${themes.map((t,i)=>`
+    <div class="card">
+     <span class="tag">THEME</span>
+     <h3>${esc(t[0])}</h3>
+     <p><b>Definition:</b> ${esc(t[1])}</p>
+     <div class="example">
+      <b>Analysis question:</b><br>${esc(t[2])}
+     </div>
+     <button class="small-btn primary"
+      onclick="complete('theme:${i}');toast('Theme completed ✓')">
+      Mark learned ✓
+     </button>
+    </div>
+   `).join("")}
+  </div>
+
+  <div class="lesson">
+   <h3>📌 Common literary genres</h3>
+   <div>
+    ${["Poetry","Epic","Drama","Tragedy","Comedy","Novel","Novella","Short Story","Essay","Satire","Biography","Autobiography","Memoir","Allegory","Travel Writing"].map(x=>`<span class="tag">${x}</span>`).join("")}
+   </div>
+  </div>
+ </section>
+ `;
+}
+
+/* =========================================================
+   DEVICES
+   ========================================================= */
+
+function devicesPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>🧩 Literary Devices</h2>
+    <p class="section-sub">Definitions, examples and the purpose of each technique.</p>
+   </div>
+  </div>
+
+  <div class="toolbar">
+   <input placeholder="Search device..." oninput="filterDevices(this.value)">
+  </div>
+
+  <div class="definition-grid" id="deviceGrid">
+   ${devices.map(deviceCard).join("")}
+  </div>
+ </section>
+ `;
+}
+
+function deviceCard(d,i){
+ return `
+ <div class="card">
+  <span class="tag">DEVICE</span>
+  <h3>${esc(d[0])}</h3>
+  <p><b>Definition:</b> ${esc(d[1])}</p>
+  <div class="example">
+   <b>Example:</b> ${esc(d[2])}
+  </div>
+  <p><b>Use in analysis:</b> ${esc(d[3])}</p>
+  <button class="small-btn primary"
+   onclick="complete('device:${i}');toast('Device learned ✓')">
+   Mark learned ✓
+  </button>
+ </div>
+ `;
+}
+
+function filterDevices(q){
+ const low=q.toLowerCase();
+ const result=devices.filter(d=>
+  (d[0]+" "+d[1]+" "+d[2]+" "+d[3]).toLowerCase().includes(low)
+ );
+
+ document.getElementById("deviceGrid").innerHTML=
+ result.map((d,i)=>deviceCard(d,devices.indexOf(d))).join("")||
+ `<div class="empty">No device found.</div>`;
+}
+
+/* =========================================================
+   COMPARE
+   ========================================================= */
+
+function comparePage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>⚖️ Compare Writers</h2>
+    <p class="section-sub">Choose two writers and study their similarities and differences.</p>
+   </div>
+  </div>
+
+  <div class="toolbar">
+   <select id="compareA">
+    ${writers.map((w,i)=>`<option value="${i}">${esc(w.name)}</option>`).join("")}
+   </select>
+
+   <select id="compareB">
+    ${writers.map((w,i)=>`<option value="${i}" ${i===1?"selected":""}>${esc(w.name)}</option>`).join("")}
+   </select>
+
+   <button class="btn" onclick="compareWriters()">Compare</button>
+  </div>
+
+  <div id="compareResult">
+   <div class="empty">
+    Select two writers and press <b>Compare</b>.
+   </div>
+  </div>
+ </section>
+ `;
+}
+
+function compareWriters(){
+ const a=writers[+document.getElementById("compareA").value];
+ const b=writers[+document.getElementById("compareB").value];
+
+ const worksA=works.filter(w=>w.author.toLowerCase().includes(a.name.split(" ").slice(-1)[0].toLowerCase()));
+ const worksB=works.filter(w=>w.author.toLowerCase().includes(b.name.split(" ").slice(-1)[0].toLowerCase()));
+
+ document.getElementById("compareResult").innerHTML=`
+ <div class="grid">
+
+  <div class="card">
+   <span class="tag">${esc(a.tradition)}</span>
+   <h3>${esc(a.name)}</h3>
+   <p>${esc(a.bio)}</p>
+   <p><b>Period:</b> ${esc(a.period)}</p>
+   <p><b>Works in app:</b> ${worksA.length?worksA.map(x=>esc(x.title)).join(", "):"No linked work."}</p>
+  </div>
+
+  <div class="card">
+   <span class="tag">${esc(b.tradition)}</span>
+   <h3>${esc(b.name)}</h3>
+   <p>${esc(b.bio)}</p>
+   <p><b>Period:</b> ${esc(b.period)}</p>
+   <p><b>Works in app:</b> ${worksB.length?worksB.map(x=>esc(x.title)).join(", "):"No linked work."}</p>
+  </div>
+
+ </div>
+
+ <div class="lesson">
+  <h3>🔎 Comparison framework</h3>
+  <table>
+   <tr><th>Area</th><th>${esc(a.name)}</th><th>${esc(b.name)}</th></tr>
+   <tr><td>Tradition</td><td>${esc(a.tradition)}</td><td>${esc(b.tradition)}</td></tr>
+   <tr><td>Period</td><td>${esc(a.period)}</td><td>${esc(b.period)}</td></tr>
+   <tr><td>Major concern</td><td>Analyse from biography and works</td><td>Analyse from biography and works</td></tr>
+   <tr><td>Technique</td><td>Examine style, form and devices</td><td>Examine style, form and devices</td></tr>
+  </table>
+ </div>
+ `;
+}
+
+/* =========================================================
+   LANGUAGE LAB
+   ========================================================= */
+
+function languagesPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>🌍 Language Lab</h2>
+    <p class="section-sub">Learn writing systems, starter vocabulary and literary words.</p>
+   </div>
+  </div>
+
+  <div class="grid">
+   ${languages.map((l,i)=>`
+    <div class="card">
+     <div class="card-top">
+      <span class="emoji">${l.flag}</span>
+      <span class="tag">${esc(l.script)}</span>
+     </div>
+
+     <h3>${esc(l.name)}</h3>
+     <p><b>${esc(l.native)}</b></p>
+     <p>${esc(l.tip)}</p>
+
+     <div>
+      ${l.lessons.slice(0,4).map(x=>`<span class="tag">${esc(x[1])}</span>`).join("")}
+     </div>
+
+     <div class="card-actions">
+      <button class="small-btn primary" onclick="openLanguage(${i})">Open lesson</button>
+     </div>
+    </div>
+   `).join("")}
+  </div>
+ </section>
+ `;
+}
+
+function openLanguage(i){
+ const l=languages[i];
+
+ openModal(
+  `${l.flag} ${esc(l.name)} Language Lab`,
+  `
+  <p>
+   <b>Native name:</b> ${esc(l.native)}<br>
+   <b>Writing system:</b> ${esc(l.script)}
+  </p>
+
+  <div class="example">${esc(l.tip)}</div>
+
+  <h3>Starter vocabulary</h3>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>English</th>
+      <th>Native</th>
+      <th>Pronunciation</th>
+     </tr>
+    </thead>
+    <tbody>
+     ${l.lessons.map(x=>`
+      <tr>
+       <td>${esc(x[0])}</td>
+       <td><b>${esc(x[1])}</b></td>
+       <td>${esc(x[2])}</td>
+      </tr>
+     `).join("")}
+    </tbody>
+   </table>
+  </div>
+
+  <h3>🗣️ Mini practice</h3>
+
+  <ol>
+   <li>Read the native word aloud.</li>
+   <li>Cover the English meaning.</li>
+   <li>Recall the meaning from memory.</li>
+   <li>Repeat after 10 minutes.</li>
+   <li>Review again tomorrow.</li>
+  </ol>
+
+  <button class="btn"
+   onclick="complete('language:${l.id}');closeModal();toast('Language lesson completed ✓');render()">
+   Mark lesson complete ✓
+  </button>
+  `
+ );
+}
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+
+function quizPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>🧠 Practice Quiz</h2>
+    <p class="section-sub">Ten questions with instant explanations.</p>
+   </div>
+   <span class="tag">Session score: ${state.quizScore}/${state.quizAnswered}</span>
+  </div>
+
+  <div id="quizBox"></div>
+ </section>
+ `;
+}
+
+function startQuiz(){
+ let index=0;
+ let score=0;
+
+ function draw(){
+  if(index>=quiz.length){
+   state.quizScore=score;
+   state.quizAnswered=quiz.length;
+
+   document.getElementById("quizBox").innerHTML=`
+    <div class="hero">
+     <h2>🎉 Quiz Complete!</h2>
+     <p>You scored <b>${score}/${quiz.length}</b>.</p>
+     <button class="btn light" onclick="startQuiz()">Try Again</button>
+    </div>
+   `;
+   return;
+  }
+
+  const q=quiz[index];
+
+  document.getElementById("quizBox").innerHTML=`
+   <div class="lesson">
+    <span class="tag">Question ${index+1} of ${quiz.length}</span>
+    <h3>${esc(q.q)}</h3>
+
+    ${q.o.map((x,i)=>`
+     <button class="quiz-option" onclick="answer(${i})">
+      ${String.fromCharCode(65+i)}. ${esc(x)}
+     </button>
+    `).join("")}
+
+    <div id="quizFeedback"></div>
+   </div>
+  `;
+ }
+
+ window.answer=function(choice){
+  const q=quiz[index];
+  const buttons=document.querySelectorAll(".quiz-option");
+
+  buttons.forEach((b,i)=>{
+   b.disabled=true;
+   if(i===q.a)b.classList.add("correct");
+   if(i===choice&&choice!==q.a)b.classList.add("wrong");
+  });
+
+  const correct=choice===q.a;
+  if(correct)score++;
+
+  document.getElementById("quizFeedback").innerHTML=`
+   <div class="example">
+    <b>${correct?"✓ Correct!":"✗ Not quite."}</b>
+    ${esc(q.e)}
+    <br>
+    <button class="small-btn primary"
+     style="margin-top:9px"
+     onclick="index++;draw()">
+     ${index===quiz.length-1?"Finish":"Next"} →
+    </button>
+   </div>
+  `;
+ };
+
+ draw();
+}
+
+/* =========================================================
+   FAVORITES
+   ========================================================= */
+
+function favoritesPage(){
+ const fl=literatures.filter(x=>isFav("lit",x.id));
+ const fw=works.filter((x,i)=>isFav("work",i));
+ const fwr=writers.filter((x,i)=>isFav("writer",i));
+
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>♡ Favorites</h2>
+    <p class="section-sub">Your saved literature, writers and works.</p>
+   </div>
+  </div>
+
+  ${
+   fl.length
+   ? `<h3>Literature</h3><div class="grid">${fl.map(litCard).join("")}</div>`
+   : ""
+  }
+
+  ${
+   fw.length
+   ? `<h3>Works</h3><div class="grid">${fw.map(w=>`
+      <div class="card">
+       <h3>${esc(w.title)}</h3>
+       <p>${esc(w.author)}</p>
+       <button class="small-btn primary" onclick="openWork(${works.indexOf(w)})">Open</button>
+      </div>
+     `).join("")}</div>`
+   : ""
+  }
+
+  ${
+   fwr.length
+   ? `<h3>Writers</h3><div class="grid">${fwr.map(w=>`
+      <div class="card">
+       <h3>${esc(w.name)}</h3>
+       <p>${esc(w.bio)}</p>
+      </div>
+     `).join("")}</div>`
+   : ""
+  }
+
+  ${
+   (!fl.length&&!fw.length&&!fwr.length)
+   ? `<div class="empty">♡ You have no favorites yet.<br>Tap the heart icon on a literature, writer or work.</div>`
+   : ""
+  }
+ </section>
+ `;
+}
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+function notesPage(){
+ return `
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h2>📝 My Notes</h2>
+    <p class="section-sub">Your notes remain in this browser using local storage.</p>
+   </div>
+   <button class="btn" onclick="saveNotes()">Save notes</button>
+  </div>
+
+  <textarea id="notes"
+   class="note-area"
+   placeholder="Write your revision notes here...">${esc(state.notes)}</textarea>
+
+  <div class="lesson">
+   <h3>📌 Useful literature-analysis template</h3>
+   <p>
+    <b>Work:</b> →
+    <b>Context:</b> →
+    <b>Plot/argument:</b> →
+    <b>Themes:</b> →
+    <b>Devices:</b> →
+    <b>Quotation:</b> →
+    <b>Analysis:</b> →
+    <b>Conclusion:</b>
+   </p>
+  </div>
+ </section>
+ `;
+}
+
+function saveNotes(){
+ state.notes=document.getElementById("notes").value;
+ save();
+ toast("Notes saved ✓");
+}
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function progressPage(){
+ const total=literatures.length+themes.length+devices.length+languages.length+works.length;
+ const done=state.completed.length;
+ const pct=Math.min(100,Math.round(done/total*100));
+
+ return `
+ <section class="section">
+
+  <div class="section-head">
+   <div>
+    <h2>◔ Learning Progress</h2>
+    <p class="section-sub">Track your learning locally on this device.</p>
+   </div>
+  </div>
+
+  <div class="card">
+   <h3>${pct}% complete</h3>
+
+   <div class="progress-wrap">
+    <div class="progress" style="width:${pct}%"></div>
+   </div>
+
+   <p>${done} learning items completed out of ${total} tracked items.</p>
+  </div>
+
+  <div class="grid" style="margin-top:14px">
+
+   <div class="card">
+    <div class="emoji">📚</div>
+    <h3>Literature</h3>
+    <p>${literatures.length} traditions</p>
+    <button class="small-btn primary" onclick="showPage('literature')">Study</button>
+   </div>
+
+   <div class="card">
+    <div class="emoji">✍️</div>
+    <h3>Writers</h3>
+    <p>${writers.length}+ profiles</p>
+    <button class="small-btn primary" onclick="showPage('writers')">Study</button>
+   </div>
+
+   <div class="card">
+    <div class="emoji">🧩</div>
+    <h3>Devices</h3>
+    <p>${devices.length} techniques</p>
+    <button class="small-btn primary" onclick="showPage('devices')">Learn</button>
+   </div>
+
+   <div class="card">
+    <div class="emoji">🌍</div>
+    <h3>Languages</h3>
+    <p>${languages.length} language tracks</p>
+    <button class="small-btn primary" onclick="showPage('languages')">Practice</button>
+   </div>
+
+  </div>
+
+  <div class="card" style="margin-top:14px">
+   <h3>🧹 Reset local data</h3>
+   <p>
+    This clears favorites, notes, completed lessons and saved theme preference
+    from this browser.
+   </p>
+   <button class="small-btn" onclick="resetApp()">Reset everything</button>
+  </div>
+
+ </section>
+ `;
+}
+
+function resetApp(){
+ if(confirm("Reset all Lit en Lingo local data?")){
+  localStorage.removeItem("litTheme");
+  localStorage.removeItem("litFavorites");
+  localStorage.removeItem("litNotes");
+  localStorage.removeItem("litCompleted");
+
+  state={
+   theme:"light",
+   favorites:[],
+   notes:"",
+   completed:[],
+   quizScore:0,
+   quizAnswered:0
+  };
+
+  document.documentElement.dataset.theme="light";
+  document.getElementById("themeBtn").textContent="☾";
+
+  toast("Local data reset");
+  render();
+ }
+}
+
+/* =========================================================
+   GLOBAL SEARCH
+   ========================================================= */
+
+function globalSearch(q){
+ if(!q.trim())return;
+
+ const low=q.toLowerCase();
+
+ const work=works.find(x=>
+  (x.title+" "+x.author+" "+x.summary+" "+x.themes.join(" "))
+  .toLowerCase().includes(low)
+ );
+
+ const writer=writers.find(x=>
+  (x.name+" "+x.bio+" "+x.tradition+" "+x.period)
+  .toLowerCase().includes(low)
+ );
+
+ const lit=literatures.find(x=>
+  (x.name+" "+x.desc+" "+x.writers.join(" ")+" "+x.themes.join(" "))
+  .toLowerCase().includes(low)
+ );
+
+ const device=devices.find(x=>
+  (x[0]+" "+x[1]+" "+x[2]+" "+x[3])
+  .toLowerCase().includes(low)
+ );
+
+ if(work){
+  showPage("works");
+  setTimeout(()=>{
+   document.getElementById("workSearch").value=q;
+   filterWorks(q);
+  },50);
+ }
+ else if(writer){
+  showPage("writers");
+  setTimeout(()=>{
+   document.getElementById("writerSearch").value=q;
+   filterWriters(q);
+  },50);
+ }
+ else if(lit){
+  showPage("literature");
+  setTimeout(()=>{
+   document.getElementById("litSearch").value=q;
+   filterLiterature(q);
+  },50);
+ }
+ else if(device){
+  showPage("devices");
+  setTimeout(()=>{
+   document.querySelector("#deviceGrid")
+    .parentElement.querySelector("input").value=q;
+   filterDevices(q);
+  },50);
+ }
+ else{
+  toast("No result found");
+ }
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
+function render(){
+ showPage(window.currentPage||"home");
+}
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
+
+function createParticles(){
+ const container=document.getElementById("particles");
+ const symbols=["✦","✧","•","❖","“","”","A","a","∞","✒"];
+
+ for(let i=0;i<24;i++){
+  const el=document.createElement("span");
+  el.className="particle";
+  el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  el.style.left=Math.random()*100+"%";
+  el.style.fontSize=(12+Math.random()*24)+"px";
+  el.style.animationDuration=(12+Math.random()*18)+"s";
+  el.style.animationDelay=(-Math.random()*20)+"s";
+  container.appendChild(el);
+ }
+}
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape")closeModal();
+
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){
+  e.preventDefault();
+  document.getElementById("globalSearch").focus();
+ }
+});
+
+/* =========================================================
+   START APP
+   ========================================================= */
+
+document.getElementById("themeBtn").textContent=
+ state.theme==="dark"?"☀":"☾";
+
+createParticles();
+render();
+
+</script>
+
+</body>
+  </html>
