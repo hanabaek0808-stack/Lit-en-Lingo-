@@ -854,6 +854,14 @@ oninput="globalSearch()">
 <p>Learn practical sentences for everyday conversations.</p>
 <button onclick="showLanguage('sentences')">Learn Sentences →</button>
 </div>
+  <div class="card">
+  <div class="cardIcon">📖</div>
+  <h3>Stories</h3>
+  <p>Learn languages through easy and interesting stories.</p>
+  <button onclick="showLanguage('stories')">
+    Read Stories →
+  </button>
+  </div>
 
 </div>
 
@@ -1650,6 +1658,40 @@ function showLanguage(type){
  `).join("")}
 
  </div>
+ if(type === "stories"){
+  html = `
+    <div class="detail">
+      <h2>📖 Stories</h2>
+
+      <p>
+        Read easy stories and learn new words and sentences.
+      </p>
+
+      <div class="quote">
+        <h3>The Little Journey</h3>
+
+        <p>
+          Every morning, Sara walked to the library.
+          She loved reading books.
+          One day, she found a book about different languages.
+          She became curious and decided to learn a new language.
+        </p>
+      </div>
+
+      <div class="actionRow">
+        <button class="primary" onclick="speakStory()">
+          🔊 Listen
+        </button>
+
+        <button class="secondary" onclick="showStoryVocabulary()">
+          🧠 New Words
+        </button>
+      </div>
+
+      <div id="storyVocabulary"></div>
+    </div>
+  `;
+  }
 
  </div>
 
@@ -1947,7 +1989,44 @@ loadScientists();
 loadNobel();
 randomDiscovery();
 setLanguage("English");
+function speakStory(){
+  const story = `
+  Every morning, Sara walked to the library.
+  She loved reading books.
+  One day, she found a book about different languages.
+  She became curious and decided to learn a new language.
+  `;
 
+  speak(story);
+}
+
+function showStoryVocabulary(){
+  document.getElementById("storyVocabulary").innerHTML = `
+    <div class="contentGrid">
+
+      <div class="infoCard">
+        <h3>Journey</h3>
+        <p>A trip from one place to another.</p>
+      </div>
+
+      <div class="infoCard">
+        <h3>Library</h3>
+        <p>A place where people read or borrow books.</p>
+      </div>
+
+      <div class="infoCard">
+        <h3>Curious</h3>
+        <p>Wanting to know or learn something.</p>
+      </div>
+
+      <div class="infoCard">
+        <h3>Language</h3>
+        <p>A way people communicate with each other.</p>
+      </div>
+
+    </div>
+  `;
+  }
 </script>
 
 </body>
