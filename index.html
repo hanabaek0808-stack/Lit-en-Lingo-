@@ -1,0 +1,7247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#6f4328">
+<title>Lit en Lingo</title>
+
+<style>
+:root{
+  --bg:#f4e8d8;
+  --card:#fffaf2;
+  --brown:#6f4328;
+  --brown2:#8b5e3c;
+  --gold:#c6924b;
+  --text:#34251d;
+  --muted:#806c5d;
+  --border:#dfcdb9;
+  --shadow:0 10px 30px rgba(70,40,20,.12);
+  --success:#4d8b62;
+}
+
+body.dark{
+  --bg:#211812;
+  --card:#30231b;
+  --brown:#c18a5b;
+  --brown2:#a66d43;
+  --gold:#d4a15e;
+  --text:#f8eee3;
+  --muted:#c5b09d;
+  --border:#554033;
+  --shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  transition:.3s;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+#particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.particle{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  opacity:.2;
+  animation:float 12s infinite ease-in-out;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0)}
+  100%{transform:translateY(-10vh) rotate(360deg)}
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--brown);
+  color:white;
+  padding:12px 18px;
+  box-shadow:var(--shadow);
+}
+
+.headerInner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+}
+
+.logoBadge{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:#f2d2a2;
+  color:var(--brown);
+  display:grid;
+  place-items:center;
+  font-size:20px;
+}
+
+.logoText{
+  font-size:18px;
+}
+
+.headerButtons{
+  display:flex;
+  gap:7px;
+}
+
+.headerButtons button{
+  border:0;
+  background:rgba(255,255,255,.15);
+  color:white;
+  border-radius:10px;
+  padding:8px 11px;
+}
+
+main{
+  position:relative;
+  z-index:1;
+  max-width:1200px;
+  margin:auto;
+  padding:25px 15px 60px;
+}
+
+.screen{
+  display:none;
+  animation:appear .35s ease;
+}
+
+.screen.active{
+  display:block;
+}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.hero{
+  text-align:center;
+  padding:35px 10px;
+}
+
+.hero h1{
+  font-size:42px;
+  color:var(--brown);
+  margin-bottom:10px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:700px;
+  margin:auto;
+  line-height:1.7;
+}
+
+.sectionTitle{
+  text-align:center;
+  margin:20px 0 25px;
+}
+
+.sectionTitle h2{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.sectionTitle p{
+  color:var(--muted);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+.cardIcon{
+  font-size:34px;
+  margin-bottom:12px;
+}
+
+.card h3{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.5;
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.card button,
+.primary,
+.secondary,
+.backBtn{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:bold;
+}
+
+.card button,
+.primary{
+  background:var(--brown);
+  color:white;
+}
+
+.secondary{
+  background:var(--gold);
+  color:#2c1c10;
+}
+
+.backBtn{
+  background:var(--card);
+  color:var(--brown);
+  border:1px solid var(--border);
+  margin-bottom:18px;
+}
+
+.contentGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.infoCard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.infoCard h3{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.infoCard p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.detail{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.detail h2{
+  color:var(--brown);
+  margin-bottom:10px;
+}
+
+.detail>p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.quote{
+  margin-top:20px;
+  padding:22px;
+  background:rgba(198,146,75,.12);
+  border-left:5px solid var(--gold);
+  border-radius:12px;
+  line-height:1.8;
+}
+
+.quote h3{
+  color:var(--brown);
+  margin-bottom:12px;
+}
+
+.actionRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.searchBox{
+  display:flex;
+  gap:8px;
+  margin:20px auto;
+  max-width:650px;
+}
+
+.searchBox input{
+  flex:1;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+}
+
+.searchBox button{
+  border:0;
+  border-radius:12px;
+  background:var(--brown);
+  color:white;
+  padding:0 18px;
+}
+
+.languageSelector{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:20px 0;
+}
+
+.languageSelector button{
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:9px 13px;
+  border-radius:20px;
+}
+
+.languageSelector button.active{
+  background:var(--brown);
+  color:white;
+}
+
+.languageIntro{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+
+.languageIntro h2{
+  color:var(--brown);
+}
+
+.favorite{
+  float:right;
+  border:0;
+  background:none;
+  font-size:22px;
+}
+
+.storyList{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.storyCard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.storyCard h3{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.storyCard p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.storyCard button{
+  margin-top:14px;
+  background:var(--brown);
+  color:white;
+  border:0;
+  padding:9px 13px;
+  border-radius:9px;
+}
+
+.word{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:15px;
+}
+
+.word strong{
+  color:var(--brown);
+}
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+}
+
+
+/* ============================= */
+/* WRITING WORKSHEET             */
+/* ============================= */
+
+.worksheet{
+  margin-top:20px;
+}
+
+.worksheetTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.worksheetBadge{
+  display:inline-block;
+  background:rgba(198,146,75,.18);
+  color:var(--brown);
+  padding:7px 12px;
+  border-radius:20px;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.progressBox{
+  flex:1;
+  min-width:180px;
+  max-width:350px;
+}
+
+.progressText{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.progressBar{
+  height:10px;
+  background:var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:var(--gold);
+  border-radius:20px;
+  transition:.3s;
+}
+
+.worksheetGrid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:18px;
+}
+
+.practiceCard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+
+.practiceCard h3{
+  color:var(--brown);
+  margin-bottom:12px;
+}
+
+.modelArea{
+  min-height:250px;
+  border:2px dashed var(--border);
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:rgba(198,146,75,.06);
+  text-align:center;
+  padding:20px;
+}
+
+.modelCharacter{
+  font-size:110px;
+  line-height:1;
+  color:var(--brown);
+  font-weight:bold;
+  margin-bottom:15px;
+  user-select:none;
+}
+
+.modelRoman{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.modelExample{
+  margin-top:12px;
+  color:var(--text);
+  font-size:15px;
+}
+
+.modelExample strong{
+  color:var(--brown);
+}
+
+.traceArea{
+  margin-top:18px;
+}
+
+.traceTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.traceTitle span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.traceCharacter{
+  height:105px;
+  border:2px dashed var(--border);
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:75px;
+  color:rgba(111,67,40,.22);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 34px,
+      rgba(128,108,93,.15) 35px
+    );
+  user-select:none;
+}
+
+body.dark .traceCharacter{
+  color:rgba(241,211,174,.2);
+}
+
+.canvasTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.canvasTitle span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.canvasWrap{
+  position:relative;
+  width:100%;
+  height:280px;
+  border:2px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  background:#fffdf9;
+  touch-action:none;
+}
+
+body.dark .canvasWrap{
+  background:#f8eee3;
+}
+
+#writingCanvas{
+  width:100%;
+  height:100%;
+  display:block;
+  cursor:crosshair;
+  touch-action:none;
+}
+
+.canvasHint{
+  position:absolute;
+  bottom:10px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#a38f7c;
+  font-size:12px;
+  pointer-events:none;
+}
+
+.worksheetButtons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+
+.worksheetButtons button{
+  border:0;
+  border-radius:10px;
+  padding:10px 13px;
+  font-weight:bold;
+}
+
+.btnCheck{
+  background:var(--success);
+  color:white;
+}
+
+.btnClear{
+  background:var(--border);
+  color:var(--text);
+}
+
+.btnListen{
+  background:var(--gold);
+  color:#2c1c10;
+}
+
+.btnPrint{
+  background:var(--brown);
+  color:white;
+}
+
+.navigation{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:18px;
+}
+
+.navigation button{
+  flex:1;
+  border:0;
+  border-radius:12px;
+  padding:12px;
+  font-weight:bold;
+}
+
+.navPrev{
+  background:var(--card);
+  border:1px solid var(--border)!important;
+  color:var(--brown);
+}
+
+.navNext{
+  background:var(--brown);
+  color:white;
+}
+
+.feedback{
+  min-height:48px;
+  margin-top:15px;
+  border-radius:12px;
+  padding:13px;
+  display:none;
+  line-height:1.5;
+}
+
+.feedback.show{
+  display:block;
+}
+
+.feedback.success{
+  background:rgba(77,139,98,.13);
+  color:var(--success);
+  border:1px solid rgba(77,139,98,.3);
+}
+
+.feedback.info{
+  background:rgba(198,146,75,.13);
+  color:var(--brown);
+  border:1px solid rgba(198,146,75,.3);
+}
+
+.worksheetInfo{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.miniInfo{
+  background:rgba(198,146,75,.08);
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:13px;
+}
+
+.miniInfo strong{
+  color:var(--brown);
+  display:block;
+  margin-bottom:5px;
+}
+
+.miniInfo span{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.freePractice{
+  margin-top:18px;
+}
+
+.freePracticeBox{
+  min-height:120px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:15px;
+  background:rgba(198,146,75,.05);
+  color:var(--muted);
+  line-height:2;
+}
+
+.worksheetIntro{
+  background:linear-gradient(
+    135deg,
+    rgba(198,146,75,.14),
+    rgba(111,67,40,.06)
+  );
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.worksheetIntro h2{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.worksheetIntro p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.resetButton{
+  margin-top:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--brown);
+  padding:9px 13px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+
+/* PRINT */
+
+@media print{
+
+  body{
+    background:white!important;
+    color:black!important;
+  }
+
+  header,
+  footer,
+  .backBtn,
+  .languageSelector,
+  .languageIntro,
+  .worksheetButtons,
+  .navigation,
+  .freePractice,
+  #particles{
+    display:none!important;
+  }
+
+  main{
+    padding:0;
+    max-width:none;
+  }
+
+  .screen{
+    display:none!important;
+  }
+
+  #languages{
+    display:block!important;
+  }
+
+  #languageLesson{
+    display:block!important;
+  }
+
+  .worksheet{
+    display:block!important;
+  }
+
+  .worksheetGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .practiceCard{
+    box-shadow:none;
+    border:1px solid #ccc;
+  }
+
+  .canvasWrap{
+    height:300px;
+  }
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .contentGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .worksheetGrid{
+    grid-template-columns:1fr;
+  }
+
+  .worksheetInfo{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:550px){
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .contentGrid,
+  .storyList{
+    grid-template-columns:1fr;
+  }
+
+  .logoText{
+    display:none;
+  }
+
+  .detail{
+    padding:17px;
+  }
+
+  .practiceCard{
+    padding:15px;
+  }
+
+  .modelCharacter{
+    font-size:85px;
+  }
+
+  .traceCharacter{
+    font-size:60px;
+  }
+
+  .canvasWrap{
+    height:240px;
+  }
+
+  .worksheetInfo{
+    grid-template-columns:1fr;
+  }
+
+  .navigation{
+    position:sticky;
+    bottom:8px;
+    z-index:5;
+  }
+
+  .navigation button{
+    padding:13px 8px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<header>
+  <div class="headerInner">
+
+    <div class="logo">
+      <div class="logoBadge">en</div>
+      <div class="logoText">Lit en Lingo</div>
+    </div>
+
+    <div class="headerButtons">
+      <button onclick="toggleDark()">🌙</button>
+      <button onclick="showScreen('favorites')">⭐</button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="screen active">
+
+  <div class="hero">
+    <h1>Lit en Lingo</h1>
+
+    <p>
+      Learn literature, languages, science and famous people
+      in a simple and interesting way.
+    </p>
+  </div>
+
+  <div class="searchBox">
+    <input id="searchInput" placeholder="Search anything...">
+    <button onclick="globalSearch()">Search</button>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="cardIcon">📚</div>
+      <h3>Literature</h3>
+      <p>Explore writers, periods, famous books and world literature.</p>
+      <button onclick="showScreen('literature')">Open →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🌍</div>
+      <h3>Languages</h3>
+      <p>Learn writing, listening, vocabulary, sentences and stories.</p>
+      <button onclick="showScreen('languages')">Open →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🔬</div>
+      <h3>Science</h3>
+      <p>Learn about famous scientists and important theories.</p>
+      <button onclick="showScreen('science')">Open →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🏆</div>
+      <h3>Personalities</h3>
+      <p>Learn about famous Nobel Prize winners.</p>
+      <button onclick="showScreen('personalities')">Open →</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- LITERATURE -->
+<section id="literature" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+
+  <div class="sectionTitle">
+    <h2>📚 Literature</h2>
+    <p>Explore world literature.</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="cardIcon">🕰️</div>
+      <h3>History & Periods</h3>
+      <p>Learn about important literary periods.</p>
+      <button onclick="showScreen('litHistory')">Explore →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">✍️</div>
+      <h3>Writers & Poets</h3>
+      <p>Discover famous writers and poets.</p>
+      <button onclick="showScreen('writers')">Explore →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">📖</div>
+      <h3>Works & Classics</h3>
+      <p>Explore famous books and literary works.</p>
+      <button onclick="showScreen('works')">Explore →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🔎</div>
+      <h3>Literature Explorer</h3>
+      <p>Find a random literary discovery.</p>
+      <button onclick="showScreen('explorer');randomDiscovery()">Explore →</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- HISTORY -->
+<section id="litHistory" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+    <h2>🕰️ History & Periods</h2>
+    <p>Important literary periods from different traditions.</p>
+  </div>
+
+  <div id="historyGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- WRITERS -->
+<section id="writers" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+    <h2>✍️ Writers & Poets</h2>
+  </div>
+
+  <div id="writersGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- WORKS -->
+<section id="works" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+    <h2>📖 Works & Classics</h2>
+  </div>
+
+  <div id="worksGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- EXPLORER -->
+<section id="explorer" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="detail">
+
+    <h2>🔎 Literature Explorer</h2>
+
+    <p>
+      Discover something interesting from literature.
+    </p>
+
+    <div id="randomDiscovery" class="quote"></div>
+
+    <button class="primary" onclick="randomDiscovery()">
+      🎲 Discover Again
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- LANGUAGES -->
+<section id="languages" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🌍 Languages</h2>
+
+    <p>
+      Choose a language and start learning.
+    </p>
+
+  </div>
+
+  <div
+    class="languageSelector"
+    id="languageSelector">
+  </div>
+
+  <div
+    id="languageIntro"
+    class="languageIntro">
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="cardIcon">✍️</div>
+
+      <h3>Writing</h3>
+
+      <p>
+        Practice letters, characters and writing
+        with interactive worksheets.
+      </p>
+
+      <button onclick="showLanguage('writing')">
+        Practice →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">🎧</div>
+
+      <h3>Listening</h3>
+
+      <p>
+        Listen to useful words and sentences.
+      </p>
+
+      <button onclick="showLanguage('listening')">
+        Listen →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">📚</div>
+
+      <h3>Vocabulary</h3>
+
+      <p>
+        Build your everyday vocabulary.
+      </p>
+
+      <button onclick="showLanguage('vocabulary')">
+        Learn →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">💬</div>
+
+      <h3>Useful Sentences</h3>
+
+      <p>
+        Learn simple sentences for daily life.
+      </p>
+
+      <button onclick="showLanguage('sentences')">
+        Learn →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">📖</div>
+
+      <h3>Stories</h3>
+
+      <p>
+        Learn words and sentences through
+        easy stories.
+      </p>
+
+      <button onclick="showLanguage('stories')">
+        Read Stories →
+      </button>
+
+    </div>
+
+  </div>
+
+  <div
+    id="languageLesson"
+    style="margin-top:20px">
+  </div>
+
+</section>
+
+
+<!-- SCIENCE -->
+<section id="science" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🔬 Scientists & Theories</h2>
+
+    <p>
+      Learn about famous scientists and their ideas.
+    </p>
+
+  </div>
+
+  <div id="scientistsGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- PERSONALITIES -->
+<section id="personalities" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🏆 Nobel Prize People</h2>
+
+    <p>
+      Learn about people who received Nobel Prizes.
+    </p>
+
+  </div>
+
+  <div id="nobelGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- FAVORITES -->
+<section id="favorites" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>⭐ Favorites</h2>
+
+    <p>
+      Your saved learning items.
+    </p>
+
+  </div>
+
+  <div id="favoritesGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- SEARCH -->
+<section id="searchResults" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🔎 Search Results</h2>
+
+  </div>
+
+  <div id="resultsGrid" class="contentGrid"></div>
+
+</section>
+
+</main>
+
+<footer>
+  Lit en Lingo • Learn • Explore • Discover
+</footer>
+
+
+<script>
+
+/* ============================= */
+/* PARTICLES                     */
+/* ============================= */
+
+for(let i=0;i<35;i++){
+
+  const p=document.createElement("div");
+
+  p.className="particle";
+
+  p.style.left=Math.random()*100+"%";
+
+  p.style.animationDelay=Math.random()*10+"s";
+
+  p.style.animationDuration=
+    (8+Math.random()*8)+"s";
+
+  document
+    .getElementById("particles")
+    .appendChild(p);
+}
+
+
+/* ============================= */
+/* SCREEN SYSTEM                  */
+/* ============================= */
+
+function showScreen(id){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen=>{
+      screen.classList.remove("active");
+    });
+
+  const target=document.getElementById(id);
+
+  if(target){
+
+    target.classList.add("active");
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+  if(id==="favorites"){
+    loadFavorites();
+  }
+}
+
+
+/* ============================= */
+/* DARK MODE                      */
+/* ============================= */
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "litDark",
+    document.body.classList.contains("dark")
+  );
+}
+
+if(localStorage.getItem("litDark")==="true"){
+  document.body.classList.add("dark");
+}
+
+
+/* ============================= */
+/* LITERATURE HISTORY             */
+/* ============================= */
+
+const historyData=[
+
+  {
+    country:"🇬🇧 British Literature",
+    periods:
+      "Old English (Beowulf) → Middle English (Chaucer) → Renaissance (Shakespeare) → Restoration → Romantic (Wordsworth, Byron) → Victorian (Dickens, Eliot) → Modern (Woolf, Joyce) → Contemporary"
+  },
+
+  {
+    country:"🇺🇸 American Literature",
+    periods:
+      "Colonial → Romanticism (Poe, Hawthorne) → Transcendentalism (Emerson, Thoreau) → Realism (Twain, James) → Modernism (Hemingway, Fitzgerald) → Contemporary"
+  },
+
+  {
+    country:"🇫🇷 French Literature",
+    periods:
+      "Medieval (Chrétien de Troyes) → Renaissance (Rabelais) → Classicism (Molière, Racine) → Enlightenment (Voltaire, Rousseau) → Romanticism (Hugo) → Realism (Balzac, Flaubert) → Modern (Proust, Camus)"
+  },
+
+  {
+    country:"🇩🇪 German Literature",
+    periods:
+      "Medieval (Nibelungenlied) → Enlightenment (Lessing) → Sturm und Drang (Goethe, Schiller) → Romanticism → Realism → Modern (Mann, Kafka, Hesse)"
+  },
+
+  {
+    country:"🇮🇹 Italian Literature",
+    periods:
+      "Medieval (Dante) → Renaissance (Petrarch, Boccaccio) → Enlightenment → Romanticism (Leopardi) → Modern (Calvino, Eco)"
+  },
+
+  {
+    country:"🇪🇸 Spanish Literature",
+    periods:
+      "Medieval (El Cid) → Golden Age (Cervantes, Lope de Vega) → Enlightenment → Romanticism → Realism → Modern (Lorca, Borges influenced)"
+  },
+
+  {
+    country:"🇷🇺 Russian Literature",
+    periods:
+      "Golden Age (Pushkin, Gogol) → Realism (Tolstoy, Dostoevsky) → Symbolism → Soviet → Contemporary"
+  },
+
+  {
+    country:"🇨🇳 Chinese Literature",
+    periods:
+      "Classical (Confucius) → Tang Poetry (Li Bai, Du Fu) → Song → Ming → Qing → Modern (Lu Xun)"
+  },
+
+  {
+    country:"🇯🇵 Japanese Literature",
+    periods:
+      "Classical (Kojiki) → Heian (Murasaki Shikibu) → Medieval → Edo (Bashō, Saikaku) → Meiji → Modern (Kawabata, Mishima)"
+  },
+
+  {
+    country:"🌙 Arabic Literature",
+    periods:
+      "Pre-Islamic (Mu'allaqat) → Islamic → Abbasid (Al-Jahiz) → Andalusian → Modern (Mahfouz, Adonis)"
+  },
+
+  {
+    country:"🇮🇳 Indian Literature",
+    periods:
+      "Vedic → Sanskrit Epics (Mahabharata, Ramayana) → Classical (Kalidasa) → Bhakti → Modern (Tagore, Naipaul, Rushdie)"
+  },
+
+  {
+    country:"🇱🇦 Latin American Literature",
+    periods:
+      "Colonial → Independence → Modernismo (Darío) → Boom (Márquez, Cortázar) → Post-Boom"
+  }
+
+];
+
+
+function loadHistory(){
+
+  const box=document.getElementById("historyGrid");
+
+  box.innerHTML=
+    historyData.map(x=>`
+
+      <div class="infoCard">
+
+        <h3>${x.country}</h3>
+
+        <p>${x.periods}</p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* ============================= */
+/* WRITERS                       */
+/* ============================= */
+
+const writers=[
+
+ ["William Shakespeare","England (1564–1616)",
+ "The greatest playwright in English. Wrote 39 plays, 154 sonnets, and 2 long narrative poems. Major works: Hamlet, Macbeth, Othello, King Lear, Romeo and Juliet, A Midsummer Night's Dream, The Tempest. Innovated blank verse, deepened psychological characterisation, and shaped modern English."],
+
+ ["Geoffrey Chaucer","England (c.1343–1400)",
+ "Father of English literature. The Canterbury Tales uses a pilgrimage frame to paint a vivid portrait of medieval society, mixing humour, satire and piety."],
+
+ ["Jane Austen","England (1775–1817)",
+ "Master of the novel of manners. Works: Pride and Prejudice, Sense and Sensibility, Emma, Mansfield Park, Northanger Abbey, Persuasion. Her irony and free indirect discourse influenced the entire modern novel."],
+
+ ["Charles Dickens","England (1812–1870)",
+ "Victorian social critic. Works: Oliver Twist, A Christmas Carol, David Copperfield, Bleak House, Great Expectations, A Tale of Two Cities. Championed the poor and created unforgettable characters."],
+
+ ["Virginia Woolf","England (1882–1941)",
+ "Modernist pioneer of stream of consciousness. Works: Mrs Dalloway, To the Lighthouse, Orlando, The Waves. Also wrote A Room of One's Own, a landmark of feminist criticism."],
+
+ ["William Wordsworth","England (1770–1850)",
+ "Leading Romantic poet. Co-wrote Lyrical Ballads with Coleridge. Wrote 'Tintern Abbey', 'I Wandered Lonely as a Cloud', and The Prelude."],
+
+ ["John Keats","England (1795–1821)",
+ "Romantic poet of beauty and mortality. Odes: 'Ode to a Nightingale', 'Ode on a Grecian Urn', 'To Autumn'. Died of tuberculosis at 25."],
+
+ ["Lord Byron","England (1788–1824)",
+ "Romantic poet and satirist. Works: Don Juan, Childe Harold's Pilgrimage. A celebrity in his own time and a hero of Greek independence."],
+
+ ["Mary Shelley","England (1797–1851)",
+ "Wrote Frankenstein (1818), often considered the first science-fiction novel. Also wrote The Last Man and edited her husband Percy Shelley's works."],
+
+ ["George Orwell","England (1903–1950)",
+ "Political writer. Works: 1984, Animal Farm, Homage to Catalonia, Down and Out in Paris and London. Coined 'Big Brother' and 'doublethink'."],
+
+ ["J.R.R. Tolkien","England (1892–1973)",
+ "Author of The Hobbit and The Lord of the Rings. Invented languages, mythologies and the modern fantasy genre."],
+
+ ["C.S. Lewis","England / Ireland (1898–1963)",
+ "Author of The Chronicles of Narnia, Mere Christianity and The Screwtape Letters. Close friend of Tolkien."],
+
+ ["Emily Brontë","England (1818–1848)",
+ "Wrote Wuthering Heights, one of the most intense novels in English. Sister of Charlotte and Anne Brontë."],
+
+ ["Charlotte Brontë","England (1816–1855)",
+ "Author of Jane Eyre, Shirley and Villette. Pioneered the first-person heroine's voice."],
+
+ ["Alfred Lord Tennyson","England (1809–1892)",
+ "Poet Laureate. Works: 'The Charge of the Light Brigade', In Memoriam, Idylls of the King."],
+
+ ["T.S. Eliot","USA / England (1888–1965)",
+ "Modernist poet and critic. Works: The Waste Land, 'The Love Song of J. Alfred Prufrock', Four Quartets. Nobel Prize 1948."],
+
+ ["W.B. Yeats","Ireland (1865–1939)",
+ "Irish poet and dramatist. Works: 'The Second Coming', 'Sailing to Byzantium', The Tower. Nobel Prize 1923."],
+
+ ["James Joyce","Ireland (1882–1941)",
+ "Modernist. Works: Dubliners, A Portrait of the Artist as a Young Man, Ulysses, Finnegans Wake. Revolutionised the novel."],
+
+ ["Oscar Wilde","Ireland (1854–1900)",
+ "Playwright, poet, wit. Works: The Picture of Dorian Gray, The Importance of Being Earnest, De Profundis."],
+
+ ["Samuel Beckett","Ireland / France (1906–1989)",
+ "Absurdist playwright. Works: Waiting for Godot, Endgame. Nobel Prize 1969."],
+
+ ["Seamus Heaney","Ireland (1939–2013)",
+ "Nobel Prize 1995. Works: Death of a Naturalist, North, Beowulf translation, Human Chain."],
+
+ ["Mark Twain","USA (1835–1910)",
+ "Father of American literature. Works: The Adventures of Tom Sawyer, Adventures of Huckleberry Finn, A Connecticut Yankee in King Arthur's Court."],
+
+ ["Edgar Allan Poe","USA (1809–1849)",
+ "Master of Gothic horror and the detective story. Works: 'The Raven', 'The Tell-Tale Heart', 'The Fall of the House of Usher'."],
+
+ ["Herman Melville","USA (1819–1891)",
+ "Author of Moby-Dick, Billy Budd, Bartleby the Scrivener. Wrote about obsession, the sea and America."],
+
+ ["Nathaniel Hawthorne","USA (1804–1864)",
+ "Author of The Scarlet Letter, The House of the Seven Gables. Wrote about Puritan guilt and sin."],
+
+ ["Walt Whitman","USA (1819–1892)",
+ "Poet of democracy. Works: Leaves of Grass, 'Song of Myself', 'O Captain! My Captain!'."],
+
+ ["Emily Dickinson","USA (1830–1886)",
+ "Wrote nearly 1,800 poems, most published after her death. Known for slant rhyme, dashes and intense inwardness."],
+
+ ["F. Scott Fitzgerald","USA (1896–1940)",
+ "Chronicler of the Jazz Age. Works: The Great Gatsby, Tender Is the Night, This Side of Paradise."],
+
+ ["Ernest Hemingway","USA (1899–1961)",
+ "Nobel Prize 1954. Works: The Old Man and the Sea, A Farewell to Arms, For Whom the Bell Tolls, The Sun Also Rises. Master of the iceberg theory."],
+
+ ["William Faulkner","USA (1897–1962)",
+ "Nobel Prize 1949. Works: The Sound and the Fury, As I Lay Dying, Absalom, Absalom! Set in fictional Yoknapatawpha County."],
+
+ ["John Steinbeck","USA (1902–1968)",
+ "Nobel Prize 1962. Works: The Grapes of Wrath, Of Mice and Men, East of Eden."],
+
+ ["Toni Morrison","USA (1931–2019)",
+ "Nobel Prize 1993. Works: Beloved, Song of Solomon, The Bluest Eye, Sula."],
+
+ ["Maya Angelou","USA (1928–2014)",
+ "Poet and memoirist. Works: I Know Why the Caged Bird Sings, 'Still I Rise', 'Phenomenal Woman'."],
+
+ ["Sylvia Plath","USA (1932–1963)",
+ "Poet and novelist. Works: Ariel, The Colossus, The Bell Jar."],
+
+ ["Ralph Ellison","USA (1914–1994)",
+ "Author of Invisible Man, a landmark of African American literature."],
+
+ ["Victor Hugo","France (1802–1885)",
+ "Romantic novelist and poet. Works: Les Misérables, The Hunchback of Notre-Dame, Hernani."],
+
+ ["Gustave Flaubert","France (1821–1880)",
+ "Realist master. Works: Madame Bovary, Sentimental Education, A Simple Heart. Famous for le mot juste."],
+
+ ["Honoré de Balzac","France (1799–1850)",
+ "Wrote La Comédie Humaine, a vast cycle of novels including Père Goriot and Eugénie Grandet."],
+
+ ["Marcel Proust","France (1871–1922)",
+ "Author of In Search of Lost Time (À la recherche du temps perdu), one of the longest and most influential novels ever written."],
+
+ ["Albert Camus","France / Algeria (1913–1960)",
+ "Nobel Prize 1957. Works: The Stranger, The Plague, The Myth of Sisyphus, The Rebel."],
+
+ ["Jean-Paul Sartre","France (1905–1980)",
+ "Philosopher and writer. Works: Being and Nothingness, Nausea, No Exit. Nobel Prize 1964 (declined)."],
+
+ ["Victor-Marie Hugo (extra)","France (1802–1885)",
+ "Also wrote poetry collections Les Contemplations and La Légende des siècles."],
+
+ ["Johann Wolfgang von Goethe","Germany (1749–1832)",
+ "Greatest German writer. Works: Faust, The Sorrows of Young Werther, Wilhelm Meister's Apprenticeship."],
+
+ ["Friedrich Schiller","Germany (1759–1805)",
+ "Poet, playwright, philosopher. Works: The Robbers, William Tell, Ode to Joy (used by Beethoven)."],
+
+ ["Franz Kafka","Austria-Hungary (1883–1924)",
+ "Works: The Metamorphosis, The Trial, The Castle. Created the term 'Kafkaesque'."],
+
+ ["Thomas Mann","Germany (1875–1955)",
+ "Nobel Prize 1929. Works: Buddenbrooks, The Magic Mountain, Death in Venice."],
+
+ ["Hermann Hesse","Germany / Switzerland (1877–1962)",
+ "Nobel Prize 1946. Works: Siddhartha, Steppenwolf, The Glass Bead Game."],
+
+ ["Bertolt Brecht","Germany (1898–1956)",
+ "Playwright and poet. Works: Mother Courage, The Threepenny Opera, Life of Galileo. Developed epic theatre."],
+
+ ["Dante Alighieri","Italy (1265–1321)",
+ "Author of The Divine Comedy (Inferno, Purgatorio, Paradiso). Father of the Italian language."],
+
+ ["Francesco Petrarch","Italy (1304–1374)",
+ "Poet and humanist. Wrote the Canzoniere. His sonnets shaped European love poetry."],
+
+ ["Giovanni Boccaccio","Italy (1313–1375)",
+ "Author of The Decameron, a collection of 100 tales."],
+
+ ["Niccolò Machiavelli","Italy (1469–1527)",
+ "Author of The Prince, a founding text of modern political thought."],
+
+ ["Italo Calvino","Italy (1923–1985)",
+ "Works: Invisible Cities, If on a winter's night a traveler, The Baron in the Trees."],
+
+ ["Umberto Eco","Italy (1932–2016)",
+ "Author of The Name of the Rose, Foucault's Pendulum. Semiotician and medievalist."],
+
+ ["Miguel de Cervantes","Spain (1547–1616)",
+ "Author of Don Quixote, often called the first modern novel."],
+
+ ["Federico García Lorca","Spain (1898–1936)",
+ "Poet and playwright. Works: Blood Wedding, Yerma, The House of Bernarda Alba, Gypsy Ballads."],
+
+ ["Pablo Neruda","Chile (1904–1973)",
+ "Nobel Prize 1971. Works: Twenty Love Poems, Canto General, Odes to Common Things."],
+
+ ["Jorge Luis Borges","Argentina (1899–1986)",
+ "Master of the short story. Works: Ficciones, The Aleph, Labyrinths."],
+
+ ["Gabriel García Márquez","Colombia (1927–2014)",
+ "Nobel Prize 1982. Works: One Hundred Years of Solitude, Love in the Time of Cholera, Chronicle of a Death Foretold. Leading figure of magical realism."],
+
+ ["Julio Cortázar","Argentina (1914–1984)",
+ "Works: Hopscotch (Rayuela), Blow-up and Other Stories."],
+
+ ["Isabel Allende","Chile (1942– )",
+ "Works: The House of the Spirits, City of the Beasts, Paula."],
+
+ ["Octavio Paz","Mexico (1914–1998)",
+ "Nobel Prize 1990. Works: The Labyrinth of Solitude, Sunstone."],
+
+ ["Leo Tolstoy","Russia (1828–1910)",
+ "Works: War and Peace, Anna Karenina, The Death of Ivan Ilyich, Resurrection."],
+
+ ["Fyodor Dostoevsky","Russia (1821–1881)",
+ "Works: Crime and Punishment, The Brothers Karamazov, The Idiot, Notes from Underground."],
+
+ ["Alexander Pushkin","Russia (1799–1837)",
+ "Father of Russian literature. Works: Eugene Onegin, Boris Godunov, The Captain's Daughter."],
+
+ ["Anton Chekhov","Russia (1860–1904)",
+ "Master of the short story and modern drama. Works: The Cherry Orchard, Uncle Vanya, The Lady with the Dog."],
+
+ ["Nikolai Gogol","Russia (1809–1852)",
+ "Works: Dead Souls, The Overcoat, The Government Inspector."],
+
+ ["Boris Pasternak","Russia (1890–1960)",
+ "Nobel Prize 1958 (forced to decline). Author of Doctor Zhivago."],
+
+ ["Aleksandr Solzhenitsyn","Russia (1918–2008)",
+ "Nobel Prize 1970. Works: One Day in the Life of Ivan Denisovich, The Gulag Archipelago."],
+
+ ["Murasaki Shikibu","Japan (c.973–c.1014)",
+ "Wrote The Tale of Genji, often called the world's first novel."],
+
+ ["Matsuo Bashō","Japan (1644–1694)",
+ "Greatest haiku master. Works: The Narrow Road to the Deep North, 'Old Pond'."],
+
+ ["Yasunari Kawabata","Japan (1899–1972)",
+ "Nobel Prize 1968. Works: Snow Country, Thousand Cranes, The Old Capital."],
+
+ ["Yukio Mishima","Japan (1925–1970)",
+ "Works: The Sea of Fertility tetralogy, The Temple of the Golden Pavilion, Confessions of a Mask."],
+
+ ["Haruki Murakami","Japan (1949– )",
+ "Works: Norwegian Wood, Kafka on the Shore, 1Q84, The Wind-Up Bird Chronicle."],
+
+ ["Lu Xun","China (1881–1936)",
+ "Father of modern Chinese literature. Works: The True Story of Ah Q, Diary of a Madman, Call to Arms."],
+
+ ["Li Bai","China (701–762)",
+ "One of the greatest Tang poets. Wrote about wine, friendship, nature and the moon."],
+
+ ["Du Fu","China (712–770)",
+ "Tang poet known as the 'Poet Sage'. Wrote about war, poverty and the human condition."],
+
+ ["Mo Yan","China (1955– )",
+ "Nobel Prize 2012. Works: Red Sorghum, Big Breasts and Wide Hips, Life and Death Are Wearing Me Out."],
+
+ ["Naguib Mahfouz","Egypt (1911–2006)",
+ "Nobel Prize 1988. Works: The Cairo Trilogy (Palace Walk, Palace of Desire, Sugar Street), Children of the Alley."],
+
+ ["Kahlil Gibran","Lebanon / USA (1883–1931)",
+ "Works: The Prophet, Sand and Foam, Broken Wings."],
+
+ ["Rabindranath Tagore","India (1861–1941)",
+ "Nobel Prize 1913. Works: Gitanjali, The Home and the World, Gora. Wrote both India's and Bangladesh's national anthems."],
+
+ ["Rumi","Persia (1207–1273)",
+ "Sufi mystic and poet. Works: Masnavi, Divan-e Shams. One of the best-selling poets in the world today."],
+
+ ["Hafez","Persia (1315–1390)",
+ "Persian lyric poet. His Divan is a classic of world literature."],
+
+ ["Chinua Achebe","Nigeria (1930–2013)",
+ "Works: Things Fall Apart, Arrow of God, No Longer at Ease. Father of modern African literature."],
+
+ ["Wole Soyinka","Nigeria (1934– )",
+ "Nobel Prize 1986. Works: Death and the King's Horseman, The Interpreters, Ake."],
+
+ ["Ngũgĩ wa Thiong'o","Kenya (1938– )",
+ "Works: Weep Not, Child, A Grain of Wheat, Petals of Blood, Wizard of the Crow."],
+
+ ["Nadine Gordimer","South Africa (1923–2014)",
+ "Nobel Prize 1991. Works: July's People, Burger's Daughter, The Conservationist."],
+
+ ["J.M. Coetzee","South Africa (1940– )",
+ "Nobel Prize 2003. Works: Disgrace, Waiting for the Barbarians, Life & Times of Michael K."],
+
+ ["Derek Walcott","Saint Lucia (1930–2017)",
+ "Nobel Prize 1992. Works: Omeros, Dream on Monkey Mountain."],
+
+ ["Kazuo Ishiguro","Japan / UK (1954– )",
+ "Nobel Prize 2017. Works: The Remains of the Day, Never Let Me Go, An Artist of the Floating World."],
+
+ ["Margaret Atwood","Canada (1939– )",
+ "Works: The Handmaid's Tale, Alias Grace, Oryx and Crake, The Blind Assassin."],
+
+ ["Alice Munro","Canada (1931–2024)",
+ "Nobel Prize 2013. Master of the short story. Works: Dance of the Happy Shades, Lives of Girls and Women, Runaway."],
+
+ ["Patrick White","Australia (1912–1990)",
+ "Nobel Prize 1973. Works: The Tree of Man, Voss, Riders in the Chariot."],
+
+ ["Peter Carey","Australia (1943– )",
+ "Works: Oscar and Lucinda, True History of the Kelly Gang."],
+
+ ["Katherine Mansfield","New Zealand (1888–1923)",
+ "Modernist short-story writer. Works: The Garden Party, Prelude, Bliss."],
+
+ ["Hans Christian Andersen","Denmark (1805–1875)",
+ "Fairy-tale writer. Works: The Little Mermaid, The Ugly Duckling, The Snow Queen."],
+
+ ["Henrik Ibsen","Norway (1828–1906)",
+ "Father of modern drama. Works: A Doll's House, Hedda Gabler, Peer Gynt, Ghosts."],
+
+ ["Knut Hamsun","Norway (1859–1952)",
+ "Nobel Prize 1920. Works: Hunger, Growth of the Soil."],
+
+ ["Selma Lagerlöf","Sweden (1858–1940)",
+ "Nobel Prize 1909. First woman to win the Nobel Prize in Literature. Works: The Wonderful Adventures of Nils, Gösta Berling's Saga."],
+
+ ["Astrid Lindgren","Sweden (1907–2002)",
+ "Children's author. Works: Pippi Longstocking, Emil of Lönneberga, The Brothers Lionheart."],
+
+ ["Tove Jansson","Finland (1914–2001)",
+ "Author and illustrator of the Moomin series."],
+
+ ["Milan Kundera","Czech Republic / France (1929–2023)",
+ "Works: The Unbearable Lightness of Being, The Joke, The Book of Laughter and Forgetting."],
+
+ ["Vaclav Havel","Czech Republic (1936–2011)",
+ "Playwright and president. Works: The Garden Party, The Memorandum."],
+
+ ["Wisława Szymborska","Poland (1923–2012)",
+ "Nobel Prize 1996. Works: View with a Grain of Sand, Calling Out to Yeti."],
+
+ ["Czesław Miłosz","Poland (1911–2004)",
+ "Nobel Prize 1980. Works: The Captive Mind, Native Realm."],
+
+ ["Olga Tokarczuk","Poland (1962– )",
+ "Nobel Prize 2018. Works: Flights, Drive Your Plow Over the Bones of the Dead, The Books of Jacob."],
+
+ ["Imre Kertész","Hungary (1929–2016)",
+ "Nobel Prize 2002. Works: Fatelessness, Kaddish for an Unborn Child."],
+
+ ["Elias Canetti","Bulgaria / Austria (1905–1994)",
+ "Nobel Prize 1981. Works: Auto-da-Fé, Crowds and Power."],
+
+ ["Odysseas Elytis","Greece (1911–1996)",
+ "Nobel Prize 1979. Works: To Axion Esti, The Sovereign Sun."],
+
+ ["Giorgos Seferis","Greece (1900–1971)",
+ "Nobel Prize 1963. Works: Mythistorema, Logbook."],
+
+ ["Orhan Pamuk","Turkey (1952– )",
+ "Nobel Prize 2006. Works: My Name Is Red, Snow, Istanbul."],
+
+ ["Elif Shafak","Turkey (1971– )",
+ "Works: The Forty Rules of Love, The Bastard of Istanbul, 10 Minutes 38 Seconds in This Strange World."],
+
+ ["Nizami Ganjavi","Azerbaijan (1141–1209)",
+ "Wrote Khamsa (Five Poems), a classic of Persian and world literature."],
+
+ ["Mahmoud Darwish","Palestine (1941–2008)",
+ "National poet of Palestine. Works: Why Did You Leave the Horse Alone?, Memory for Forgetfulness."],
+
+ ["Adonis","Syria / Lebanon (1930– )",
+ "Leading modern Arab poet. Works: Songs of Mihyar the Damascene, The Static and the Dynamic."],
+
+ ["Yasunari Kawabata (extra)","Japan",
+ "Also known for masterful short stories and as a mentor to Yukio Mishima."]
+
+];
+
+
+function loadWriters(){
+
+  document.getElementById("writersGrid").innerHTML=
+
+    writers.map((w,i)=>`
+
+      <div class="infoCard">
+
+        <button
+          class="favorite"
+          onclick="addFavorite('${w[0].replace(/'/g,"\\'")}')">
+          ☆
+        </button>
+
+        <h3>${w[0]}</h3>
+
+        <p>
+          <strong>${w[1]}</strong>
+        </p>
+
+        <p>${w[2]}</p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* ============================= */
+/* WORKS                         */
+/* ============================= */
+
+const works=[
+
+ ["Hamlet","William Shakespeare (c.1600)",
+ "A tragedy about Prince Hamlet of Denmark, who must avenge his father's murder. Explores madness, mortality, revenge and moral corruption. Famous for the soliloquy 'To be, or not to be'."],
+
+ ["Macbeth","William Shakespeare (1606)",
+ "A Scottish general is driven by ambition and prophecy to murder King Duncan. Themes: ambition, guilt, fate, and the supernatural."],
+
+ ["King Lear","William Shakespeare (1606)",
+ "An ageing king divides his kingdom among his daughters, leading to tragedy. Themes: power, madness, loyalty and family."],
+
+ ["Othello","William Shakespeare (1603)",
+ "A Moorish general is manipulated by Iago into believing his wife Desdemona is unfaithful. Themes: jealousy, race, manipulation."],
+
+ ["Romeo and Juliet","William Shakespeare (1597)",
+ "Two young lovers from feuding families die for love. The most famous love tragedy in English."],
+
+ ["The Tempest","William Shakespeare (1611)",
+ "Prospero, exiled duke and magician, rules an island and stages a reconciliation. Themes: magic, forgiveness, colonialism."],
+
+ ["A Midsummer Night's Dream","William Shakespeare (1600)",
+ "Romantic comedy of tangled lovers and mischievous fairies. Features Puck and Bottom."],
+
+ ["The Merchant of Venice","William Shakespeare (1600)",
+ "A comedy about a merchant, a bond, and a pound of flesh. Contains the famous 'quality of mercy' speech."],
+
+ ["Pride and Prejudice","Jane Austen (1813)",
+ "Elizabeth Bennet and Mr Darcy overcome pride and prejudice to find love. A sharp social comedy of Regency England."],
+
+ ["Sense and Sensibility","Jane Austen (1811)",
+ "Elinor and Marianne Dashwood navigate love and loss. Contrasts reason and feeling."],
+
+ ["Emma","Jane Austen (1815)",
+ "A wealthy young woman meddles in others' love lives and discovers her own heart. Masterpiece of irony."],
+
+ ["Great Expectations","Charles Dickens (1861)",
+ "Pip, an orphan, rises in society thanks to a mysterious benefactor. Themes: class, ambition, guilt, redemption."],
+
+ ["Oliver Twist","Charles Dickens (1838)",
+ "A young orphan endures workhouses and London's criminal underworld. Exposed Victorian social evils."],
+
+ ["A Tale of Two Cities","Charles Dickens (1859)",
+ "Set in London and Paris before and during the French Revolution. Opens with 'It was the best of times, it was the worst of times'."],
+
+ ["A Christmas Carol","Charles Dickens (1843)",
+ "Ebenezer Scrooge is visited by three ghosts and learns generosity. Defined modern Christmas."],
+
+ ["David Copperfield","Charles Dickens (1850)",
+ "Semi-autobiographical novel of an orphan's journey into adulthood. Dickens's own favourite."],
+
+ ["Bleak House","Charles Dickens (1853)",
+ "A satire of the English legal system and a complex detective story."],
+
+ ["Mrs Dalloway","Virginia Woolf (1925)",
+ "A single day in London in the life of Clarissa Dalloway. Masterpiece of stream of consciousness."],
+
+ ["To the Lighthouse","Virginia Woolf (1927)",
+ "The Ramsay family and their guests at a Scottish holiday home. Explores time, art and memory."],
+
+ ["Orlando","Virginia Woolf (1928)",
+ "A fantastical biography of a poet who changes sex and lives for centuries."],
+
+ ["Ulysses","James Joyce (1922)",
+ "One day (16 June 1904) in Dublin. A modern retelling of Homer's Odyssey. Landmark of modernist literature."],
+
+ ["Dubliners","James Joyce (1914)",
+ "Fifteen short stories about ordinary Dublin life, ending with 'The Dead'."],
+
+ ["A Portrait of the Artist as a Young Man","James Joyce (1916)",
+ "Stephen Dedalus's intellectual and artistic awakening."],
+
+ ["Frankenstein","Mary Shelley (1818)",
+ "Victor Frankenstein creates a living creature and must face the consequences. Considered the first science-fiction novel."],
+
+ ["Wuthering Heights","Emily Brontë (1847)",
+ "The destructive love of Catherine and Heathcliff on the Yorkshire moors."],
+
+ ["Jane Eyre","Charlotte Brontë (1847)",
+ "A governess falls in love with her mysterious employer, Mr Rochester. A gothic romance with a strong heroine."],
+
+ ["Middlemarch","George Eliot (1871–72)",
+ "A study of provincial life in England. Considered one of the greatest English novels."],
+
+ ["The Mill on the Floss","George Eliot (1860)",
+ "The story of Maggie Tulliver and her brother Tom."],
+
+ ["1984","George Orwell (1949)",
+ "A dystopian novel of total surveillance and thought control. Introduced 'Big Brother', 'doublethink' and 'Newspeak'."],
+
+ ["Animal Farm","George Orwell (1945)",
+ "A satirical allegory of the Russian Revolution told through farm animals."],
+
+ ["The Hobbit","J.R.R. Tolkien (1937)",
+ "Bilbo Baggins journeys to reclaim treasure from the dragon Smaug."],
+
+ ["The Lord of the Rings","J.R.R. Tolkien (1954–55)",
+ "Epic fantasy trilogy (The Fellowship of the Ring, The Two Towers, The Return of the King). Foundation of modern fantasy."],
+
+ ["The Chronicles of Narnia","C.S. Lewis (1950–56)",
+ "Seven children's fantasy novels, beginning with The Lion, the Witch and the Wardrobe."],
+
+ ["The Waste Land","T.S. Eliot (1922)",
+ "A long modernist poem capturing post-WWI disillusionment. One of the most influential poems of the 20th century."],
+
+ ["The Great Gatsby","F. Scott Fitzgerald (1925)",
+ "Jay Gatsby's pursuit of the American Dream and his love for Daisy Buchanan. A portrait of the Jazz Age."],
+
+ ["The Old Man and the Sea","Ernest Hemingway (1952)",
+ "An old Cuban fisherman struggles with a giant marlin. Pulitzer Prize 1953."],
+
+ ["A Farewell to Arms","Ernest Hemingway (1929)",
+ "A love story set in WWI Italy. Classic of Hemingway's spare style."],
+
+ ["For Whom the Bell Tolls","Ernest Hemingway (1940)",
+ "An American fights in the Spanish Civil War."],
+
+ ["The Sun Also Rises","Ernest Hemingway (1926)",
+ "The 'Lost Generation' in Paris and Spain."],
+
+ ["The Sound and the Fury","William Faulkner (1929)",
+ "A fragmented novel of the Compson family in the American South."],
+
+ ["As I Lay Dying","William Faulkner (1930)",
+ "A family carries their mother's coffin to her home town. Told in fifteen voices."],
+
+ ["The Grapes of Wrath","John Steinbeck (1939)",
+ "The Joad family migrates from Oklahoma to California during the Dust Bowl. Pulitzer Prize 1940."],
+
+ ["Of Mice and Men","John Steinbeck (1937)",
+ "Two migrant workers, George and Lennie, dream of owning a farm."],
+
+ ["East of Eden","John Steinbeck (1952)",
+ "A modern retelling of the Cain and Abel story in California."],
+
+ ["Moby-Dick","Herman Melville (1851)",
+ "Captain Ahab's obsessive hunt for the white whale. Opens with 'Call me Ishmael'."],
+
+ ["The Scarlet Letter","Nathaniel Hawthorne (1850)",
+ "Hester Prynne is punished for adultery in Puritan Boston."],
+
+ ["Leaves of Grass","Walt Whitman (1855)",
+ "A lifelong poetic project celebrating democracy, the body and America."],
+
+ ["The Adventures of Huckleberry Finn","Mark Twain (1884)",
+ "Huck and the runaway slave Jim travel down the Mississippi. Called 'the great American novel'."],
+
+ ["The Adventures of Tom Sawyer","Mark Twain (1876)",
+ "Boyhood adventures in a Mississippi River town."],
+
+ ["The Raven","Edgar Allan Poe (1845)",
+ "A poem about a talking raven and a grieving lover. Defined American Gothic."],
+
+ ["Beloved","Toni Morrison (1987)",
+ "A former slave is haunted by her dead daughter. Pulitzer Prize 1988."],
+
+ ["Song of Solomon","Toni Morrison (1977)",
+ "Macon 'Milkman' Dead's journey into his family's past."],
+
+ ["The Bluest Eye","Toni Morrison (1970)",
+ "A young Black girl prays for blue eyes. Morrison's first novel."],
+
+ ["Invisible Man","Ralph Ellison (1952)",
+ "A nameless Black narrator's journey through American society."],
+
+ ["I Know Why the Caged Bird Sings","Maya Angelou (1969)",
+ "The first of seven memoirs about Angelou's life."],
+
+ ["The Bell Jar","Sylvia Plath (1963)",
+ "A semi-autobiographical novel about mental illness."],
+
+ ["Les Misérables","Victor Hugo (1862)",
+ "Ex-convict Jean Valjean seeks redemption amid revolution and poverty."],
+
+ ["The Hunchback of Notre-Dame","Victor Hugo (1831)",
+ "Quasimodo, Esmeralda and the cathedral of Notre-Dame."],
+
+ ["Madame Bovary","Gustave Flaubert (1856)",
+ "Emma Bovary's adulteries and debts in provincial France. Landmark of realism."],
+
+ ["Père Goriot","Honoré de Balzac (1835)",
+ "An old man ruined by his love for his daughters."],
+
+ ["In Search of Lost Time","Marcel Proust (1913–27)",
+ "Seven-volume novel about memory, time and art. Opens with the famous madeleine episode."],
+
+ ["The Stranger","Albert Camus (1942)",
+ "Meursault kills an Arab on a beach and faces his execution with indifference."],
+
+ ["The Plague","Albert Camus (1947)",
+ "A plague strikes Oran, Algeria. Allegory of resistance to tyranny."],
+
+ ["Nausea","Jean-Paul Sartre (1938)",
+ "Antoine Roquentin experiences existential nausea in Bouville."],
+
+ ["Faust","Johann Wolfgang von Goethe (1808/1832)",
+ "A scholar makes a pact with the devil. Germany's greatest dramatic poem."],
+
+ ["The Sorrows of Young Werther","Goethe (1774)",
+ "A young artist's unrequited love. Sparked the 'Werther effect'."],
+
+ ["The Metamorphosis","Franz Kafka (1915)",
+ "Gregor Samsa wakes up as a giant insect."],
+
+ ["The Trial","Franz Kafka (1925)",
+ "Josef K. is arrested for an unknown crime."],
+
+ ["The Castle","Franz Kafka (1926)",
+ "A land surveyor arrives at a village dominated by a mysterious castle."],
+
+ ["Buddenbrooks","Thomas Mann (1901)",
+ "The decline of a wealthy German family. Nobel cited this work."],
+
+ ["The Magic Mountain","Thomas Mann (1924)",
+ "Hans Castorp spends seven years in a Swiss sanatorium."],
+
+ ["Death in Venice","Thomas Mann (1912)",
+ "A writer's obsession with a beautiful boy in Venice."],
+
+ ["Siddhartha","Hermann Hesse (1922)",
+ "A spiritual journey in ancient India."],
+
+ ["Steppenwolf","Hermann Hesse (1927)",
+ "A man torn between human and wolf natures."],
+
+ ["The Divine Comedy","Dante Alighieri (c.1320)",
+ "A journey through Hell (Inferno), Purgatory and Paradise, guided by Virgil and Beatrice."],
+
+ ["The Decameron","Giovanni Boccaccio (1353)",
+ "Ten young people tell 100 tales while fleeing the plague."],
+
+ ["The Prince","Niccolò Machiavelli (1532)",
+ "A treatise on political power. Founded modern political science."],
+
+ ["Invisible Cities","Italo Calvino (1972)",
+ "Marco Polo describes 55 imaginary cities to Kublai Khan."],
+
+ ["The Name of the Rose","Umberto Eco (1980)",
+ "A murder mystery in a medieval monastery. Bestseller and semiotic puzzle."],
+
+ ["Don Quixote","Miguel de Cervantes (1605/1615)",
+ "An elderly gentleman becomes a knight-errant. Often called the first modern novel."],
+
+ ["Gypsy Ballads","Federico García Lorca (1928)",
+ "A poetry collection blending Andalusian folklore and avant-garde form."],
+
+ ["Twenty Love Poems and a Song of Despair","Pablo Neruda (1924)",
+ "Neruda's most popular collection."],
+
+ ["Ficciones","Jorge Luis Borges (1944)",
+ "Short stories exploring infinity, labyrinths and mirrors."],
+
+ ["One Hundred Years of Solitude","Gabriel García Márquez (1967)",
+ "The Buendía family across seven generations in Macondo. Landmark of magical realism."],
+
+ ["Love in the Time of Cholera","Gabriel García Márquez (1985)",
+ "A love story spanning more than fifty years."],
+
+ ["Hopscotch","Julio Cortázar (1963)",
+ "A novel with multiple reading orders."],
+
+ ["The House of the Spirits","Isabel Allende (1982)",
+ "Three generations of the Trueba family in Chile."],
+
+ ["The Labyrinth of Solitude","Octavio Paz (1950)",
+ "Essays on Mexican identity."],
+
+ ["War and Peace","Leo Tolstoy (1869)",
+ "Napoleonic Wars and Russian aristocratic life. One of the longest novels ever written."],
+
+ ["Anna Karenina","Leo Tolstoy (1878)",
+ "A married woman's tragic affair. Opens with 'Happy families are all alike…'."],
+
+ ["Crime and Punishment","Fyodor Dostoevsky (1866)",
+ "Raskolnikov murders a pawnbroker and faces his conscience."],
+
+ ["The Brothers Karamazov","Fyodor Dostoevsky (1880)",
+ "A philosophical murder mystery about faith, doubt and patricide."],
+
+ ["The Idiot","Fyodor Dostoevsky (1869)",
+ "Prince Myshkin, a Christ-like figure, in Russian society."],
+
+ ["Eugene Onegin","Alexander Pushkin (1833)",
+ "A novel in verse. Foundation of Russian literature."],
+
+ ["The Cherry Orchard","Anton Chekhov (1904)",
+ "An aristocratic family faces the loss of their estate."],
+
+ ["Dead Souls","Nikolai Gogol (1842)",
+ "A satire of Russian serfdom and bureaucracy."],
+
+ ["Doctor Zhivago","Boris Pasternak (1957)",
+ "A doctor-poet during the Russian Revolution. Nobel Prize 1958."],
+
+ ["One Day in the Life of Ivan Denisovich","Aleksandr Solzhenitsyn (1962)",
+ "A single day in a Soviet labour camp."],
+
+ ["The Tale of Genji","Murasaki Shikibu (c.1010)",
+ "Courtly life in Heian Japan. Often called the world's first novel."],
+
+ ["The Narrow Road to the Deep North","Matsuo Bashō (1689)",
+ "A travel diary in haiku and prose."],
+
+ ["Snow Country","Yasunari Kawabata (1937)",
+ "A love affair in a hot-spring resort."],
+
+ ["Norwegian Wood","Haruki Murakami (1987)",
+ "A nostalgic coming-of-age story set in 1960s Tokyo."],
+
+ ["Kafka on the Shore","Haruki Murakami (2002)",
+ "Two parallel quests mixing dreams, cats and fate."],
+
+ ["1Q84","Haruki Murakami (2009–10)",
+ "A dystopian Tokyo with two moons."],
+
+ ["The True Story of Ah Q","Lu Xun (1921)",
+ "A satirical novella about Chinese national character."],
+
+ ["Red Sorghum","Mo Yan (1987)",
+ "A family saga set during the Second Sino-Japanese War."],
+
+ ["The Cairo Trilogy","Naguib Mahfouz (1956–57)",
+ "Palace Walk, Palace of Desire and Sugar Street. A portrait of Cairo across three generations."],
+
+ ["The Prophet","Kahlil Gibran (1923)",
+ "Twenty-six poetic essays. One of the best-selling books of all time."],
+
+ ["Gitanjali","Rabindranath Tagore (1910)",
+ "Song offerings that won Tagore the Nobel Prize."],
+
+ ["Masnavi","Rumi (13th century)",
+ "A six-volume mystical poem. Called 'the Quran in Persian'."],
+
+ ["Things Fall Apart","Chinua Achebe (1958)",
+ "Okonkwo's life in Igbo society before and during British colonisation. Foundational African novel."],
+
+ ["Death and the King's Horseman","Wole Soyinka (1975)",
+ "A tragedy about ritual, duty and colonial interference."],
+
+ ["Weep Not, Child","Ngũgĩ wa Thiong'o (1964)",
+ "A boy's coming of age during the Mau Mau uprising."],
+
+ ["July's People","Nadine Gordimer (1981)",
+ "A white South African family hides in their servant's village during revolution."],
+
+ ["Disgrace","J.M. Coetzee (1999)",
+ "A professor's fall from grace in post-apartheid South Africa."],
+
+ ["Omeros","Derek Walcott (1990)",
+ "An epic poem reimagining Homer in the Caribbean."],
+
+ ["The Remains of the Day","Kazuo Ishiguro (1989)",
+ "An English butler reflects on his life and missed chances."],
+
+ ["Never Let Me Go","Kazuo Ishiguro (2005)",
+ "A dystopian story of cloned students."],
+
+ ["The Handmaid's Tale","Margaret Atwood (1985)",
+ "A dystopia where women are subjugated in the Republic of Gilead."],
+
+ ["Alias Grace","Margaret Atwood (1996)",
+ "A fictionalised account of a 19th-century murderess."],
+
+ ["Runaway","Alice Munro (2004)",
+ "Short stories of women at crossroads."],
+
+ ["Voss","Patrick White (1957)",
+ "An explorer's doomed journey into the Australian interior."],
+
+ ["True History of the Kelly Gang","Peter Carey (2000)",
+ "The life of Australian outlaw Ned Kelly."],
+
+ ["The Garden Party","Katherine Mansfield (1922)",
+ "A short story about class and death."],
+
+ ["Fairy Tales","Hans Christian Andersen (1835–72)",
+ "Includes The Little Mermaid, The Ugly Duckling and The Snow Queen."],
+
+ ["A Doll's House","Henrik Ibsen (1879)",
+ "Nora Helmer's awakening to her own life. Foundational feminist drama."],
+
+ ["Hedda Gabler","Henrik Ibsen (1890)",
+ "A general's daughter trapped in a stifling marriage."],
+
+ ["Hunger","Knut Hamsun (1890)",
+ "A starving writer in Oslo. Precursor of modernist fiction."],
+
+ ["The Wonderful Adventures of Nils","Selma Lagerlöf (1906–07)",
+ "A boy travels Sweden on the back of a goose."],
+
+ ["Pippi Longstocking","Astrid Lindgren (1945)",
+ "The world's strongest girl. Classic of children's literature."],
+
+ ["The Unbearable Lightness of Being","Milan Kundera (1984)",
+ "Love and politics in Prague during the 1968 Soviet invasion."],
+
+ ["View with a Grain of Sand","Wisława Szymborska (1995)",
+ "Selected poems by the Nobel laureate."],
+
+ ["The Captive Mind","Czesław Miłosz (1953)",
+ "Essays on intellectuals under Stalinism."],
+
+ ["Flights","Olga Tokarczuk (2007)",
+ "Fragmented narratives of travel and the human body. Nobel cited her work."],
+
+ ["Fatelessness","Imre Kertész (1975)",
+ "A teenage boy's experience of the Holocaust."],
+
+ ["Auto-da-Fé","Elias Canetti (1935)",
+ "A scholar destroyed by his own library."],
+
+ ["To Axion Esti","Odysseas Elytis (1959)",
+ "A poetic liturgy of Greek identity."],
+
+ ["My Name Is Red","Orhan Pamuk (1998)",
+ "A murder mystery among 16th-century miniaturists."],
+
+ ["Snow","Orhan Pamuk (2002)",
+ "A poet investigates suicides in a snowbound Turkish town."],
+
+ ["The Forty Rules of Love","Elif Shafak (2009)",
+ "A novel about Rumi and his companion Shams."],
+
+ ["Khamsa","Nizami Ganjavi (12th century)",
+ "Five epic poems, including Layla and Majnun."],
+
+ ["Memory for Forgetfulness","Mahmoud Darwish (1987)",
+ "A prose meditation on the 1982 siege of Beirut."],
+
+ ["Songs of Mihyar the Damascene","Adonis (1961)",
+ "A landmark of modern Arabic poetry."],
+
+ ["The Cherry Orchard (extra)","Anton Chekhov",
+ "Often read as a portrait of a dying class."],
+
+ ["The Magic Mountain (extra)","Thomas Mann",
+ "A novel of ideas set before WWI."],
+
+ ["In Search of Lost Time (extra)","Marcel Proust",
+ "Also known as Remembrance of Things Past."],
+
+ ["Midnight's Children","Salman Rushdie (1981)",
+ "Saleem Sinai is born at the exact moment of India's independence. Booker of Bookers."],
+
+ ["The God of Small Things","Arundhati Roy (1997)",
+ "Twins in Kerala whose lives are shattered by forbidden love. Booker Prize."],
+
+ ["The White Tiger","Aravind Adiga (2008)",
+ "A darkly comic tale of class and ambition in India. Booker Prize."],
+
+ ["Train to Pakistan","Khushwant Singh (1956)",
+ "A village divided by the 1947 Partition."],
+
+ ["Gitanjali (extra)","Rabindranath Tagore",
+ "Also includes 'Where the mind is without fear'."],
+
+ ["Waiting for Godot","Samuel Beckett (1953)",
+ "Two men wait for someone who never comes. Landmark of absurdist theatre."],
+
+ ["Endgame","Samuel Beckett (1957)",
+ "A post-apocalyptic one-act play."],
+
+ ["The Importance of Being Earnest","Oscar Wilde (1895)",
+ "A comedy of manners and mistaken identity."],
+
+ ["The Picture of Dorian Gray","Oscar Wilde (1890)",
+ "A man stays young while his portrait ages."],
+
+ ["De Profundis","Oscar Wilde (1897)",
+ "A long letter written in prison to Lord Alfred Douglas."],
+
+ ["The Second Coming","W.B. Yeats (1920)",
+ "A poem about a world falling apart. Introduced 'things fall apart'."],
+
+ ["Sailing to Byzantium","W.B. Yeats (1928)",
+ "A poem about art, age and immortality."],
+
+ ["The Tower","W.B. Yeats (1928)",
+ "A major poetry collection."],
+
+ ["Four Quartets","T.S. Eliot (1943)",
+ "Four long poems on time, eternity and faith."],
+
+ ["The Love Song of J. Alfred Prufrock","T.S. Eliot (1915)",
+ "A dramatic monologue of modern anxiety."],
+
+ ["In Memoriam A.H.H.","Alfred Lord Tennyson (1850)",
+ "A long elegy for his friend Arthur Hallam."],
+
+ ["The Charge of the Light Brigade","Alfred Lord Tennyson (1854)",
+ "A poem about a disastrous cavalry charge."],
+
+ ["Lyrical Ballads","Wordsworth & Coleridge (1798)",
+ "The founding text of English Romanticism."],
+
+ ["Ode to a Nightingale","John Keats (1819)",
+ "A meditation on beauty, death and immortality."],
+
+ ["Ode on a Grecian Urn","John Keats (1819)",
+ "Concludes 'Beauty is truth, truth beauty'."],
+
+ ["Don Juan","Lord Byron (1819–24)",
+ "A satirical epic poem."],
+
+ ["Childe Harold's Pilgrimage","Lord Byron (1812–18)",
+ "Made Byron famous overnight."],
+
+ ["Mere Christianity","C.S. Lewis (1952)",
+ "A classic of Christian apologetics."],
+
+ ["The Screwtape Letters","C.S. Lewis (1942)",
+ "Letters from a senior devil to a junior tempter."],
+
+ ["The Prelude","William Wordsworth (1850)",
+ "An autobiographical poem about the growth of a poet's mind."],
+
+ ["Shirley","Charlotte Brontë (1849)",
+ "A novel set during the Luddite riots."],
+
+ ["Villette","Charlotte Brontë (1853)",
+ "A novel based on Brontë's time in Brussels."],
+
+ ["The Professor","Charlotte Brontë (1857)",
+ "Her first novel, published posthumously."],
+
+ ["Agnes Grey","Anne Brontë (1847)",
+ "A governess's story."],
+
+ ["The Tenant of Wildfell Hall","Anne Brontë (1848)",
+ "A novel about a woman fleeing an abusive marriage."],
+
+ ["Shirley (extra)","Charlotte Brontë",
+ "Named after a Yorkshire heiress."],
+
+ ["Barchester Towers","Anthony Trollope (1857)",
+ "A comic novel of church politics."],
+
+ ["The Way We Live Now","Anthony Trollope (1875)",
+ "A satire of financial speculation."],
+
+ ["Vanity Fair","William Makepeace Thackeray (1848)",
+ "The adventures of Becky Sharp. Subtitled 'A Novel Without a Hero'."],
+
+ ["The History of Tom Jones, a Foundling","Henry Fielding (1749)",
+ "A comic epic of an orphan's adventures."],
+
+ ["Robinson Crusoe","Daniel Defoe (1719)",
+ "A castaway's journal. Often called the first English novel."],
+
+ ["Moll Flanders","Daniel Defoe (1722)",
+ "The life of a resourceful woman."],
+
+ ["Gulliver's Travels","Jonathan Swift (1726)",
+ "A satirical voyage to strange lands."],
+
+ ["A Modest Proposal","Jonathan Swift (1729)",
+ "A savage satire of English policy in Ireland."],
+
+ ["Tristram Shandy","Laurence Sterne (1759–67)",
+ "A playful, digressive novel."],
+
+ ["Frankenstein (extra)","Mary Shelley",
+ "Also known as The Modern Prometheus."],
+
+ ["The Last Man","Mary Shelley (1826)",
+ "An early apocalyptic novel."],
+
+ ["Dracula","Bram Stoker (1897)",
+ "The classic vampire novel."],
+
+ ["Carmilla","Sheridan Le Fanu (1872)",
+ "A lesbian vampire novella predating Dracula."],
+
+ ["The Turn of the Screw","Henry James (1898)",
+ "A ghost story of ambiguous horror."],
+
+ ["The Portrait of a Lady","Henry James (1881)",
+ "Isabel Archer's fate among European aristocrats."],
+
+ ["The Wings of the Dove","Henry James (1902)",
+ "A dying heiress and a complex love triangle."],
+
+ ["Middlemarch (extra)","George Eliot",
+ "Follows Dorothea Brooke and Tertius Lydgate."],
+
+ ["Silas Marner","George Eliot (1861)",
+ "A miser's redemption through a child."],
+
+ ["Adam Bede","George Eliot (1859)",
+ "A love triangle in a rural English village."],
+
+ ["Heart of Darkness","Joseph Conrad (1899)",
+ "Marlow's journey up the Congo River. Inspired Apocalypse Now."],
+
+ ["Lord Jim","Joseph Conrad (1900)",
+ "A sailor's quest for redemption."],
+
+ ["Nostromo","Joseph Conrad (1904)",
+ "Political intrigue in a fictional South American country."],
+
+ ["The Secret Agent","Joseph Conrad (1907)",
+ "A bombing plot in London."],
+
+ ["Howards End","E.M. Forster (1910)",
+ "Class conflict and 'only connect'."],
+
+ ["A Passage to India","E.M. Forster (1924)",
+ "British colonialism and friendship in India."],
+
+ ["A Room with a View","E.M. Forster (1908)",
+ "A young woman's awakening in Italy."],
+
+ ["Brave New World","Aldous Huxley (1932)",
+ "A dystopia of engineered happiness."],
+
+ ["Point Counter Point","Aldous Huxley (1928)",
+ "A novel of ideas."],
+
+ ["The Doors of Perception","Aldous Huxley (1954)",
+ "An essay on psychedelic experience."],
+
+ ["Down and Out in Paris and London","George Orwell (1933)",
+ "A memoir of poverty."],
+
+ ["Homage to Catalonia","George Orwell (1938)",
+ "Orwell's account of the Spanish Civil War."],
+
+ ["Burmese Days","George Orwell (1934)",
+ "A novel about British colonialism in Burma."],
+
+ ["The Road to Wigan Pier","George Orwell (1937)",
+ "A study of working-class life in northern England."],
+
+ ["Coming Up for Air","George Orwell (1939)",
+ "A middle-aged man recalls his youth."],
+
+ ["Keep the Aspidistra Flying","George Orwell (1936)",
+ "A poet who rejects money."],
+
+ ["A Clergyman's Daughter","George Orwell (1935)",
+ "A novel about a vicar's daughter."],
+
+ ["The Hobbit (extra)","J.R.R. Tolkien",
+ "Also known as There and Back Again."],
+
+ ["The Silmarillion","J.R.R. Tolkien (1977)",
+ "The mythology of Middle-earth."],
+
+ ["The Children of Húrin","J.R.R. Tolkien (2007)",
+ "A tragic tale of Middle-earth."],
+
+ ["Beren and Lúthien","J.R.R. Tolkien (2017)",
+ "A love story in Middle-earth."],
+
+ ["The Fall of Gondolin","J.R.R. Tolkien (2018)",
+ "A tale of a hidden city."],
+
+ ["The Lion, the Witch and the Wardrobe","C.S. Lewis (1950)",
+ "Four children enter Narnia."],
+
+ ["Prince Caspian","C.S. Lewis (1951)",
+ "The Pevensies return to Narnia."],
+
+ ["The Voyage of the Dawn Treader","C.S. Lewis (1952)",
+ "A sea voyage in Narnia."],
+
+ ["The Silver Chair","C.S. Lewis (1953)",
+ "Eustace and Jill search for Prince Rilian."],
+
+ ["The Horse and His Boy","C.S. Lewis (1954)",
+ "A boy and a talking horse flee to Narnia."],
+
+ ["The Magician's Nephew","C.S. Lewis (1955)",
+ "The creation of Narnia."],
+
+ ["The Last Battle","C.S. Lewis (1956)",
+ "The end of Narnia."]
+
+];
+
+
+function loadWorks(){
+
+  document.getElementById("worksGrid").innerHTML=
+
+    works.map(w=>`
+
+      <div class="infoCard">
+
+        <button
+          class="favorite"
+          onclick="addFavorite('${w[0].replace(/'/g,"\\'")}')">
+          ☆
+        </button>
+
+        <h3>${w[0]}</h3>
+
+        <p>
+          <strong>${w[1]}</strong>
+        </p>
+
+        <p>${w[2]}</p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* ============================= */
+/* LITERATURE EXPLORER            */
+/* ============================= */
+
+const discoveries=[
+
+ "Shakespeare invented over 1,700 words and phrases, including 'eyeball', 'fashionable' and 'break the ice'.",
+
+ "The Epic of Gilgamesh (c.2100 BC) is one of the oldest surviving works of literature.",
+
+ "Homer's Iliad and Odyssey were originally oral poems recited by bards.",
+
+ "The Thousand and One Nights is a collection of Middle Eastern and South Asian stories compiled over centuries.",
+
+ "The Tale of Genji by Murasaki Shikibu is often called the world's first novel, written around 1010 AD.",
+
+ "Dante's Divine Comedy is divided into three parts: Inferno, Purgatorio and Paradiso, each with 33 cantos.",
+
+ "Chaucer's Canterbury Tales was written in Middle English and is incomplete, with 24 of the planned 120 tales.",
+
+ "Don Quixote is often voted the greatest novel ever written in worldwide polls.",
+
+ "Shakespeare's plays have been translated into over 80 languages.",
+
+ "Jane Austen published all her novels anonymously during her lifetime.",
+
+ "Charles Dickens serialised most of his novels in monthly instalments.",
+
+ "Virginia Woolf's A Room of One's Own began as lectures at Cambridge in 1928.",
+
+ "George Orwell coined the terms 'Big Brother', 'doublethink', 'Newspeak' and 'thoughtcrime'.",
+
+ "The first known novel written in English is often said to be Robinson Crusoe (1719).",
+
+ "Mary Shelley wrote Frankenstein at 18 as part of a ghost-story contest.",
+
+ "The term 'Romanticism' refers to emotion, imagination and nature, not romantic love.",
+
+ "The 'Lost Generation' was a group of American writers in 1920s Paris, including Hemingway and Fitzgerald.",
+
+ "Faulkner wrote As I Lay Dying in six weeks while working night shifts.",
+
+ "Steinbeck wrote The Grapes of Wrath in under five months.",
+
+ "Toni Morrison won both the Pulitzer and the Nobel Prize in Literature.",
+
+ "Maya Angelou recited her poem 'On the Pulse of Morning' at Bill Clinton's inauguration.",
+
+ "Sylvia Plath published The Bell Jar under the pseudonym Victoria Lucas.",
+
+ "Borges never wrote a full-length novel; he preferred short stories.",
+
+ "García Márquez said he wrote One Hundred Years of Solitude in 18 months while his wife sold household items.",
+
+ "Neruda's real name was Ricardo Eliécer Neftalí Reyes Basoalto.",
+
+ "Tolstoy and Gandhi exchanged letters about nonviolence.",
+
+ "Dostoevsky wrote Crime and Punishment partly to pay off gambling debts.",
+
+ "Chekhov was a practising medical doctor throughout his writing career.",
+
+ "Pushkin died in a duel at 37.",
+
+ "Gogol burned the second part of Dead Souls shortly before his death.",
+
+ "Pasternak was forced to decline the Nobel Prize by Soviet authorities.",
+
+ "Bashō is considered the greatest master of haiku.",
+
+ "Murakami is a keen marathon runner and jazz fan.",
+
+ "Lu Xun studied medicine in Japan before becoming a writer.",
+
+ "Mahfouz survived a knife attack in 1994 that damaged his writing hand.",
+
+ "Gibran's The Prophet has never been out of print since 1923.",
+
+ "Tagore wrote the national anthems of both India and Bangladesh.",
+
+ "Rumi is one of the best-selling poets in the United States today.",
+
+ "Achebe's Things Fall Apart is the most widely taught African novel in the world.",
+
+ "Soyinka was imprisoned during the Nigerian Civil War.",
+
+ "Ngũgĩ stopped writing in English to write in Gikuyu.",
+
+ "Gordimer joined the ANC while it was banned.",
+
+ "Coetzee was the first writer to win the Booker Prize twice.",
+
+ "Ishiguro was born in Nagasaki and moved to England at five.",
+
+ "Atwood writes poetry and essays as well as fiction.",
+
+ "Munro won the Nobel Prize for her short stories alone.",
+
+ "Patrick White used the prize money to establish a literary award.",
+
+ "Peter Carey was born in Australia but lives in New York.",
+
+ "Mansfield died of tuberculosis at 34.",
+
+ "Andersen was a gifted papercut artist.",
+
+ "Ibsen's A Doll's House caused an uproar across Europe.",
+
+ "Hamsun was tried for collaboration after WWII.",
+
+ "Lagerlöf was the first woman to win the Nobel Prize in Literature.",
+
+ "Lindgren's Pippi Longstocking was rejected by publishers at first.",
+
+ "Jansson's Moomins began as a comic strip in 1947.",
+
+ "Kundera lived in exile in France from 1975.",
+
+ "Havel became president of Czechoslovakia after the Velvet Revolution.",
+
+ "Szymborska was awarded the Nobel for 'poetry that with ironic precision allows the historical and biological context to come to light'.",
+
+ "Miłosz defected to the West in 1951.",
+
+ "Tokarczuk won the Nobel for 2018, awarded in 2019.",
+
+ "Kertész's Fatelessness is drawn from his own time in Auschwitz.",
+
+ "Canetti wrote Crowds and Power, a study of mass psychology.",
+
+ "Elytis translated poetry into Greek.",
+
+ "Seferis served as a diplomat.",
+
+ "Pamuk is a vocal critic of Turkish censorship.",
+
+ "Shafak writes in both Turkish and English.",
+
+ "Nizami's Khamsa inspired Persian miniature painting.",
+
+ "Darwish's poetry is recited across the Arab world.",
+
+ "Adonis is often mentioned as a Nobel candidate.",
+
+ "Rushdie's Midnight's Children won the Booker of Bookers in 1993.",
+
+ "Roy wrote The God of Small Things over four years.",
+
+ "Adiga wrote The White Tiger in just a few months.",
+
+ "Khushwant Singh was a lawyer before becoming a writer.",
+
+ "Beckett won the Nobel Prize in 1969.",
+
+ "Wilde wrote The Importance of Being Earnest in three weeks.",
+
+ "Yeats was the first Irishman to win the Nobel Prize in Literature.",
+
+ "T.S. Eliot was born in St Louis, Missouri, and moved to England at 25.",
+
+ "Tennyson was Poet Laureate for over 40 years.",
+
+ "Wordsworth and Coleridge were neighbours in the Lake District.",
+
+ "Keats trained as a surgeon before turning to poetry.",
+
+ "Byron fought in the Greek War of Independence.",
+
+ "Lewis and Tolkien were both members of the Inklings writing group.",
+
+ "Trollope wrote every morning before going to his day job at the post office.",
+
+ "Thackeray's Vanity Fair was published in monthly parts.",
+
+ "Fielding was a magistrate as well as a novelist.",
+
+ "Defoe wrote more than 500 books and pamphlets.",
+
+ "Swift was Dean of St Patrick's Cathedral in Dublin.",
+
+ "Sterne's Tristram Shandy is one of the first novels to use a stream-of-consciousness style.",
+
+ "Bram Stoker was business manager for the actor Henry Irving.",
+
+ "Le Fanu was a leading ghost-story writer of the Victorian era.",
+
+ "Henry James became a British citizen in 1915.",
+
+ "Conrad did not learn English until his twenties.",
+
+ "Forster travelled widely in India and Egypt.",
+
+ "Huxley wrote Brave New World in four months.",
+
+ "Kafka worked as an insurance officer and wrote at night.",
+
+ "Mann's The Magic Mountain is set in a Swiss sanatorium before WWI.",
+
+ "Hesse lived in Switzerland for much of his life.",
+
+ "Brecht fled Nazi Germany and later settled in East Berlin.",
+
+ "Calvino was a member of the Italian Resistance during WWII.",
+
+ "Eco's The Name of the Rose has sold over 50 million copies.",
+
+ "Cervantes lost the use of his left hand at the Battle of Lepanto.",
+
+ "Lorca was executed by Nationalist forces in 1936.",
+
+ "Neruda won the Nobel Prize in 1971.",
+
+ "Borges was blind for much of his adult life.",
+
+ "Márquez was a journalist before becoming a novelist.",
+
+ "Cortázar lived in Paris for most of his adult life.",
+
+ "Allende was exiled from Chile after the 1973 coup.",
+
+ "Paz was Mexico's ambassador to India.",
+
+ "Tolstoy was excommunicated by the Russian Orthodox Church in 1901.",
+
+ "Dostoevsky was sentenced to death and reprieved at the last moment.",
+
+ "Pushkin is often called the 'father of Russian literature'.",
+
+ "Chekhov's plays revolutionised modern theatre.",
+
+ "Gogol was born in Ukraine and wrote in Russian.",
+
+ "Pasternak was awarded the Nobel in 1958 but forced to decline.",
+
+ "Solzhenitsyn was expelled from the Soviet Union in 1974.",
+
+ "Murasaki Shikibu was a lady-in-waiting at the Heian court.",
+
+ "Bashō travelled extensively on foot.",
+
+ "Kawabata was the first Japanese writer to win the Nobel Prize in Literature.",
+
+ "Mishima attempted a coup and committed seppuku in 1970.",
+
+ "Murakami's novels have been translated into more than 50 languages.",
+
+ "Lu Xun was trained as a doctor in Japan.",
+
+ "Li Bai is said to have drowned while trying to embrace the moon's reflection.",
+
+ "Du Fu wrote nearly 1,500 poems that survive today.",
+
+ "Mo Yan's pen name means 'don't speak'.",
+
+ "Mahfouz was the first Arab writer to win the Nobel Prize in Literature.",
+
+ "Gibran's The Prophet has sold over 100 million copies.",
+
+ "Tagore was the first non-European to win the Nobel Prize in Literature.",
+
+ "Rumi's Masnavi has been called 'the Quran in Persian'.",
+
+ "Hafez's Divan is found in many Iranian homes alongside the Quran.",
+
+ "Achebe's Things Fall Apart has been translated into over 50 languages.",
+
+ "Soyinka was the first African to win the Nobel Prize in Literature.",
+
+ "Ngũgĩ was imprisoned without trial in 1977.",
+
+ "Gordimer was a close friend of Nelson Mandela.",
+
+ "Coetzee moved to Australia in 2002.",
+
+ "Walcott won the Nobel Prize in 1992.",
+
+ "Ishiguro wrote The Remains of the Day in four weeks.",
+
+ "Atwood invented the LongPen, a remote signing device.",
+
+ "Munro's stories often explore women's inner lives.",
+
+ "White was the first Australian to win the Nobel Prize in Literature."
+
+];
+
+
+function randomDiscovery(){
+
+  const item=
+    discoveries[
+      Math.floor(
+        Math.random()*discoveries.length
+      )
+    ];
+
+  document.getElementById(
+    "randomDiscovery"
+  ).innerHTML=`
+
+    <strong>💡 Discovery</strong>
+
+    <p>${item}</p>
+
+  `;
+}
+
+
+/* ================================================= */
+/* LANGUAGES                                         */
+/* ================================================= */
+
+const languageData={
+
+ English:{
+  code:"en-US",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+
+  words:[
+   ["Hello","A greeting"],
+   ["Goodbye","Farewell"],
+   ["Friend","A person you like and trust"],
+   ["Family","Parents and children"],
+   ["Learn","To gain knowledge"],
+   ["Beautiful","Pleasant to look at"],
+   ["Journey","A trip from one place to another"],
+   ["Book","Pages bound together for reading"],
+   ["Music","Organised sounds"],
+   ["Water","The liquid of life"],
+   ["Food","What we eat"],
+   ["House","A place to live"],
+   ["Sun","The star that gives us light"],
+   ["Moon","Earth's natural satellite"],
+   ["Star","A bright object in the night sky"],
+   ["Sky","The space above us"],
+   ["Tree","A tall plant with a trunk"],
+   ["Flower","The colourful part of a plant"],
+   ["Bird","A feathered animal that flies"],
+   ["Fish","An animal that lives in water"],
+   ["Love","Deep affection"],
+   ["Hope","A feeling of expectation"],
+   ["Dream","Images in the mind during sleep"],
+   ["Time","The ongoing sequence of events"],
+   ["Life","The state of being alive"],
+   ["World","The Earth and everything on it"],
+   ["Peace","Freedom from war"],
+   ["Joy","Great happiness"],
+   ["Smile","A happy expression"],
+   ["Heart","The organ that pumps blood"],
+   ["Hand","The part of the body used to hold"],
+   ["Eye","The organ of sight"],
+   ["Voice","The sound of speaking or singing"],
+   ["Colour","Red, blue, green etc."],
+   ["Number","A mathematical value"],
+   ["Letter","A symbol of the alphabet"],
+   ["Word","A unit of language"],
+   ["Story","A written or spoken tale"],
+   ["Song","Music with words"],
+   ["Art","Creative expression"],
+   ["Science","The study of the natural world"],
+   ["History","The study of the past"],
+   ["Nature","The physical world"],
+   ["River","A large natural stream of water"],
+   ["Mountain","A very high natural elevation"],
+   ["Ocean","A vast body of salt water"],
+   ["Forest","A large area of trees"],
+   ["Garden","A place where plants are grown"],
+   ["School","A place of learning"],
+   ["Teacher","A person who teaches"],
+   ["Student","A person who learns"],
+   ["Doctor","A person who treats the sick"],
+   ["Engineer","A person who designs machines"],
+   ["Artist","A person who creates art"],
+   ["Writer","A person who writes books"],
+   ["Singer","A person who sings"],
+   ["Dancer","A person who dances"],
+   ["Player","A person who plays a game"],
+   ["Leader","A person who guides others"],
+   ["Helper","A person who helps"]
+  ],
+
+  sentences:[
+   "Hello, how are you?",
+   "My name is Sara.",
+   "I am learning English.",
+   "Could you help me?",
+   "Thank you very much.",
+   "Where is the library?",
+   "What time is it?",
+   "I would like a cup of tea.",
+   "Can you speak slowly, please?",
+   "How much does this cost?",
+   "I don't understand.",
+   "Please repeat that.",
+   "Nice to meet you.",
+   "Have a wonderful day!",
+   "See you tomorrow.",
+   "I love reading books.",
+   "The weather is beautiful today.",
+   "May I ask a question?",
+   "Excuse me, where is the station?",
+   "I am from Pakistan."
+  ],
+
+  stories:[
+   {
+    title:"The Little Library",
+    text:
+    "Every morning, Sara walked to the library. She loved reading books because every book opened a new world. One day, she found a book about languages. She became curious and decided to learn a new language."
+   },
+   {
+    title:"The Lost Kitten",
+    text:
+    "One rainy evening, a small kitten sat alone under a bench. A kind girl named Lina saw it and brought it home. She gave it milk and a warm blanket. The kitten purred softly. From that day, they were best friends."
+   },
+   {
+    title:"The Mountain Journey",
+    text:
+    "Ali dreamed of climbing the great mountain. Every day he practised, and every night he read about the peaks. One summer, he finally began the climb. It was hard, but at the top he saw the whole world below him."
+   },
+   {
+    title:"The Baker's Secret",
+    text:
+    "In a small village, there was a baker whose bread was the best in the land. People asked for his secret, but he only smiled. The secret was simple: he baked with patience, kindness and a little bit of love."
+   },
+   {
+    title:"The Star Garden",
+    text:
+    "Maya planted seeds in her garden every spring. One night, she wished upon a star that her flowers would bloom forever. The next morning, the garden was full of glowing blossoms that shone like tiny stars."
+   }
+  ]
+ },
+
+
+ French:{
+  code:"fr-FR",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+
+  words:[
+   ["Bonjour","Hello"],
+   ["Au revoir","Goodbye"],
+   ["Ami","Friend"],
+   ["Famille","Family"],
+   ["Livre","Book"],
+   ["École","School"],
+   ["Merci","Thank you"],
+   ["S'il vous plaît","Please"],
+   ["Oui","Yes"],
+   ["Non","No"],
+   ["Eau","Water"],
+   ["Pain","Bread"],
+   ["Maison","House"],
+   ["Soleil","Sun"],
+   ["Lune","Moon"],
+   ["Étoile","Star"],
+   ["Ciel","Sky"],
+   ["Arbre","Tree"],
+   ["Fleur","Flower"],
+   ["Oiseau","Bird"],
+   ["Poisson","Fish"],
+   ["Amour","Love"],
+   ["Espoir","Hope"],
+   ["Rêve","Dream"],
+   ["Temps","Time"],
+   ["Vie","Life"],
+   ["Monde","World"],
+   ["Paix","Peace"],
+   ["Joie","Joy"],
+   ["Sourire","Smile"],
+   ["Cœur","Heart"],
+   ["Main","Hand"],
+   ["Œil","Eye"],
+   ["Voix","Voice"],
+   ["Couleur","Colour"],
+   ["Nombre","Number"],
+   ["Lettre","Letter"],
+   ["Mot","Word"],
+   ["Histoire","Story"],
+   ["Chanson","Song"],
+   ["Art","Art"],
+   ["Science","Science"],
+   ["Histoire (2)","History"],
+   ["Nature","Nature"],
+   ["Rivière","River"],
+   ["Montagne","Mountain"],
+   ["Océan","Ocean"],
+   ["Forêt","Forest"],
+   ["Jardin","Garden"],
+   ["Professeur","Teacher"],
+   ["Étudiant","Student"],
+   ["Médecin","Doctor"],
+   ["Artiste","Artist"],
+   ["Écrivain","Writer"]
+  ],
+
+  sentences:[
+   "Bonjour, comment allez-vous?",
+   "Je m'appelle Sara.",
+   "J'apprends le français.",
+   "Merci beaucoup.",
+   "Au revoir.",
+   "Où est la bibliothèque?",
+   "Quelle heure est-il?",
+   "Je voudrais une tasse de thé.",
+   "Pouvez-vous parler lentement?",
+   "Combien ça coûte?",
+   "Je ne comprends pas.",
+   "Répétez, s'il vous plaît.",
+   "Enchanté de vous rencontrer.",
+   "Bonne journée!",
+   "À demain.",
+   "J'aime lire des livres.",
+   "Le temps est beau aujourd'hui.",
+   "Puis-je poser une question?",
+   "Excusez-moi, où est la gare?",
+   "Je viens du Pakistan."
+  ],
+
+  stories:[
+   {
+    title:"Une petite histoire",
+    text:
+    "Sara aime lire des livres. Chaque matin, elle va à la bibliothèque. Un jour, elle trouve un livre sur les langues. Elle décide d'apprendre une nouvelle langue."
+   },
+   {
+    title:"Le chat perdu",
+    text:
+    "Un soir pluvieux, un petit chat était assis seul sous un banc. Une gentille fille nommée Lina l'a vu et l'a ramené à la maison. Elle lui a donné du lait et une couverture chaude."
+   },
+   {
+    title:"Le voyage à la montagne",
+    text:
+    "Ali rêvait de gravir la grande montagne. Chaque jour il s'entraînait, et chaque nuit il lisait sur les sommets. Un été, il commença enfin l'ascension."
+   },
+   {
+    title:"Le secret du boulanger",
+    text:
+    "Dans un petit village, il y avait un boulanger dont le pain était le meilleur du pays. Les gens demandaient son secret, mais il souriait seulement."
+   },
+   {
+    title:"Le jardin des étoiles",
+    text:
+    "Maya plantait des graines dans son jardin chaque printemps. Une nuit, elle fit un vœu sur une étoile. Le lendemain matin, le jardin était plein de fleurs lumineuses."
+   }
+  ]
+ },
+
+
+ Spanish:{
+  code:"es-ES",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+
+  words:[
+   ["Hola","Hello"],
+   ["Adiós","Goodbye"],
+   ["Amigo","Friend"],
+   ["Familia","Family"],
+   ["Libro","Book"],
+   ["Escuela","School"],
+   ["Gracias","Thank you"],
+   ["Por favor","Please"],
+   ["Sí","Yes"],
+   ["No","No"],
+   ["Agua","Water"],
+   ["Pan","Bread"],
+   ["Casa","House"],
+   ["Sol","Sun"],
+   ["Luna","Moon"],
+   ["Estrella","Star"],
+   ["Cielo","Sky"],
+   ["Árbol","Tree"],
+   ["Flor","Flower"],
+   ["Pájaro","Bird"],
+   ["Pez","Fish"],
+   ["Amor","Love"],
+   ["Esperanza","Hope"],
+   ["Sueño","Dream"],
+   ["Tiempo","Time"],
+   ["Vida","Life"],
+   ["Mundo","World"],
+   ["Paz","Peace"],
+   ["Alegría","Joy"],
+   ["Sonrisa","Smile"],
+   ["Corazón","Heart"],
+   ["Mano","Hand"],
+   ["Ojo","Eye"],
+   ["Voz","Voice"],
+   ["Color","Colour"],
+   ["Número","Number"],
+   ["Letra","Letter"],
+   ["Palabra","Word"],
+   ["Historia","Story"],
+   ["Canción","Song"],
+   ["Arte","Art"],
+   ["Ciencia","Science"],
+   ["Naturaleza","Nature"],
+   ["Río","River"],
+   ["Montaña","Mountain"],
+   ["Océano","Ocean"],
+   ["Bosque","Forest"],
+   ["Jardín","Garden"],
+   ["Profesor","Teacher"],
+   ["Estudiante","Student"]
+  ],
+
+  sentences:[
+   "Hola, ¿cómo estás?",
+   "Me llamo Sara.",
+   "Estoy aprendiendo español.",
+   "Muchas gracias.",
+   "Hasta luego.",
+   "¿Dónde está la biblioteca?",
+   "¿Qué hora es?",
+   "Quisiera una taza de té.",
+   "¿Puedes hablar despacio?",
+   "¿Cuánto cuesta esto?",
+   "No entiendo.",
+   "Repite, por favor.",
+   "Encantado de conocerte.",
+   "¡Que tengas un buen día!",
+   "Hasta mañana.",
+   "Me encanta leer libros.",
+   "El tiempo es hermoso hoy.",
+   "¿Puedo hacer una pregunta?",
+   "Disculpe, ¿dónde está la estación?",
+   "Soy de Pakistán."
+  ],
+
+  stories:[
+   {
+    title:"El pequeño libro",
+    text:
+    "Sara ama leer libros. Cada mañana va a la biblioteca. Un día encuentra un libro sobre idiomas. Decide aprender un idioma nuevo."
+   },
+   {
+    title:"El gatito perdido",
+    text:
+    "Una tarde lluviosa, un pequeño gatito estaba solo bajo un banco. Una niña amable llamada Lina lo vio y lo llevó a casa."
+   },
+   {
+    title:"El viaje a la montaña",
+    text:
+    "Ali soñaba con escalar la gran montaña. Cada día practicaba y cada noche leía sobre las cumbres. Un verano, finalmente comenzó la ascensión."
+   },
+   {
+    title:"El secreto del panadero",
+    text:
+    "En un pequeño pueblo vivía un panadero cuyo pan era el mejor de la región. La gente preguntaba su secreto, pero él solo sonreía."
+   },
+   {
+    title:"El jardín de estrellas",
+    text:
+    "Maya plantaba semillas en su jardín cada primavera. Una noche pidió un deseo a una estrella. A la mañana siguiente, el jardín estaba lleno de flores brillantes."
+   }
+  ]
+ },
+
+
+ German:{
+  code:"de-DE",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Ä Ö Ü ß",
+
+  words:[
+   ["Hallo","Hello"],
+   ["Tschüss","Goodbye"],
+   ["Freund","Friend"],
+   ["Familie","Family"],
+   ["Buch","Book"],
+   ["Schule","School"],
+   ["Danke","Thank you"],
+   ["Bitte","Please"],
+   ["Ja","Yes"],
+   ["Nein","No"],
+   ["Wasser","Water"],
+   ["Brot","Bread"],
+   ["Haus","House"],
+   ["Sonne","Sun"],
+   ["Mond","Moon"],
+   ["Stern","Star"],
+   ["Himmel","Sky"],
+   ["Baum","Tree"],
+   ["Blume","Flower"],
+   ["Vogel","Bird"],
+   ["Fisch","Fish"],
+   ["Liebe","Love"],
+   ["Hoffnung","Hope"],
+   ["Traum","Dream"],
+   ["Zeit","Time"],
+   ["Leben","Life"],
+   ["Welt","World"],
+   ["Frieden","Peace"],
+   ["Freude","Joy"],
+   ["Lächeln","Smile"],
+   ["Herz","Heart"],
+   ["Hand","Hand"],
+   ["Auge","Eye"],
+   ["Stimme","Voice"],
+   ["Farbe","Colour"],
+   ["Zahl","Number"],
+   ["Buchstabe","Letter"],
+   ["Wort","Word"],
+   ["Geschichte","Story"],
+   ["Lied","Song"],
+   ["Kunst","Art"],
+   ["Wissenschaft","Science"],
+   ["Natur","Nature"],
+   ["Fluss","River"],
+   ["Berg","Mountain"],
+   ["Ozean","Ocean"],
+   ["Wald","Forest"],
+   ["Garten","Garden"],
+   ["Lehrer","Teacher"],
+   ["Student","Student"]
+  ],
+
+  sentences:[
+   "Hallo, wie geht es dir?",
+   "Ich heiße Sara.",
+   "Ich lerne Deutsch.",
+   "Vielen Dank.",
+   "Auf Wiedersehen.",
+   "Wo ist die Bibliothek?",
+   "Wie spät ist es?",
+   "Ich möchte eine Tasse Tee.",
+   "Kannst du langsam sprechen?",
+   "Wie viel kostet das?",
+   "Ich verstehe nicht.",
+   "Bitte wiederhole das.",
+   "Schön, dich kennenzulernen.",
+   "Einen schönen Tag noch!",
+   "Bis morgen.",
+   "Ich liebe es, Bücher zu lesen.",
+   "Das Wetter ist heute schön.",
+   "Darf ich eine Frage stellen?",
+   "Entschuldigung, wo ist der Bahnhof?",
+   "Ich komme aus Pakistan."
+  ],
+
+  stories:[
+   {
+    title:"Das kleine Buch",
+    text:
+    "Sara liest gern Bücher. Jeden Morgen geht sie in die Bibliothek. Eines Tages findet sie ein Buch über Sprachen. Sie möchte eine neue Sprache lernen."
+   },
+   {
+    title:"Das verlorene Kätzchen",
+    text:
+    "An einem regnerischen Abend saß ein kleines Kätzchen allein unter einer Bank. Ein freundliches Mädchen namens Lina sah es und nahm es mit nach Hause."
+   },
+   {
+    title:"Die Bergreise",
+    text:
+    "Ali träumte davon, den großen Berg zu besteigen. Jeden Tag übte er und jede Nacht las er über die Gipfel. Eines Sommers begann er endlich den Aufstieg."
+   },
+   {
+    title:"Das Geheimnis des Bäckers",
+    text:
+    "In einem kleinen Dorf lebte ein Bäcker, dessen Brot das beste im Land war. Die Leute fragten nach seinem Geheimnis, aber er lächelte nur."
+   },
+   {
+    title:"Der Sternengarten",
+    text:
+    "Maya pflanzte jeden Frühling Samen in ihrem Garten. Eines Nachts wünschte sie sich etwas von einem Stern. Am nächsten Morgen war der Garten voller leuchtender Blumen."
+   }
+  ]
+ },
+
+
+ Italian:{
+  code:"it-IT",
+
+  writing:
+    "A B C D E F G H I L M N O P Q R S T U V Z",
+
+  words:[
+   ["Ciao","Hello"],
+   ["Arrivederci","Goodbye"],
+   ["Amico","Friend"],
+   ["Famiglia","Family"],
+   ["Libro","Book"],
+   ["Scuola","School"],
+   ["Grazie","Thank you"],
+   ["Per favore","Please"],
+   ["Sì","Yes"],
+   ["No","No"],
+   ["Acqua","Water"],
+   ["Pane","Bread"],
+   ["Casa","House"],
+   ["Sole","Sun"],
+   ["Luna","Moon"],
+   ["Stella","Star"],
+   ["Cielo","Sky"],
+   ["Albero","Tree"],
+   ["Fiore","Flower"],
+   ["Uccello","Bird"],
+   ["Pesce","Fish"],
+   ["Amore","Love"],
+   ["Speranza","Hope"],
+   ["Sogno","Dream"],
+   ["Tempo","Time"],
+   ["Vita","Life"],
+   ["Mondo","World"],
+   ["Pace","Peace"],
+   ["Gioia","Joy"],
+   ["Sorriso","Smile"],
+   ["Cuore","Heart"],
+   ["Mano","Hand"],
+   ["Occhio","Eye"],
+   ["Voce","Voice"],
+   ["Colore","Colour"],
+   ["Numero","Number"],
+   ["Lettera","Letter"],
+   ["Parola","Word"],
+   ["Storia","Story"],
+   ["Canzone","Song"],
+   ["Arte","Art"],
+   ["Scienza","Science"],
+   ["Natura","Nature"],
+   ["Fiume","River"],
+   ["Montagna","Mountain"],
+   ["Oceano","Ocean"],
+   ["Foresta","Forest"],
+   ["Giardino","Garden"]
+  ],
+
+  sentences:[
+   "Ciao, come stai?",
+   "Mi chiamo Sara.",
+   "Sto imparando l'italiano.",
+   "Grazie mille.",
+   "Arrivederci.",
+   "Dov'è la biblioteca?",
+   "Che ora è?",
+   "Vorrei una tazza di tè.",
+   "Puoi parlare lentamente?",
+   "Quanto costa?",
+   "Non capisco.",
+   "Ripeti, per favore.",
+   "Piacere di conoscerti.",
+   "Buona giornata!",
+   "A domani.",
+   "Adoro leggere libri.",
+   "Il tempo è bello oggi.",
+   "Posso fare una domanda?",
+   "Scusi, dov'è la stazione?",
+   "Vengo dal Pakistan."
+  ],
+
+  stories:[
+   {
+    title:"La piccola biblioteca",
+    text:
+    "Sara ama leggere. Ogni mattina va in biblioteca. Un giorno trova un libro sulle lingue. Decide di imparare una nuova lingua."
+   },
+   {
+    title:"Il gattino perduto",
+    text:
+    "Una sera piovosa, un piccolo gattino sedeva solo sotto una panchina. Una ragazza gentile di nome Lina lo vide e lo portò a casa."
+   },
+   {
+    title:"Il viaggio in montagna",
+    text:
+    "Ali sognava di scalare la grande montagna. Ogni giorno si allenava e ogni notte leggeva delle vette. Un'estate iniziò finalmente la salita."
+   },
+   {
+    title:"Il segreto del fornaio",
+    text:
+    "In un piccolo villaggio viveva un fornaio il cui pane era il migliore del paese. La gente chiedeva il suo segreto, ma lui sorrideva soltanto."
+   },
+   {
+    title:"Il giardino delle stelle",
+    text:
+    "Maya piantava semi nel suo giardino ogni primavera. Una notte espresse un desiderio a una stella. La mattina dopo, il giardino era pieno di fiori luminosi."
+   }
+  ]
+ },
+
+
+ Arabic:{
+  code:"ar-SA",
+
+  writing:
+    "ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي",
+
+  words:[
+   ["مرحبا","Hello"],
+   ["مع السلامة","Goodbye"],
+   ["صديق","Friend"],
+   ["عائلة","Family"],
+   ["كتاب","Book"],
+   ["مدرسة","School"],
+   ["شكرا","Thank you"],
+   ["من فضلك","Please"],
+   ["نعم","Yes"],
+   ["لا","No"],
+   ["ماء","Water"],
+   ["خبز","Bread"],
+   ["بيت","House"],
+   ["شمس","Sun"],
+   ["قمر","Moon"],
+   ["نجمة","Star"],
+   ["سماء","Sky"],
+   ["شجرة","Tree"],
+   ["زهرة","Flower"],
+   ["طائر","Bird"],
+   ["سمك","Fish"],
+   ["حب","Love"],
+   ["أمل","Hope"],
+   ["حلم","Dream"],
+   ["وقت","Time"],
+   ["حياة","Life"],
+   ["عالم","World"],
+   ["سلام","Peace"],
+   ["فرح","Joy"],
+   ["ابتسامة","Smile"],
+   ["قلب","Heart"],
+   ["يد","Hand"],
+   ["عين","Eye"],
+   ["صوت","Voice"],
+   ["لون","Colour"],
+   ["رقم","Number"],
+   ["حرف","Letter"],
+   ["كلمة","Word"],
+   ["قصة","Story"],
+   ["أغنية","Song"],
+   ["فن","Art"],
+   ["علم","Science"],
+   ["طبيعة","Nature"],
+   ["نهر","River"],
+   ["جبل","Mountain"],
+   ["محيط","Ocean"],
+   ["غابة","Forest"],
+   ["حديقة","Garden"]
+  ],
+
+  sentences:[
+   "مرحبا، كيف حالك؟",
+   "اسمي سارة.",
+   "أنا أتعلم العربية.",
+   "شكرا جزيلا.",
+   "إلى اللقاء.",
+   "أين المكتبة؟",
+   "كم الساعة؟",
+   "أريد كوب شاي.",
+   "هل يمكنك التحدث ببطء؟",
+   "كم الثمن؟",
+   "لا أفهم.",
+   "أعد من فضلك.",
+   "تشرفت بلقائك.",
+   "أتمنى لك يوما سعيدا!",
+   "أراك غدا.",
+   "أحب قراءة الكتب.",
+   "الطقس جميل اليوم.",
+   "هل يمكنني أن أسأل سؤالا؟",
+   "عفوا، أين المحطة؟",
+   "أنا من باكستان."
+  ],
+
+  stories:[
+   {
+    title:"الكتاب الصغير",
+    text:
+    "تحب سارة قراءة الكتب. كل صباح تذهب إلى المكتبة. في يوم من الأيام وجدت كتابا عن اللغات. قررت أن تتعلم لغة جديدة."
+   },
+   {
+    title:"القطة الضائعة",
+    text:
+    "في مساء ممطر، جلست قطة صغيرة وحيدة تحت مقعد. رأتها فتاة طيبة اسمها لينا وأخذتها إلى المنزل."
+   },
+   {
+    title:"رحلة الجبل",
+    text:
+    "كان علي يحلم بتسلق الجبل الكبير. كل يوم كان يتدرب، وكل ليلة كان يقرأ عن القمم. في أحد الصيف، بدأ الصعود أخيرا."
+   },
+   {
+    title:"سر الخباز",
+    text:
+    "في قرية صغيرة، كان هناك خباز كان خبزه الأفضل في البلاد. سأله الناس عن سره، لكنه كان يبتسم فقط."
+   },
+   {
+    title:"حديقة النجوم",
+    text:
+    "كانت مايا تزرع البذور في حديقتها كل ربيع. في إحدى الليالي تمنت أمنية على نجمة. في الصباح التالي، امتلأت الحديقة بالزهور المتوهجة."
+   }
+  ]
+ },
+
+
+ Chinese:{
+  code:"zh-CN",
+
+  writing:
+    "汉字 Chinese characters",
+
+  words:[
+   ["你好","Hello"],
+   ["再见","Goodbye"],
+   ["朋友","Friend"],
+   ["家庭","Family"],
+   ["书","Book"],
+   ["学校","School"],
+   ["谢谢","Thank you"],
+   ["请","Please"],
+   ["是","Yes"],
+   ["不","No"],
+   ["水","Water"],
+   ["面包","Bread"],
+   ["家","Home"],
+   ["太阳","Sun"],
+   ["月亮","Moon"],
+   ["星星","Star"],
+   ["天空","Sky"],
+   ["树","Tree"],
+   ["花","Flower"],
+   ["鸟","Bird"],
+   ["鱼","Fish"],
+   ["爱","Love"],
+   ["希望","Hope"],
+   ["梦","Dream"],
+   ["时间","Time"],
+   ["生活","Life"],
+   ["世界","World"],
+   ["和平","Peace"],
+   ["快乐","Joy"],
+   ["微笑","Smile"],
+   ["心","Heart"],
+   ["手","Hand"],
+   ["眼睛","Eye"],
+   ["声音","Voice"],
+   ["颜色","Colour"],
+   ["数字","Number"],
+   ["字母","Letter"],
+   ["词","Word"],
+   ["故事","Story"],
+   ["歌","Song"],
+   ["艺术","Art"],
+   ["科学","Science"],
+   ["自然","Nature"],
+   ["河","River"],
+   ["山","Mountain"],
+   ["海洋","Ocean"],
+   ["森林","Forest"],
+   ["花园","Garden"]
+  ],
+
+  sentences:[
+   "你好，你好吗？",
+   "我叫莎拉。",
+   "我学习中文。",
+   "谢谢你。",
+   "再见。",
+   "图书馆在哪里？",
+   "现在几点了？",
+   "我想要一杯茶。",
+   "你能说慢一点吗？",
+   "这个多少钱？",
+   "我不懂。",
+   "请再说一遍。",
+   "很高兴认识你。",
+   "祝你有美好的一天！",
+   "明天见。",
+   "我喜欢读书。",
+   "今天天气很好。",
+   "我可以问一个问题吗？",
+   "请问，车站在哪里？",
+   "我来自巴基斯坦。"
+  ],
+
+  stories:[
+   {
+    title:"小故事",
+    text:
+    "莎拉喜欢读书。每天早上，她去图书馆。有一天，她发现了一本关于语言的书。她决定学习一门新语言。"
+   },
+   {
+    title:"迷路的小猫",
+    text:
+    "一个下雨的傍晚，一只小猫独自坐在长椅下。一个善良的女孩莉娜看到了它，把它带回了家。"
+   },
+   {
+    title:"登山之旅",
+    text:
+    "阿里梦想攀登那座大山。他每天练习，每晚都读关于山峰的书。一个夏天，他终于开始了攀登。"
+   },
+   {
+    title:"面包师的秘密",
+    text:
+    "在一个小村庄里，有一位面包师，他的面包是全村最好的。人们问他的秘诀，但他只是微笑。"
+   },
+   {
+    title:"星星花园",
+    text:
+    "玛雅每年春天在花园里种下种子。一天晚上，她向星星许愿。第二天早上，花园里开满了闪亮的花朵。"
+   }
+  ]
+ },
+
+
+ Japanese:{
+  code:"ja-JP",
+
+  writing:
+    "ひらがな • カタカナ • 漢字",
+
+  words:[
+   ["こんにちは","Hello"],
+   ["さようなら","Goodbye"],
+   ["友達","Friend"],
+   ["家族","Family"],
+   ["本","Book"],
+   ["学校","School"],
+   ["ありがとう","Thank you"],
+   ["お願いします","Please"],
+   ["はい","Yes"],
+   ["いいえ","No"],
+   ["水","Water"],
+   ["パン","Bread"],
+   ["家","House"],
+   ["太陽","Sun"],
+   ["月","Moon"],
+   ["星","Star"],
+   ["空","Sky"],
+   ["木","Tree"],
+   ["花","Flower"],
+   ["鳥","Bird"],
+   ["魚","Fish"],
+   ["愛","Love"],
+   ["希望","Hope"],
+   ["夢","Dream"],
+   ["時間","Time"],
+   ["人生","Life"],
+   ["世界","World"],
+   ["平和","Peace"],
+   ["喜び","Joy"],
+   ["笑顔","Smile"],
+   ["心","Heart"],
+   ["手","Hand"],
+   ["目","Eye"],
+   ["声","Voice"],
+   ["色","Colour"],
+   ["数字","Number"],
+   ["文字","Letter"],
+   ["言葉","Word"],
+   ["物語","Story"],
+   ["歌","Song"],
+   ["芸術","Art"],
+   ["科学","Science"],
+   ["自然","Nature"],
+   ["川","River"],
+   ["山","Mountain"],
+   ["海","Ocean"],
+   ["森","Forest"],
+   ["庭","Garden"]
+  ],
+
+  sentences:[
+   "こんにちは。",
+   "私はサラです。",
+   "日本語を勉強しています。",
+   "ありがとうございます。",
+   "さようなら。",
+   "図書館はどこですか？",
+   "今、何時ですか？",
+   "お茶を一杯ください。",
+   "ゆっくり話してください。",
+   "これはいくらですか？",
+   "わかりません。",
+   "もう一度言ってください。",
+   "はじめまして。",
+   "良い一日を！",
+   "また明日。",
+   "本を読むのが好きです。",
+   "今日はいい天気ですね。",
+   "質問してもいいですか？",
+   "すみません、駅はどこですか？",
+   "私はパキスタン出身です。"
+  ],
+
+  stories:[
+   {
+    title:"小さな図書館",
+    text:
+    "サラは本を読むのが好きです。毎朝、図書館へ行きます。ある日、言語についての本を見つけました。そして、新しい言語を学ぶことにしました。"
+   },
+   {
+    title:"迷子の子猫",
+    text:
+    "雨の夕方、小さな子猫がベンチの下に一人で座っていました。リナという優しい女の子がそれを見て、家に連れて帰りました。"
+   },
+   {
+    title:"山の旅",
+    text:
+    "アリは大きな山に登ることを夢見ていました。毎日練習し、毎晩山頂について読みました。ある夏、ついに登り始めました。"
+   },
+   {
+    title:"パン屋の秘密",
+    text:
+    "小さな村に、国で一番おいしいパンを焼くパン屋がいました。人々は秘密を尋ねましたが、彼はただ微笑むだけでした。"
+   },
+   {
+    title:"星の庭",
+    text:
+    "マヤは毎年春に庭に種をまきました。ある夜、星に願いをかけました。翌朝、庭は光る花でいっぱいでした。"
+   }
+  ]
+ },
+
+
+ Korean:{
+  code:"ko-KR",
+
+  writing:
+    "한글 • Korean alphabet",
+
+  words:[
+   ["안녕하세요","Hello"],
+   ["안녕히 가세요","Goodbye"],
+   ["친구","Friend"],
+   ["가족","Family"],
+   ["책","Book"],
+   ["학교","School"],
+   ["감사합니다","Thank you"],
+   ["주세요","Please"],
+   ["네","Yes"],
+   ["아니요","No"],
+   ["물","Water"],
+   ["빵","Bread"],
+   ["집","House"],
+   ["태양","Sun"],
+   ["달","Moon"],
+   ["별","Star"],
+   ["하늘","Sky"],
+   ["나무","Tree"],
+   ["꽃","Flower"],
+   ["새","Bird"],
+   ["물고기","Fish"],
+   ["사랑","Love"],
+   ["희망","Hope"],
+   ["꿈","Dream"],
+   ["시간","Time"],
+   ["삶","Life"],
+   ["세계","World"],
+   ["평화","Peace"],
+   ["기쁨","Joy"],
+   ["미소","Smile"],
+   ["마음","Heart"],
+   ["손","Hand"],
+   ["눈","Eye"],
+   ["목소리","Voice"],
+   ["색","Colour"],
+   ["숫자","Number"],
+   ["글자","Letter"],
+   ["단어","Word"],
+   ["이야기","Story"],
+   ["노래","Song"],
+   ["예술","Art"],
+   ["과학","Science"],
+   ["자연","Nature"],
+   ["강","River"],
+   ["산","Mountain"],
+   ["바다","Ocean"],
+   ["숲","Forest"],
+   ["정원","Garden"]
+  ],
+
+  sentences:[
+   "안녕하세요?",
+   "제 이름은 사라예요.",
+   "저는 한국어를 공부해요.",
+   "감사합니다.",
+   "안녕히 가세요.",
+   "도서관이 어디예요?",
+   "지금 몇 시예요?",
+   "차 한 잔 주세요.",
+   "천천히 말해 주세요.",
+   "이거 얼마예요?",
+   "이해하지 못했어요.",
+   "다시 말해 주세요.",
+   "만나서 반가워요.",
+   "좋은 하루 보내세요!",
+   "내일 봐요.",
+   "책 읽는 것을 좋아해요.",
+   "오늘 날씨가 좋아요.",
+   "질문해도 될까요?",
+   "실례합니다, 역이 어디예요?",
+   "저는 파키스탄에서 왔어요."
+  ],
+
+  stories:[
+   {
+    title:"작은 도서관",
+    text:
+    "사라는 책을 읽는 것을 좋아합니다. 매일 아침 도서관에 갑니다. 어느 날 언어에 관한 책을 발견했습니다. 그리고 새로운 언어를 배우기로 했습니다."
+   },
+   {
+    title:"길 잃은 고양이",
+    text:
+    "비 오는 저녁, 작은 고양이가 벤치 아래에 혼자 앉아 있었습니다. 리나라는 착한 소녀가 그것을 보고 집으로 데려갔습니다."
+   },
+   {
+    title:"산 여행",
+    text:
+    "알리는 큰 산에 오르는 꿈을 꾸었습니다. 매일 연습하고 매일 밤 산봉우리에 대해 읽었습니다. 어느 여름, 마침내 등반을 시작했습니다."
+   },
+   {
+    title:"제빵사의 비밀",
+    text:
+    "작은 마을에 나라에서 가장 맛있는 빵을 굽는 제빵사가 있었습니다. 사람들이 비결을 물었지만 그는 그저 미소만 지었습니다."
+   },
+   {
+    title:"별의 정원",
+    text:
+    "마야는 매년 봄 정원에 씨앗을 심었습니다. 어느 밤 별에게 소원을 빌었습니다. 다음 날 아침, 정원은 빛나는 꽃으로 가득했습니다."
+   }
+  ]
+ },
+
+
+ Russian:{
+  code:"ru-RU",
+
+  writing:
+    "А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ы Э Ю Я",
+
+  words:[
+   ["Привет","Hello"],
+   ["До свидания","Goodbye"],
+   ["Друг","Friend"],
+   ["Семья","Family"],
+   ["Книга","Book"],
+   ["Школа","School"],
+   ["Спасибо","Thank you"],
+   ["Пожалуйста","Please"],
+   ["Да","Yes"],
+   ["Нет","No"],
+   ["Вода","Water"],
+   ["Хлеб","Bread"],
+   ["Дом","House"],
+   ["Солнце","Sun"],
+   ["Луна","Moon"],
+   ["Звезда","Star"],
+   ["Небо","Sky"],
+   ["Дерево","Tree"],
+   ["Цветок","Flower"],
+   ["Птица","Bird"],
+   ["Рыба","Fish"],
+   ["Любовь","Love"],
+   ["Надежда","Hope"],
+   ["Мечта","Dream"],
+   ["Время","Time"],
+   ["Жизнь","Life"],
+   ["Мир","World"],
+   ["Мир (2)","Peace"],
+   ["Радость","Joy"],
+   ["Улыбка","Smile"],
+   ["Сердце","Heart"],
+   ["Рука","Hand"],
+   ["Глаз","Eye"],
+   ["Голос","Voice"],
+   ["Цвет","Colour"],
+   ["Число","Number"],
+   ["Буква","Letter"],
+   ["Слово","Word"],
+   ["История","Story"],
+   ["Песня","Song"],
+   ["Искусство","Art"],
+   ["Наука","Science"],
+   ["Природа","Nature"],
+   ["Река","River"],
+   ["Гора","Mountain"],
+   ["Океан","Ocean"],
+   ["Лес","Forest"],
+   ["Сад","Garden"]
+  ],
+
+  sentences:[
+   "Привет, как дела?",
+   "Меня зовут Сара.",
+   "Я изучаю русский язык.",
+   "Большое спасибо.",
+   "До свидания.",
+   "Где библиотека?",
+   "Который час?",
+   "Я хочу чашку чая.",
+   "Пожалуйста, говорите медленно.",
+   "Сколько это стоит?",
+   "Я не понимаю.",
+   "Повторите, пожалуйста.",
+   "Приятно познакомиться.",
+   "Хорошего дня!",
+   "До завтра.",
+   "Я люблю читать книги.",
+   "Сегодня прекрасная погода.",
+   "Можно задать вопрос?",
+   "Извините, где вокзал?",
+   "Я из Пакистана."
+  ],
+
+  stories:[
+   {
+    title:"Маленькая библиотека",
+    text:
+    "Сара любит читать книги. Каждое утро она идет в библиотеку. Однажды она нашла книгу о языках. Она решила изучать новый язык."
+   },
+   {
+    title:"Потерянный котенок",
+    text:
+    "Однажды дождливым вечером маленький котенок сидел один под скамейкой. Добрая девочка по имени Лина увидела его и принесла домой."
+   },
+   {
+    title:"Путешествие в горы",
+    text:
+    "Али мечтал покорить большую гору. Каждый день он тренировался, каждую ночь читал о вершинах. Однажды летом он наконец начал восхождение."
+   },
+   {
+    title:"Секрет пекаря",
+    text:
+    "В маленькой деревне жил пекарь, чей хлеб был лучшим в стране. Люди спрашивали его секрет, но он только улыбался."
+   },
+   {
+    title:"Звёздный сад",
+    text:
+    "Майя каждую весну сажала семена в своем саду. Однажды ночью она загадала желание на звезду. На следующее утро сад был полон светящихся цветов."
+   }
+  ]
+ }
+
+};
+
+
+let currentLanguage="English";
+
+
+/* ================================================= */
+/* WRITING WORKSHEET DATA                            */
+/* ================================================= */
+
+const worksheetData={
+
+ English:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Apple","A is for Apple","Letter A"],
+    ["B","b","Book","B is for Book","Letter B"],
+    ["C","c","Cat","C is for Cat","Letter C"],
+    ["D","d","Dog","D is for Dog","Letter D"],
+    ["E","e","Egg","E is for Egg","Letter E"],
+    ["F","f","Fish","F is for Fish","Letter F"],
+    ["G","g","Girl","G is for Girl","Letter G"],
+    ["H","h","House","H is for House","Letter H"],
+    ["I","i","Ice","I is for Ice","Letter I"],
+    ["J","j","Juice","J is for Juice","Letter J"],
+    ["K","k","Key","K is for Key","Letter K"],
+    ["L","l","Lion","L is for Lion","Letter L"],
+    ["M","m","Moon","M is for Moon","Letter M"],
+    ["N","n","Nest","N is for Nest","Letter N"],
+    ["O","o","Orange","O is for Orange","Letter O"],
+    ["P","p","Pen","P is for Pen","Letter P"],
+    ["Q","q","Queen","Q is for Queen","Letter Q"],
+    ["R","r","Rabbit","R is for Rabbit","Letter R"],
+    ["S","s","Sun","S is for Sun","Letter S"],
+    ["T","t","Tree","T is for Tree","Letter T"],
+    ["U","u","Umbrella","U is for Umbrella","Letter U"],
+    ["V","v","Van","V is for Van","Letter V"],
+    ["W","w","Water","W is for Water","Letter W"],
+    ["X","x","Xylophone","X is for Xylophone","Letter X"],
+    ["Y","y","Yellow","Y is for Yellow","Letter Y"],
+    ["Z","z","Zoo","Z is for Zoo","Letter Z"]
+   ]
+ },
+
+ French:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Ami","A comme Ami","Lettre A"],
+    ["B","b","Banane","B comme Banane","Lettre B"],
+    ["C","c","Chat","C comme Chat","Lettre C"],
+    ["D","d","Dame","D comme Dame","Lettre D"],
+    ["E","e","École","E comme École","Lettre E"],
+    ["F","f","Fleur","F comme Fleur","Lettre F"],
+    ["G","g","Gâteau","G comme Gâteau","Lettre G"],
+    ["H","h","Hôtel","H comme Hôtel","Lettre H"],
+    ["I","i","Image","I comme Image","Lettre I"],
+    ["J","j","Jardin","J comme Jardin","Lettre J"],
+    ["K","k","Kilo","K comme Kilo","Lettre K"],
+    ["L","l","Livre","L comme Livre","Lettre L"],
+    ["M","m","Maison","M comme Maison","Lettre M"],
+    ["N","n","Nez","N comme Nez","Lettre N"],
+    ["O","o","Orange","O comme Orange","Lettre O"],
+    ["P","p","Pomme","P comme Pomme","Lettre P"],
+    ["Q","q","Question","Q comme Question","Lettre Q"],
+    ["R","r","Rose","R comme Rose","Lettre R"],
+    ["S","s","Soleil","S comme Soleil","Lettre S"],
+    ["T","t","Table","T comme Table","Lettre T"],
+    ["U","u","Uniforme","U comme Uniforme","Lettre U"],
+    ["V","v","Ville","V comme Ville","Lettre V"],
+    ["W","w","Week-end","W comme Week-end","Lettre W"],
+    ["X","x","Xylophone","X comme Xylophone","Lettre X"],
+    ["Y","y","Yoga","Y comme Yoga","Lettre Y"],
+    ["Z","z","Zéro","Z comme Zéro","Lettre Z"]
+   ]
+ },
+
+ Spanish:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Árbol","A de Árbol","Letra A"],
+    ["B","b","Barco","B de Barco","Letra B"],
+    ["C","c","Casa","C de Casa","Letra C"],
+    ["D","d","Dado","D de Dado","Letra D"],
+    ["E","e","Elefante","E de Elefante","Letra E"],
+    ["F","f","Flor","F de Flor","Letra F"],
+    ["G","g","Gato","G de Gato","Letra G"],
+    ["H","h","Hola","H de Hola","Letra H"],
+    ["I","i","Isla","I de Isla","Letra I"],
+    ["J","j","Jardín","J de Jardín","Letra J"],
+    ["K","k","Kiwi","K de Kiwi","Letra K"],
+    ["L","l","Libro","L de Libro","Letra L"],
+    ["M","m","Mano","M de Mano","Letra M"],
+    ["N","n","Nube","N de Nube","Letra N"],
+    ["O","o","Oso","O de Oso","Letra O"],
+    ["P","p","Pan","P de Pan","Letra P"],
+    ["Q","q","Queso","Q de Queso","Letra Q"],
+    ["R","r","Rosa","R de Rosa","Letra R"],
+    ["S","s","Sol","S de Sol","Letra S"],
+    ["T","t","Taza","T de Taza","Letra T"],
+    ["U","u","Uva","U de Uva","Letra U"],
+    ["V","v","Vaca","V de Vaca","Letra V"],
+    ["W","w","Web","W de Web","Letra W"],
+    ["X","x","Xilófono","X de Xilófono","Letra X"],
+    ["Y","y","Yoga","Y de Yoga","Letra Y"],
+    ["Z","z","Zapato","Z de Zapato","Letra Z"]
+   ]
+ },
+
+ German:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Apfel","A wie Apfel","Buchstabe A"],
+    ["B","b","Buch","B wie Buch","Buchstabe B"],
+    ["C","c","Computer","C wie Computer","Buchstabe C"],
+    ["D","d","Dach","D wie Dach","Buchstabe D"],
+    ["E","e","Ente","E wie Ente","Buchstabe E"],
+    ["F","f","Fisch","F wie Fisch","Buchstabe F"],
+    ["G","g","Garten","G wie Garten","Buchstabe G"],
+    ["H","h","Haus","H wie Haus","Buchstabe H"],
+    ["I","i","Insel","I wie Insel","Buchstabe I"],
+    ["J","j","Jahr","J wie Jahr","Buchstabe J"],
+    ["K","k","Katze","K wie Katze","Buchstabe K"],
+    ["L","l","Lampe","L wie Lampe","Buchstabe L"],
+    ["M","m","Maus","M wie Maus","Buchstabe M"],
+    ["N","n","Nase","N wie Nase","Buchstabe N"],
+    ["O","o","Orange","O wie Orange","Buchstabe O"],
+    ["P","p","Park","P wie Park","Buchstabe P"],
+    ["Q","q","Quelle","Q wie Quelle","Buchstabe Q"],
+    ["R","r","Rose","R wie Rose","Buchstabe R"],
+    ["S","s","Sonne","S wie Sonne","Buchstabe S"],
+    ["T","t","Tisch","T wie Tisch","Buchstabe T"],
+    ["U","u","Uhr","U wie Uhr","Buchstabe U"],
+    ["V","v","Vogel","V wie Vogel","Buchstabe V"],
+    ["W","w","Wasser","W wie Wasser","Buchstabe W"],
+    ["X","x","Xylophon","X wie Xylophon","Buchstabe X"],
+    ["Y","y","Yoga","Y wie Yoga","Buchstabe Y"],
+    ["Z","z","Zebra","Z wie Zebra","Buchstabe Z"],
+    ["Ä","ä","Äpfel","Ä wie Äpfel","Umlaut Ä"],
+    ["Ö","ö","Öl","Ö wie Öl","Umlaut Ö"],
+    ["Ü","ü","Über","Ü wie Über","Umlaut Ü"],
+    ["ß","ß","Straße","ß wie Straße","Eszett"]
+   ]
+ },
+
+ Italian:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Amico","A come Amico","Lettera A"],
+    ["B","b","Bambino","B come Bambino","Lettera B"],
+    ["C","c","Casa","C come Casa","Lettera C"],
+    ["D","d","Dado","D come Dado","Lettera D"],
+    ["E","e","Elefante","E come Elefante","Lettera E"],
+    ["F","f","Fiore","F come Fiore","Lettera F"],
+    ["G","g","Gatto","G come Gatto","Lettera G"],
+    ["H","h","Hotel","H come Hotel","Lettera H"],
+    ["I","i","Isola","I come Isola","Lettera I"],
+    ["L","l","Libro","L come Libro","Lettera L"],
+    ["M","m","Mare","M come Mare","Lettera M"],
+    ["N","n","Nave","N come Nave","Lettera N"],
+    ["O","o","Orso","O come Orso","Lettera O"],
+    ["P","p","Pane","P come Pane","Lettera P"],
+    ["Q","q","Quando","Q come Quando","Lettera Q"],
+    ["R","r","Rosa","R come Rosa","Lettera R"],
+    ["S","s","Sole","S come Sole","Lettera S"],
+    ["T","t","Tavolo","T come Tavolo","Lettera T"],
+    ["U","u","Uva","U come Uva","Lettera U"],
+    ["V","v","Vino","V come Vino","Lettera V"],
+    ["Z","z","Zaino","Z come Zaino","Lettera Z"]
+   ]
+ },
+
+ Arabic:{
+   direction:"rtl",
+
+   items:[
+    ["ا","ا","أسد","ا مثل أسد","حرف الألف"],
+    ["ب","ب","باب","ب مثل باب","حرف الباء"],
+    ["ت","ت","تفاح","ت مثل تفاح","حرف التاء"],
+    ["ث","ث","ثوب","ث مثل ثوب","حرف الثاء"],
+    ["ج","ج","جمل","ج مثل جمل","حرف الجيم"],
+    ["ح","ح","حب","ح مثل حب","حرف الحاء"],
+    ["خ","خ","خبز","خ مثل خبز","حرف الخاء"],
+    ["د","د","دار","د مثل دار","حرف الدال"],
+    ["ذ","ذ","ذهب","ذ مثل ذهب","حرف الذال"],
+    ["ر","ر","رجل","ر مثل رجل","حرف الراء"],
+    ["ز","ز","زهرة","ز مثل زهرة","حرف الزاي"],
+    ["س","س","سمك","س مثل سمك","حرف السين"],
+    ["ش","ش","شمس","ش مثل شمس","حرف الشين"],
+    ["ص","ص","صباح","ص مثل صباح","حرف الصاد"],
+    ["ض","ض","ضوء","ض مثل ضوء","حرف الضاد"],
+    ["ط","ط","طائر","ط مثل طائر","حرف الطاء"],
+    ["ظ","ظ","ظل","ظ مثل ظل","حرف الظاء"],
+    ["ع","ع","عين","ع مثل عين","حرف العين"],
+    ["غ","غ","غزال","غ مثل غزال","حرف الغين"],
+    ["ف","ف","فيل","ف مثل فيل","حرف الفاء"],
+    ["ق","ق","قلم","ق مثل قلم","حرف القاف"],
+    ["ك","ك","كتاب","ك مثل كتاب","حرف الكاف"],
+    ["ل","ل","لبن","ل مثل لبن","حرف اللام"],
+    ["م","م","ماء","م مثل ماء","حرف الميم"],
+    ["ن","ن","نجم","ن مثل نجم","حرف النون"],
+    ["ه","ه","هدية","ه مثل هدية","حرف الهاء"],
+    ["و","و","ورد","و مثل ورد","حرف الواو"],
+    ["ي","ي","يد","ي مثل يد","حرف الياء"]
+   ]
+ },
+
+ Chinese:{
+   direction:"ltr",
+
+   items:[
+    ["一","","One","一 = one","Basic character"],
+    ["人","","Person","人 = person","Basic character"],
+    ["大","","Big","大 = big","Basic character"],
+    ["小","","Small","小 = small","Basic character"],
+    ["日","","Sun","日 = sun/day","Basic character"],
+    ["月","","Moon","月 = moon/month","Basic character"],
+    ["山","","Mountain","山 = mountain","Basic character"],
+    ["水","","Water","水 = water","Basic character"],
+    ["火","","Fire","火 = fire","Basic character"],
+    ["木","","Tree","木 = tree","Basic character"],
+    ["天","","Sky","天 = sky","Basic character"],
+    ["中","","Middle","中 = middle","Basic character"],
+    ["上","","Up","上 = up","Basic character"],
+    ["下","","Down","下 = down","Basic character"],
+    ["口","","Mouth","口 = mouth","Basic character"],
+    ["手","","Hand","手 = hand","Basic character"],
+    ["心","","Heart","心 = heart","Basic character"],
+    ["子","","Child","子 = child","Basic character"],
+    ["女","","Woman","女 = woman","Basic character"],
+    ["好","","Good","好 = good","Basic character"]
+   ]
+ },
+
+ Japanese:{
+   direction:"ltr",
+
+   items:[
+    ["あ","","あめ","あ = a","Hiragana"],
+    ["い","","いぬ","い = i","Hiragana"],
+    ["う","","うみ","う = u","Hiragana"],
+    ["え","","えき","え = e","Hiragana"],
+    ["お","","おちゃ","お = o","Hiragana"],
+    ["か","","かさ","か = ka","Hiragana"],
+    ["き","","き","き = ki","Hiragana"],
+    ["く","","くも","く = ku","Hiragana"],
+    ["け","","けしごむ","け = ke","Hiragana"],
+    ["こ","","こえ","こ = ko","Hiragana"],
+    ["さ","","さかな","さ = sa","Hiragana"],
+    ["し","","しお","し = shi","Hiragana"],
+    ["す","","すし","す = su","Hiragana"],
+    ["せ","","せんせい","せ = se","Hiragana"],
+    ["そ","","そら","そ = so","Hiragana"],
+    ["た","","たまご","た = ta","Hiragana"],
+    ["ち","","ちず","ち = chi","Hiragana"],
+    ["つ","","つき","つ = tsu","Hiragana"],
+    ["て","","て","て = te","Hiragana"],
+    ["と","","とけい","と = to","Hiragana"],
+    ["な","","なまえ","な = na","Hiragana"],
+    ["に","","にく","に = ni","Hiragana"],
+    ["ぬ","","ぬの","ぬ = nu","Hiragana"],
+    ["ね","","ねこ","ね = ne","Hiragana"],
+    ["の","","のみもの","の = no","Hiragana"],
+    ["は","","はな","は = ha","Hiragana"],
+    ["ひ","","ひ","ひ = hi","Hiragana"],
+    ["ふ","","ふね","ふ = fu","Hiragana"],
+    ["へ","","へや","へ = he","Hiragana"],
+    ["ほ","","ほし","ほ = ho","Hiragana"],
+    ["ま","","まど","ま = ma","Hiragana"],
+    ["み","","みみ","み = mi","Hiragana"],
+    ["む","","むし","む = mu","Hiragana"],
+    ["め","","め","め = me","Hiragana"],
+    ["も","","もも","も = mo","Hiragana"],
+    ["や","","やま","や = ya","Hiragana"],
+    ["ゆ","","ゆき","ゆ = yu","Hiragana"],
+    ["よ","","よる","よ = yo","Hiragana"],
+    ["ら","","らいおん","ら = ra","Hiragana"],
+    ["り","","りんご","り = ri","Hiragana"],
+    ["る","","るす","る = ru","Hiragana"],
+    ["れ","","れいぞうこ","れ = re","Hiragana"],
+    ["ろ","","ろうそく","ろ = ro","Hiragana"],
+    ["わ","","わたし","わ = wa","Hiragana"],
+    ["を","","を","を = wo","Hiragana"],
+    ["ん","","ほん","ん = n","Hiragana"]
+   ]
+ },
+
+ Korean:{
+   direction:"ltr",
+
+   items:[
+    ["가","","가방","가 = ga","Hangul syllable"],
+    ["나","","나라","나 = na","Hangul syllable"],
+    ["다","","다리","다 = da","Hangul syllable"],
+    ["라","","라디오","라 = ra","Hangul syllable"],
+    ["마","","마음","마 = ma","Hangul syllable"],
+    ["바","","바다","바 = ba","Hangul syllable"],
+    ["사","","사람","사 = sa","Hangul syllable"],
+    ["아","","아이","아 = a","Hangul syllable"],
+    ["자","","자동차","자 = ja","Hangul syllable"],
+    ["차","","차","차 = cha","Hangul syllable"],
+    ["카","","카메라","카 = ka","Hangul syllable"],
+    ["타","","타다","타 = ta","Hangul syllable"],
+    ["파","","파도","파 = pa","Hangul syllable"],
+    ["하","","하늘","하 = ha","Hangul syllable"],
+    ["한","","한국","한 = han","Hangul syllable"],
+    ["글","","글","글 = geul","Hangul syllable"],
+    ["친","","친구","친 = chin","Hangul syllable"],
+    ["구","","친구","구 = gu","Hangul syllable"],
+    ["책","","책","책 = book","Hangul syllable"],
+    ["집","","집","집 = house","Hangul syllable"]
+   ]
+ },
+
+ Russian:{
+   direction:"ltr",
+
+   items:[
+    ["А","а","Аист","А как Аист","Буква А"],
+    ["Б","б","Банан","Б как Банан","Буква Б"],
+    ["В","в","Вода","В как Вода","Буква В"],
+    ["Г","г","Гора","Г как Гора","Буква Г"],
+    ["Д","д","Дом","Д как Дом","Буква Д"],
+    ["Е","е","Ель","Е как Ель","Буква Е"],
+    ["Ё","ё","Ёлка","Ё как Ёлка","Буква Ё"],
+    ["Ж","ж","Жук","Ж как Жук","Буква Ж"],
+    ["З","з","Зима","З как Зима","Буква З"],
+    ["И","и","Игра","И как Игра","Буква И"],
+    ["Й","й","Йод","Й как Йод","Буква Й"],
+    ["К","к","Книга","К как Книга","Буква К"],
+    ["Л","л","Лес","Л как Лес","Буква Л"],
+    ["М","м","Море","М как Море","Буква М"],
+    ["Н","н","Нос","Н как Нос","Буква Н"],
+    ["О","о","Озеро","О как Озеро","Буква О"],
+    ["П","п","Парк","П как Парк","Буква П"],
+    ["Р","р","Рыба","Р как Рыба","Буква Р"],
+    ["С","с","Солнце","С как Солнце","Буква С"],
+    ["Т","т","Торт","Т как Торт","Буква Т"],
+    ["У","у","Утка","У как Утка","Буква У"],
+    ["Ф","ф","Фрукты","Ф как Фрукты","Буква Ф"],
+    ["Х","х","Хлеб","Х как Хлеб","Буква Х"],
+    ["Ц","ц","Цветок","Ц как Цветок","Буква Ц"],
+    ["Ч","ч","Чай","Ч как Чай","Буква Ч"],
+    ["Ш","ш","Шар","Ш как Шар","Буква Ш"],
+    ["Щ","щ","Щука","Щ как Щука","Буква Щ"],
+    ["Ы","ы","Мы","Ы как в Мы","Буква Ы"],
+    ["Э","э","Эхо","Э как Эхо","Буква Э"],
+    ["Ю","ю","Юла","Ю как Юла","Буква Ю"],
+    ["Я","я","Яблоко","Я как Яблоко","Буква Я"]
+   ]
+ }
+
+};
+
+
+/* ================================================= */
+/* LANGUAGE SELECTOR                                */
+/* ================================================= */
+
+function buildLanguageSelector(){
+
+  const box=
+    document.getElementById(
+      "languageSelector"
+    );
+
+  box.innerHTML=
+    Object.keys(languageData)
+      .map(lang=>`
+
+        <button
+          data-lang="${lang}"
+          onclick="setLanguage('${lang}')">
+
+          ${lang}
+
+        </button>
+
+      `)
+      .join("");
+}
+
+
+/* ================================================= */
+/* SET LANGUAGE                                     */
+/* ================================================= */
+
+function setLanguage(lang){
+
+  currentLanguage=lang;
+
+  document
+    .querySelectorAll(
+      ".languageSelector button"
+    )
+    .forEach(btn=>{
+
+      btn.classList.toggle(
+        "active",
+        btn.dataset.lang===lang
+      );
+
+    });
+
+  const data=
+    languageData[lang];
+
+  document.getElementById(
+    "languageIntro"
+  ).innerHTML=`
+
+    <h2>🌍 ${lang}</h2>
+
+    <p>
+      Start learning ${lang} step by step.
+    </p>
+
+  `;
+
+  document.getElementById(
+    "languageLesson"
+  ).innerHTML="";
+
+}
+
+
+/* ================================================= */
+/* LANGUAGE LESSONS                                 */
+/* ================================================= */
+
+function showLanguage(type){
+
+  const data=
+    languageData[currentLanguage];
+
+  let html="";
+
+
+  /* WRITING WORKSHEET */
+
+  if(type==="writing"){
+
+    html=`
+
+      <div class="worksheet">
+
+        <div class="worksheetIntro">
+
+          <h2>
+            ✍️ ${currentLanguage} Writing Worksheet
+          </h2>
+
+          <p>
+            Practice ${currentLanguage} step by step.
+            Look at the model, trace the character,
+            then write it yourself.
+          </p>
+
+          <button
+            class="resetButton"
+            onclick="resetWritingProgress()">
+
+            🔄 Reset Progress
+
+          </button>
+
+        </div>
+
+
+        <div class="worksheetTop">
+
+          <span class="worksheetBadge">
+            ✍️ Writing Practice
+          </span>
+
+          <div class="progressBox">
+
+            <div class="progressText">
+
+              <span id="worksheetProgressText">
+                1 / 1
+              </span>
+
+              <span id="worksheetPercent">
+                0%
+              </span>
+
+            </div>
+
+            <div class="progressBar">
+
+              <div
+                id="worksheetProgressFill"
+                class="progressFill">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="worksheetGrid">
+
+
+          <div class="practiceCard">
+
+            <h3>
+              👀 1. Look & Learn
+            </h3>
+
+            <div class="modelArea">
+
+              <div
+                id="modelCharacter"
+                class="modelCharacter">
+              </div>
+
+              <div
+                id="modelRoman"
+                class="modelRoman">
+              </div>
+
+              <div
+                id="modelExample"
+                class="modelExample">
+              </div>
+
+            </div>
+
+
+            <div class="traceArea">
+
+              <div class="traceTitle">
+
+                <strong>
+                  ✏️ 2. Trace
+                </strong>
+
+                <span>
+                  Follow the shape
+                </span>
+
+              </div>
+
+              <div
+                id="traceCharacter"
+                class="traceCharacter">
+              </div>
+
+            </div>
+
+
+            <div class="worksheetInfo">
+
+              <div class="miniInfo">
+
+                <strong>🔤 Character</strong>
+
+                <span id="infoCharacter">
+                </span>
+
+              </div>
+
+              <div class="miniInfo">
+
+                <strong>📖 Example</strong>
+
+                <span id="infoExample">
+                </span>
+
+              </div>
+
+              <div class="miniInfo">
+
+                <strong>💡 Tip</strong>
+
+                <span>
+                  Write slowly and carefully.
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="practiceCard">
+
+            <div class="canvasTitle">
+
+              <h3>
+                📝 3. Your Turn
+              </h3>
+
+              <span>
+                Draw with finger or mouse
+              </span>
+
+            </div>
+
+
+            <div
+              class="canvasWrap"
+              id="canvasWrap">
+
+              <canvas
+                id="writingCanvas">
+              </canvas>
+
+              <div class="canvasHint">
+                Write the character here
+              </div>
+
+            </div>
+
+
+            <div class="worksheetButtons">
+
+              <button
+                class="btnClear"
+                onclick="clearCanvas()">
+
+                🧹 Clear
+
+              </button>
+
+              <button
+                class="btnCheck"
+                onclick="checkWriting()">
+
+                ✅ Check
+
+              </button>
+
+              <button
+                class="btnListen"
+                onclick="listenCurrentCharacter()">
+
+                🔊 Listen
+
+              </button>
+
+              <button
+                class="btnPrint"
+                onclick="printWorksheet()">
+
+                🖨️ Print
+
+              </button>
+
+            </div>
+
+
+            <div
+              id="writingFeedback"
+              class="feedback">
+            </div>
+
+
+            <div class="freePractice">
+
+              <h3>
+                📝 Free Practice
+              </h3>
+
+              <div class="freePracticeBox">
+
+                ${data.writing}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="navigation">
+
+          <button
+            class="navPrev"
+            onclick="previousWritingItem()">
+
+            ← Previous
+
+          </button>
+
+          <button
+            class="navNext"
+            onclick="nextWritingItem()">
+
+            Next →
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* VOCABULARY */
+
+  if(type==="vocabulary"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          📚 ${currentLanguage} Vocabulary
+        </h2>
+
+        <p>
+          Learn these useful words:
+        </p>
+
+        <div class="contentGrid">
+
+          ${data.words.map(w=>`
+
+            <div class="word">
+
+              <strong>${w[0]}</strong>
+
+              <p>${w[1]}</p>
+
+              <button
+                class="secondary"
+                onclick="speak('${escapeSpeech(w[0])}','${data.code}')">
+
+                🔊
+
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* SENTENCES */
+
+  if(type==="sentences"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          💬 Useful ${currentLanguage} Sentences
+        </h2>
+
+        <div class="contentGrid">
+
+          ${data.sentences.map(sentence=>`
+
+            <div class="word">
+
+              <p>${sentence}</p>
+
+              <button
+                class="secondary"
+                onclick="speak('${escapeSpeech(sentence)}','${data.code}')">
+
+                🔊 Listen
+
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* LISTENING */
+
+  if(type==="listening"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          🎧 ${currentLanguage} Listening
+        </h2>
+
+        <p>
+          Tap a sentence and listen to its pronunciation.
+        </p>
+
+        <div class="contentGrid">
+
+          ${data.sentences.map(sentence=>`
+
+            <div class="word">
+
+              <p>${sentence}</p>
+
+              <button
+                class="primary"
+                onclick="speak('${escapeSpeech(sentence)}','${data.code}')">
+
+                🔊 Listen
+
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* STORIES */
+
+  if(type==="stories"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          📖 ${currentLanguage} Stories
+        </h2>
+
+        <p>
+          Read easy stories and learn useful words
+          through the story.
+        </p>
+
+        <div class="storyList">
+
+          ${data.stories.map((story,i)=>`
+
+            <div class="storyCard">
+
+              <h3>
+                ${story.title}
+              </h3>
+
+              <p>
+                ${story.text}
+              </p>
+
+              <button onclick="speakStoryAt(${i})">
+                🔊 Listen
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+        <div class="actionRow">
+
+          <button
+            class="secondary"
+            onclick="showStoryVocabulary()">
+
+            🧠 New Words
+
+          </button>
+
+        </div>
+
+        <div id="storyVocabulary"></div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  document.getElementById(
+    "languageLesson"
+  ).innerHTML=html;
+
+
+  if(type==="writing"){
+
+    writingIndex=0;
+
+    completedWriting=
+      getWritingProgress();
+
+    setupCanvas();
+
+    renderWritingItem();
+
+  }
+
+}
+
+
+/* ================================================= */
+/* WRITING WORKSHEET ENGINE                         */
+/* ================================================= */
+
+let writingIndex=0;
+
+let completedWriting={};
+
+let canvas=null;
+
+let ctx=null;
+
+let drawing=false;
+
+
+function getCurrentWorksheet(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(!data){
+    return null;
+  }
+
+  return data.items[writingIndex];
+
+}
+
+
+function getProgressKey(){
+
+  return "litWriting_" +
+    currentLanguage;
+
+}
+
+
+function getWritingProgress(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        getProgressKey()
+      ) || "{}"
+    );
+
+  }catch(e){
+
+    return {};
+
+  }
+
+}
+
+
+function saveWritingProgress(){
+
+  localStorage.setItem(
+    getProgressKey(),
+    JSON.stringify(completedWriting)
+  );
+
+}
+
+
+function renderWritingItem(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(!data){
+    return;
+  }
+
+  const item=
+    data.items[writingIndex];
+
+  if(!item){
+    return;
+  }
+
+
+  const mainCharacter=item[0];
+
+  const lowerCharacter=item[1];
+
+  const example=item[2];
+
+  const description=item[3];
+
+  const type=item[4];
+
+
+  const model=
+    document.getElementById(
+      "modelCharacter"
+    );
+
+  const roman=
+    document.getElementById(
+      "modelRoman"
+    );
+
+  const modelExample=
+    document.getElementById(
+      "modelExample"
+    );
+
+  const trace=
+    document.getElementById(
+      "traceCharacter"
+    );
+
+
+  if(model){
+
+    model.textContent=
+      lowerCharacter
+      ? mainCharacter+" "+lowerCharacter
+      : mainCharacter;
+
+  }
+
+
+  if(roman){
+
+    roman.textContent=
+      type || "";
+
+  }
+
+
+  if(modelExample){
+
+    modelExample.innerHTML=`
+
+      <strong>${example}</strong>
+
+      <br>
+
+      ${description}
+
+    `;
+
+  }
+
+
+  if(trace){
+
+    trace.textContent=
+      lowerCharacter
+      ? mainCharacter+" "+lowerCharacter
+      : mainCharacter;
+
+    if(currentLanguage==="Arabic"){
+
+      trace.style.direction="rtl";
+
+    }else{
+
+      trace.style.direction="ltr";
+
+    }
+
+  }
+
+
+  const infoCharacter=
+    document.getElementById(
+      "infoCharacter"
+    );
+
+  const infoExample=
+    document.getElementById(
+      "infoExample"
+    );
+
+
+  if(infoCharacter){
+
+    infoCharacter.textContent=
+      mainCharacter;
+
+  }
+
+
+  if(infoExample){
+
+    infoExample.textContent=
+      example;
+
+  }
+
+
+  updateProgress();
+
+
+  clearCanvas();
+
+
+  const feedback=
+    document.getElementById(
+      "writingFeedback"
+    );
+
+  if(feedback){
+
+    feedback.className="feedback";
+
+    feedback.innerHTML="";
+
+  }
+
+
+  updateNavigation();
+
+}
+
+
+function updateProgress(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  const total=
+    data.items.length;
+
+  const completed=
+    Object.keys(
+      completedWriting
+    ).length;
+
+  const current=
+    writingIndex+1;
+
+  const progressText=
+    document.getElementById(
+      "worksheetProgressText"
+    );
+
+  const percent=
+    document.getElementById(
+      "worksheetPercent"
+    );
+
+  const fill=
+    document.getElementById(
+      "worksheetProgressFill"
+    );
+
+
+  if(progressText){
+
+    progressText.textContent=
+      current+" / "+total;
+
+  }
+
+
+  const percentage=
+    Math.round(
+      (completed/total)*100
+    );
+
+
+  if(percent){
+
+    percent.textContent=
+      percentage+"% completed";
+
+  }
+
+
+  if(fill){
+
+    fill.style.width=
+      percentage+"%";
+
+  }
+
+}
+
+
+function previousWritingItem(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(writingIndex>0){
+
+    writingIndex--;
+
+    renderWritingItem();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+
+function nextWritingItem(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(writingIndex<
+     data.items.length-1){
+
+    writingIndex++;
+
+    renderWritingItem();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }else{
+
+    showCompletionMessage();
+
+  }
+
+}
+
+
+function updateNavigation(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  const buttons=
+    document.querySelectorAll(
+      ".navigation button"
+    );
+
+  if(buttons.length<2){
+    return;
+  }
+
+
+  buttons[0].disabled=
+    writingIndex===0;
+
+  buttons[1].textContent=
+    writingIndex===
+    data.items.length-1
+    ? "Finish ✓"
+    : "Next →";
+
+
+  buttons[0].style.opacity=
+    writingIndex===0
+    ? ".5"
+    : "1";
+
+}
+
+
+function setupCanvas(){
+
+  canvas=
+    document.getElementById(
+      "writingCanvas"
+    );
+
+  if(!canvas){
+    return;
+  }
+
+  ctx=
+    canvas.getContext("2d");
+
+  resizeCanvas();
+
+
+  canvas.onpointerdown=
+    startDrawing;
+
+  canvas.onpointermove=
+    draw;
+
+  canvas.onpointerup=
+    stopDrawing;
+
+  canvas.onpointercancel=
+    stopDrawing;
+
+  canvas.onpointerleave=
+    stopDrawing;
+
+}
+
+
+function resizeCanvas(){
+
+  if(!canvas){
+    return;
+  }
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  const ratio=
+    window.devicePixelRatio || 1;
+
+  canvas.width=
+    rect.width*ratio;
+
+  canvas.height=
+    rect.height*ratio;
+
+  ctx=
+    canvas.getContext("2d");
+
+  ctx.scale(
+    ratio,
+    ratio
+  );
+
+  ctx.lineWidth=5;
+
+  ctx.lineCap="round";
+
+  ctx.lineJoin="round";
+
+  ctx.strokeStyle="#6f4328";
+
+}
+
+
+window.addEventListener(
+  "resize",
+  ()=>{
+    if(canvas){
+      resizeCanvas();
+    }
+  }
+);
+
+
+function getCanvasPosition(e){
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  return {
+
+    x:e.clientX-rect.left,
+
+    y:e.clientY-rect.top
+
+  };
+
+}
+
+
+function startDrawing(e){
+
+  if(!canvas){
+    return;
+  }
+
+  drawing=true;
+
+  canvas.setPointerCapture(
+    e.pointerId
+  );
+
+  const pos=
+    getCanvasPosition(e);
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    pos.x,
+    pos.y
+  );
+
+}
+
+
+function draw(e){
+
+  if(!drawing){
+    return;
+  }
+
+  const pos=
+    getCanvasPosition(e);
+
+  ctx.lineTo(
+    pos.x,
+    pos.y
+  );
+
+  ctx.stroke();
+
+}
+
+
+function stopDrawing(){
+
+  drawing=false;
+
+}
+
+
+function clearCanvas(){
+
+  if(!canvas || !ctx){
+    return;
+  }
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  ctx.clearRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+
+}
+
+
+function checkWriting(){
+
+  if(!canvas){
+    return;
+  }
+
+
+  const data=
+    ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+  let hasInk=false;
+
+
+  for(
+    let i=3;
+    i<data.data.length;
+    i+=4
+  ){
+
+    if(data.data[i]>30){
+
+      hasInk=true;
+
+      break;
+
+    }
+
+  }
+
+
+  const feedback=
+    document.getElementById(
+      "writingFeedback"
+    );
+
+
+  if(!feedback){
+    return;
+  }
+
+
+  feedback.className=
+    "feedback show";
+
+
+  if(!hasInk){
+
+    feedback.classList.add(
+      "info"
+    );
+
+    feedback.innerHTML=
+      "✏️ Write the character in the box first, then press Check.";
+
+    return;
+
+  }
+
+
+  completedWriting[
+    writingIndex
+  ]=true;
+
+
+  saveWritingProgress();
+
+  updateProgress();
+
+
+  feedback.classList.add(
+    "success"
+  );
+
+  feedback.innerHTML=
+    "🎉 Great work! You completed this writing exercise. Now try it again or move to the next character.";
+
+}
+
+
+function showCompletionMessage(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  const total=
+    data.items.length;
+
+  completedWriting={};
+
+  for(let i=0;i<total;i++){
+    completedWriting[i]=true;
+  }
+
+  saveWritingProgress();
+
+  updateProgress();
+
+
+  const feedback=
+    document.getElementById(
+      "writingFeedback"
+    );
+
+  if(feedback){
+
+    feedback.className=
+      "feedback show success";
+
+    feedback.innerHTML=`
+
+      🎉 <strong>Worksheet completed!</strong>
+
+      <br>
+
+      You practiced all ${total}
+      ${currentLanguage} writing exercises.
+
+    `;
+
+  }
+
+}
+
+
+function resetWritingProgress(){
+
+  if(
+    !confirm(
+      "Reset your writing progress for "+
+      currentLanguage+"?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  completedWriting={};
+
+  localStorage.removeItem(
+    getProgressKey()
+  );
+
+  writingIndex=0;
+
+  renderWritingItem();
+
+}
+
+
+function listenCurrentCharacter(){
+
+  const item=
+    getCurrentWorksheet();
+
+  if(!item){
+    return;
+  }
+
+  const text=
+    item[2] || item[0];
+
+  const code=
+    languageData[
+      currentLanguage
+    ].code;
+
+  speak(
+    text,
+    code
+  );
+
+}
+
+
+function printWorksheet(){
+
+  window.print();
+
+}
+
+
+function escapeSpeech(text){
+
+  return String(text)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,'\\"')
+    .replace(/\n/g," ");
+
+}
+
+
+function speakStoryAt(index){
+
+  const data=
+    languageData[currentLanguage];
+
+  if(data.stories && data.stories[index]){
+
+    speak(
+      data.stories[index].text,
+      data.code
+    );
+
+  }
+
+}
+
+
+function speakStory(){
+
+  const data=
+    languageData[currentLanguage];
+
+  if(data.stories && data.stories[0]){
+
+    speak(
+      data.stories[0].text,
+      data.code
+    );
+
+  }
+
+}
+
+
+function showStoryVocabulary(){
+
+  const words=[
+
+    ["Story","A written or spoken tale."],
+
+    ["Book","Something we read."],
+
+    ["Library","A place with many books."],
+
+    ["Language","A way people communicate."],
+
+    ["Learn","To gain knowledge."],
+
+    ["Discover","To find something new."],
+
+    ["Curious","Wanting to know something."],
+
+    ["Journey","A trip from one place to another."],
+
+    ["Dream","Images in the mind during sleep."],
+
+    ["Friend","A person you like and trust."]
+
+  ];
+
+
+  document.getElementById(
+    "storyVocabulary"
+  ).innerHTML=`
+
+    <h3
+      style="
+        color:var(--brown);
+        margin-top:25px
+      ">
+
+      🧠 Useful Story Words
+
+    </h3>
+
+    <div class="contentGrid">
+
+      ${words.map(w=>`
+
+        <div class="word">
+
+          <strong>
+            ${w[0]}
+          </strong>
+
+          <p>
+            ${w[1]}
+          </p>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `;
+
+}
+
+
+function speak(
+  text,
+  lang="en-US"
+){
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+
+    alert(
+      "Your browser does not support voice."
+    );
+
+    return;
+
+  }
+
+
+  speechSynthesis.cancel();
+
+
+  const utterance=
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+
+  utterance.lang=lang;
+
+  utterance.rate=.85;
+
+
+  speechSynthesis.speak(
+    utterance
+  );
+
+}
+
+
+/* ================================================= */
+/* SCIENCE                                         */
+/* ================================================= */
+
+const scientists=[
+
+ ["Albert Einstein","Theory of Relativity",
+  "Developed special (1905) and general (1915) relativity. E=mc². Nobel Prize 1921 for the photoelectric effect. Changed our understanding of space, time, gravity and energy."],
+
+ ["Isaac Newton","Laws of Motion & Gravitation",
+  "Formulated three laws of motion and universal gravitation. Wrote Principia Mathematica (1687). Invented calculus (independently of Leibniz). Built the first practical reflecting telescope."],
+
+ ["Marie Curie","Radioactivity",
+  "Discovered polonium and radium. First woman to win a Nobel Prize and the only person to win in two sciences (Physics 1903, Chemistry 1911). Pioneered the use of radiation in medicine."],
+
+ ["Charles Darwin","Evolution by Natural Selection",
+  "Wrote On the Origin of Species (1859). Explained how species change over time. Voyage of the Beagle provided key evidence."],
+
+ ["Galileo Galilei","Observational Astronomy",
+  "Improved the telescope, discovered Jupiter's four largest moons, and supported heliocentrism. Called the father of modern science."],
+
+ ["Nikola Tesla","Alternating Current",
+  "Developed the AC electrical system that powers the world. Invented the Tesla coil. Pioneered wireless energy and radio."],
+
+ ["James Clerk Maxwell","Electromagnetism",
+  "Unified electricity and magnetism into four equations. Predicted electromagnetic waves, later confirmed as light. Foundation of modern physics."],
+
+ ["Niels Bohr","Atomic Structure",
+  "Proposed the planetary model of the atom with quantised electron orbits. Nobel Prize 1922."],
+
+ ["Werner Heisenberg","Quantum Mechanics",
+  "Developed matrix mechanics and the uncertainty principle. Nobel Prize 1932."],
+
+ ["Erwin Schrödinger","Wave Mechanics",
+  "Developed the wave equation central to quantum mechanics. Famous for the Schrödinger's cat thought experiment. Nobel Prize 1933."],
+
+ ["Richard Feynman","Quantum Electrodynamics",
+  "Co-founded QED. Invented Feynman diagrams. Nobel Prize 1965. Also investigated the Challenger disaster."],
+
+ ["Stephen Hawking","Black Holes & Cosmology",
+  "Predicted Hawking radiation. Wrote A Brief History of Time. Held the Lucasian Chair at Cambridge."],
+
+ ["Rosalind Franklin","DNA Structure",
+  "Her X-ray diffraction image 'Photo 51' was crucial to discovering the double helix of DNA."],
+
+ ["Louis Pasteur","Germ Theory",
+  "Proved microbes cause disease. Invented pasteurisation. Developed vaccines for anthrax and rabies."],
+
+ ["Gregor Mendel","Genetics",
+  "Discovered the laws of heredity through experiments with pea plants. Father of genetics."],
+
+ ["Alexander Fleming","Penicillin",
+  "Discovered penicillin in 1928. Nobel Prize 1945. Started the antibiotic revolution."],
+
+ ["Barbara McClintock","Transposons",
+  "Discovered mobile genetic elements ('jumping genes') in maize. Nobel Prize 1983."],
+
+ ["Tu Youyou","Artemisinin",
+  "Discovered artemisinin, a key malaria treatment. Nobel Prize 2015."],
+
+ ["Dmitri Mendeleev","Periodic Table",
+  "Created the periodic table of elements (1869) and predicted properties of undiscovered elements."],
+
+ ["Antoine Lavoisier","Modern Chemistry",
+  "Discovered the role of oxygen in combustion. Named oxygen and hydrogen. Father of modern chemistry."],
+
+ ["John Dalton","Atomic Theory",
+  "Proposed that all matter is made of atoms. First modern atomic theory (1803)."],
+
+ ["Michael Faraday","Electromagnetic Induction",
+  "Discovered electromagnetic induction, the principle behind electric generators and transformers."],
+
+ ["James Watson & Francis Crick","DNA Double Helix",
+  "Proposed the double-helix structure of DNA in 1953, with crucial data from Rosalind Franklin. Nobel Prize 1962."],
+
+ ["Jonas Salk","Polio Vaccine",
+  "Developed the first effective polio vaccine in 1955. Refused to patent it."],
+
+ ["Edward Jenner","Vaccination",
+  "Developed the first smallpox vaccine (1796). Father of immunology."],
+
+ ["Robert Koch","Bacteriology",
+  "Identified the causes of tuberculosis, cholera and anthrax. Nobel Prize 1905."],
+
+ ["Ivan Pavlov","Classical Conditioning",
+  "Demonstrated conditioned reflexes in dogs. Nobel Prize 1904."],
+
+ ["Sigmund Freud","Psychoanalysis",
+  "Founded psychoanalysis. Introduced the concepts of the id, ego and superego."],
+
+ ["Carl Jung","Analytical Psychology",
+  "Founded analytical psychology. Introduced archetypes, the collective unconscious and introversion/extraversion."],
+
+ ["Max Planck","Quantum Theory",
+  "Introduced the quantum of action (Planck's constant). Nobel Prize 1918. Father of quantum physics."],
+
+ ["Ernest Rutherford","Nuclear Physics",
+  "Discovered the atomic nucleus. First to split the atom. Nobel Prize 1908."],
+
+ ["Enrico Fermi","Nuclear Reactions",
+  "Built the first nuclear reactor. Nobel Prize 1938. One of the architects of the atomic age."],
+
+ ["J. Robert Oppenheimer","Atomic Bomb",
+  "Led the Manhattan Project. Later opposed the hydrogen bomb. 'Father of the atomic bomb'."],
+
+ ["Lise Meitner","Nuclear Fission",
+  "Co-discovered nuclear fission. Her colleague Otto Hahn received the Nobel, a famous oversight."],
+
+ ["Emmy Noether","Abstract Algebra & Symmetry",
+  "Revolutionised abstract algebra and theoretical physics. Noether's theorem links symmetry and conservation laws."],
+
+ ["Ada Lovelace","First Computer Programmer",
+  "Wrote the first algorithm intended for a machine (Charles Babbage's Analytical Engine)."],
+
+ ["Alan Turing","Computer Science & AI",
+  "Father of theoretical computer science. Broke the Enigma code in WWII. Proposed the Turing test."],
+
+ ["Grace Hopper","Compilers & COBOL",
+  "Pioneered compilers and machine-independent programming languages. Co-developed COBOL."],
+
+ ["Tim Berners-Lee","World Wide Web",
+  "Invented the World Wide Web in 1989 at CERN."],
+
+ ["Vint Cerf & Bob Kahn","Internet Protocol",
+  "Designed TCP/IP, the foundation of the internet."],
+
+ ["John von Neumann","Computer Architecture",
+  "Designed the von Neumann architecture used in almost all computers."],
+
+ ["Claude Shannon","Information Theory",
+  "Father of information theory. Founded digital circuit design."],
+
+ ["Edwin Hubble","Expanding Universe",
+  "Discovered that the universe is expanding. Hubble's Law. Namesake of the Hubble Space Telescope."],
+
+ ["Carl Sagan","Cosmology & Science Communication",
+  "Popularised astronomy. Wrote Cosmos. Advanced the search for extraterrestrial intelligence."],
+
+ ["Neil deGrasse Tyson","Astrophysics",
+  "Popular science communicator. Director of the Hayden Planetarium."],
+
+ ["Jane Goodall","Primatology",
+  "Revolutionised the study of chimpanzees. Discovered they make and use tools."],
+
+ ["Dian Fossey","Primatology",
+  "Studied mountain gorillas in Rwanda. Wrote Gorillas in the Mist."],
+
+ ["Rachel Carson","Environmental Science",
+  "Wrote Silent Spring (1962), which launched the modern environmental movement."],
+
+ ["James Lovelock","Gaia Hypothesis",
+  "Proposed that Earth functions as a self-regulating system."],
+
+ ["Lynn Margulis","Endosymbiosis",
+  "Proposed that mitochondria and chloroplasts originated as symbiotic bacteria."],
+
+ ["Francis Collins","Human Genome Project",
+  "Led the Human Genome Project to completion in 2003."],
+
+ ["Jennifer Doudna & Emmanuelle Charpentier","CRISPR-Cas9",
+  "Developed CRISPR gene editing. Nobel Prize in Chemistry 2020."],
+
+ ["Katalin Karikó & Drew Weissman","mRNA Vaccines",
+  "Developed mRNA technology used in COVID-19 vaccines. Nobel Prize 2023."],
+
+ ["Barry Marshall & Robin Warren","H. pylori",
+  "Discovered that stomach ulcers are caused by bacteria. Nobel Prize 2005."],
+
+ ["Harold Varmus & J. Michael Bishop","Oncogenes",
+  "Discovered the cellular origin of retroviral oncogenes. Nobel Prize 1989."],
+
+ ["Elizabeth Blackburn & Carol Greider","Telomeres",
+  "Discovered telomerase and how chromosomes are protected. Nobel Prize 2009."],
+
+ ["Yuan Tseh Lee","Chemical Dynamics",
+  "Nobel Prize in Chemistry 1986 for contributions to chemical reaction dynamics."],
+
+ ["Ahmed Zewail","Femtochemistry",
+  "Nobel Prize in Chemistry 1999. Used ultrafast lasers to observe chemical reactions."],
+
+ ["Aziz Sancar","DNA Repair",
+  "Nobel Prize in Chemistry 2015 for mapping DNA repair mechanisms."],
+
+ ["Malala Yousafzai (advocate)","Education",
+  "Nobel Peace Prize 2014. Advocate for girls' education."],
+
+ ["Christiane Nüsslein-Volhard","Developmental Genetics",
+  "Nobel Prize in Physiology or Medicine 1995 for research on genetic control of early embryonic development."],
+
+ ["May-Britt Moser & Edvard Moser","Grid Cells",
+  "Nobel Prize 2014 for discovering grid cells in the brain's positioning system."],
+
+ ["John O'Keefe","Place Cells",
+  "Nobel Prize 2014 for discovering place cells in the brain's GPS system."],
+
+ ["Roger Penrose","Black Hole Formation",
+  "Nobel Prize in Physics 2020 for showing black holes are a consequence of general relativity."],
+
+ ["Andrea Ghez & Reinhard Genzel","Galactic Centre",
+  "Nobel Prize in Physics 2020 for discovering a supermassive compact object at the centre of the Milky Way."],
+
+ ["Didier Queloz & Michel Mayor","Exoplanets",
+  "Nobel Prize in Physics 2019 for discovering the first exoplanet around a Sun-like star."],
+
+ ["Giorgio Parisi","Complex Systems",
+  "Nobel Prize in Physics 2021 for discoveries in disordered systems and complex systems."],
+
+ ["Syukuro Manabe & Klaus Hasselmann","Climate Modelling",
+  "Nobel Prize in Physics 2021 for physical modelling of Earth's climate."],
+
+ ["Alain Aspect, John Clauser & Anton Zeilinger","Quantum Entanglement",
+  "Nobel Prize in Physics 2022 for experiments with entangled photons."],
+
+ ["Pierre Agostini, Ferenc Krausz & Anne L'Huillier","Attosecond Physics",
+  "Nobel Prize in Physics 2023 for experimental methods generating attosecond pulses of light."],
+
+ ["Moungi Bawendi, Louis Brus & Alexei Ekimov","Quantum Dots",
+  "Nobel Prize in Chemistry 2023 for the discovery and synthesis of quantum dots."],
+
+ ["Drew Weissman (extra)","mRNA",
+  "Co-recipient of the 2023 Nobel Prize in Physiology or Medicine."],
+
+ ["Svante Pääbo","Ancient DNA",
+  "Nobel Prize in Physiology or Medicine 2022 for discoveries concerning the genomes of extinct hominins."],
+
+ ["David Julius & Ardem Patapoutian","Temperature & Touch Receptors",
+  "Nobel Prize in Physiology or Medicine 2021 for discovering receptors for temperature and touch."],
+
+ ["Harvey Alter, Michael Houghton & Charles Rice","Hepatitis C",
+  "Nobel Prize in Physiology or Medicine 2020 for the discovery of the hepatitis C virus."],
+
+ ["William Kaelin, Peter Ratcliffe & Gregg Semenza","Oxygen Sensing",
+  "Nobel Prize in Physiology or Medicine 2019 for discovering how cells sense and adapt to oxygen availability."],
+
+ ["James Allison & Tasuku Honjo","Cancer Immunotherapy",
+  "Nobel Prize in Physiology or Medicine 2018 for discovering cancer therapy by inhibition of negative immune regulation."],
+
+ ["Jeffrey Hall, Michael Rosbash & Michael Young","Circadian Rhythm",
+  "Nobel Prize in Physiology or Medicine 2017 for discovering the molecular mechanisms controlling circadian rhythm."],
+
+ ["Yoshinori Ohsumi","Autophagy",
+  "Nobel Prize in Physiology or Medicine 2016 for discovering mechanisms of autophagy."],
+
+ ["William Campbell & Satoshi Ōmura","Anti-parasitic Drugs",
+  "Nobel Prize in Physiology or Medicine 2015 for therapies against roundworm infections."],
+
+ ["John O'Keefe (extra)","Brain GPS",
+  "Also known for his decades of work on the hippocampus."],
+
+ ["Takaaki Kajita & Arthur McDonald","Neutrino Oscillation",
+  "Nobel Prize in Physics 2015 for showing neutrinos have mass."],
+
+ ["Peter Higgs & François Englert","Higgs Boson",
+  "Nobel Prize in Physics 2013 for the theoretical discovery of the Higgs mechanism."],
+
+ ["Serge Haroche & David Wineland","Quantum Optics",
+  "Nobel Prize in Physics 2012 for measuring and manipulating individual quantum systems."],
+
+ ["Saul Perlmutter, Brian Schmidt & Adam Riess","Accelerating Universe",
+  "Nobel Prize in Physics 2011 for discovering the accelerating expansion of the universe."],
+
+ ["Andre Geim & Konstantin Novoselov","Graphene",
+  "Nobel Prize in Physics 2010 for discovering graphene, a single-atom-thick carbon sheet."],
+
+ ["Charles Kao","Fibre Optics",
+  "Nobel Prize in Physics 2009 for groundbreaking achievements concerning the transmission of light in fibres for optical communication."],
+
+ ["Yoichiro Nambu","Spontaneous Symmetry Breaking",
+  "Nobel Prize in Physics 2008 for the discovery of the mechanism of spontaneous broken symmetry in subatomic physics."],
+
+ ["Albert Fert & Peter Grünberg","Giant Magnetoresistance",
+  "Nobel Prize in Physics 2007 for discovering giant magnetoresistance, used in modern hard drives."],
+
+ ["John Mather & George Smoot","Cosmic Microwave Background",
+  "Nobel Prize in Physics 2006 for discovering the blackbody form and anisotropy of the cosmic microwave background radiation."],
+
+ ["Roy Glauber, John Hall & Theodor Hänsch","Quantum Optics",
+  "Nobel Prize in Physics 2005 for contributions to the quantum theory of optical coherence and laser-based precision spectroscopy."],
+
+ ["David Gross, Politzer & Wilczek","Asymptotic Freedom",
+  "Nobel Prize in Physics 2004 for discovering asymptotic freedom in the theory of the strong interaction."],
+
+ ["Alexei Abrikosov, Vitaly Ginzburg & Anthony Leggett","Superconductivity",
+  "Nobel Prize in Physics 2003 for pioneering contributions to the theory of superconductors and superfluids."],
+
+ ["Raymond Davis, Masatoshi Koshiba & Riccardo Giacconi","Astrophysics",
+  "Nobel Prize in Physics 2002 for cosmic neutrino and X-ray astronomy."],
+
+ ["Eric Cornell, Wolfgang Ketterle & Carl Wieman","Bose-Einstein Condensate",
+  "Nobel Prize in Physics 2001 for achieving Bose-Einstein condensation in dilute gases of alkali atoms."],
+
+ ["Zhores Alferov, Herbert Kroemer & Jack Kilby","Semiconductors",
+  "Nobel Prize in Physics 2000 for semiconductor heterostructures and the integrated circuit."],
+
+ ["Gerard 't Hooft & Martinus Veltman","Electroweak Theory",
+  "Nobel Prize in Physics 1999 for elucidating the quantum structure of electroweak interactions."],
+
+ ["Robert Laughlin, Horst Störmer & Daniel Tsui","Fractional Quantum Hall Effect",
+  "Nobel Prize in Physics 1998 for discovering a new form of quantum fluid with fractionally charged excitations."],
+
+ ["Steven Chu, Claude Cohen-Tannoudji & William Phillips","Laser Cooling",
+  "Nobel Prize in Physics 1997 for developing methods to cool and trap atoms with laser light."],
+
+ ["David Lee, Douglas Osheroff & Robert Richardson","Superfluidity",
+  "Nobel Prize in Physics 1996 for discovering superfluidity in helium-3."],
+
+ ["Martin Perl & Frederick Reines","Lepton Physics",
+  "Nobel Prize in Physics 1995 for pioneering experimental contributions to lepton physics."],
+
+ ["Bertram Brockhouse & Clifford Shull","Neutron Scattering",
+  "Nobel Prize in Physics 1994 for pioneering contributions to the development of neutron scattering techniques."],
+
+ ["Russell Hulse & Joseph Taylor","Binary Pulsars",
+  "Nobel Prize in Physics 1993 for discovering a new type of pulsar, opening new possibilities for the study of gravitation."],
+
+ ["Georges Charpak","Particle Detectors",
+  "Nobel Prize in Physics 1992 for inventing and developing the multiwire proportional chamber."],
+
+ ["Pierre-Gilles de Gennes","Soft Matter",
+  "Nobel Prize in Physics 1991 for discovering that methods developed for studying order phenomena in simple systems can be generalised to more complex forms of matter."],
+
+ ["Jerome Friedman, Henry Kendall & Richard Taylor","Deep Inelastic Scattering",
+  "Nobel Prize in Physics 1990 for pioneering investigations concerning deep inelastic scattering of electrons on protons and bound neutrons."],
+
+ ["Norman Ramsey, Hans Dehmelt & Wolfgang Paul","Atomic Precision",
+  "Nobel Prize in Physics 1989 for the invention of the separated oscillatory fields method and the ion trap technique."],
+
+ ["Leon Lederman, Melvin Schwartz & Jack Steinberger","Neutrino Beam",
+  "Nobel Prize in Physics 1988 for the neutrino beam method and the demonstration of the doublet structure of the leptons."],
+
+ ["Karl Alexander Müller & Georg Bednorz","High-Temperature Superconductivity",
+  "Nobel Prize in Physics 1987 for their important breakthrough in the discovery of superconductivity in ceramic materials."],
+
+ ["Ernst Ruska & Gerd Binnig & Heinrich Rohrer","Electron Microscopy & STM",
+  "Nobel Prize in Physics 1986 for the electron microscope and the scanning tunnelling microscope."],
+
+ ["Klaus von Klitzing","Quantum Hall Effect",
+  "Nobel Prize in Physics 1985 for the discovery of the quantised Hall effect."],
+
+ ["Carlo Rubbia & Simon van der Meer","W and Z Bosons",
+  "Nobel Prize in Physics 1984 for contributions to the discovery of the field particles W and Z."],
+
+ ["Subrahmanyan Chandrasekhar & William Fowler","Stellar Structure",
+  "Nobel Prize in Physics 1983 for studies of the physical processes of importance to the structure and evolution of stars."],
+
+ ["Kenneth Wilson","Critical Phenomena",
+  "Nobel Prize in Physics 1982 for the theory of critical phenomena in connection with phase transitions."],
+
+ ["Nicolaas Bloembergen & Arthur Schawlow & Kai Siegbahn","Laser Spectroscopy",
+  "Nobel Prize in Physics 1981 for contributions to the development of laser spectroscopy and high-resolution electron spectroscopy."],
+
+ ["James Cronin & Val Fitch","CP Violation",
+  "Nobel Prize in Physics 1980 for the discovery of violations of fundamental symmetry principles in the decay of neutral K-mesons."],
+
+ ["Sheldon Glashow, Abdus Salam & Steven Weinberg","Electroweak Unification",
+  "Nobel Prize in Physics 1979 for contributions to the theory of the unified weak and electromagnetic interaction between elementary particles."],
+
+ ["Pyotr Kapitsa, Arno Penzias & Robert Wilson","Low-Temperature Physics & CMB",
+  "Nobel Prize in Physics 1978. Penzias and Wilson discovered the cosmic microwave background."],
+
+ ["Philip Anderson, Nevill Mott & John van Vleck","Magnetic & Disordered Systems",
+  "Nobel Prize in Physics 1977 for fundamental theoretical investigations of the electronic structure of magnetic and disordered systems."],
+
+ ["Burton Richter & Samuel Ting","J/psi Particle",
+  "Nobel Prize in Physics 1976 for pioneering work in the discovery of a heavy elementary particle of a new kind."],
+
+ ["Aage Bohr, Ben Mottelson & James Rainwater","Nuclear Structure",
+  "Nobel Prize in Physics 1975 for the discovery of the connection between collective motion and particle motion in atomic nuclei."],
+
+ ["Martin Ryle & Antony Hewish","Radio Astrophysics",
+  "Nobel Prize in Physics 1974 for pioneering research in radio astrophysics."],
+
+ ["Leo Esaki, Ivar Giaever & Brian Josephson","Tunnelling",
+  "Nobel Prize in Physics 1973 for discoveries regarding tunnelling phenomena in solids."],
+
+ ["John Bardeen, Leon Cooper & Robert Schrieffer","BCS Theory",
+  "Nobel Prize in Physics 1972 for the theory of superconductivity, usually called the BCS theory."],
+
+ ["Dennis Gabor","Holography",
+  "Nobel Prize in Physics 1971 for inventing and developing the holographic method."],
+
+ ["Hannes Alfvén & Louis Néel","Magnetohydrodynamics & Antiferromagnetism",
+  "Nobel Prize in Physics 1970 for fundamental work in magnetohydrodynamics and antiferromagnetism."],
+
+ ["Murray Gell-Mann","Elementary Particles",
+  "Nobel Prize in Physics 1969 for discoveries concerning the classification of elementary particles and their interactions."],
+
+ ["Luis Alvarez","Subatomic Particles",
+  "Nobel Prize in Physics 1968 for decisive contributions to elementary particle physics."],
+
+ ["Hans Bethe","Nuclear Reactions in Stars",
+  "Nobel Prize in Physics 1967 for contributions to the theory of nuclear reactions, especially his discoveries concerning the energy production in stars."],
+
+ ["Alfred Kastler","Optical Pumping",
+  "Nobel Prize in Physics 1966 for the discovery and development of optical methods for studying Hertzian resonances in atoms."],
+
+ ["Sin-Itiro Tomonaga, Julian Schwinger & Richard Feynman","QED",
+  "Nobel Prize in Physics 1965 for fundamental work in quantum electrodynamics."],
+
+ ["Charles Townes, Nicolay Basov & Alexander Prokhorov","Maser-Laser Principle",
+  "Nobel Prize in Physics 1964 for fundamental work in the field of quantum electronics, which has led to the construction of oscillators and amplifiers based on the maser-laser principle."],
+
+ ["Eugene Wigner, Maria Goeppert Mayer & J. Hans D. Jensen","Nuclear Shell Structure",
+  "Nobel Prize in Physics 1963 for contributions to the theory of the atomic nucleus and elementary particles."],
+
+ ["Lev Landau","Superfluidity",
+  "Nobel Prize in Physics 1962 for pioneering theories for condensed matter, especially liquid helium."],
+
+ ["Robert Hofstadter & Rudolf Mössbauer","Electron Scattering & Mössbauer Effect",
+  "Nobel Prize in Physics 1961 for studies of the structure of atomic nuclei and the Mössbauer effect."],
+
+ ["Donald Glaser","Bubble Chamber",
+  "Nobel Prize in Physics 1960 for the invention of the bubble chamber."],
+
+ ["Emilio Segrè & Owen Chamberlain","Antiproton",
+  "Nobel Prize in Physics 1959 for their discovery of the antiproton."],
+
+ ["Pavel Cherenkov, Ilya Frank & Igor Tamm","Cherenkov Radiation",
+  "Nobel Prize in Physics 1958 for the discovery and interpretation of the Cherenkov effect."],
+
+ ["Tsung-Dao Lee & Chen Ning Yang","Parity Violation",
+  "Nobel Prize in Physics 1957 for their penetrating investigation of the so-called parity laws."],
+
+ ["William Shockley, John Bardeen & Walter Brattain","Transistor",
+  "Nobel Prize in Physics 1956 for research on semiconductors and the discovery of the transistor effect."],
+
+ ["Willis Lamb & Polykarp Kusch","Lamb Shift & Electron Magnetic Moment",
+  "Nobel Prize in Physics 1955 for discoveries concerning the fine structure of the hydrogen spectrum."],
+
+ ["Max Born & Walther Bothe","Quantum Mechanics & Coincidence Method",
+  "Nobel Prize in Physics 1954 for fundamental research in quantum mechanics."],
+
+ ["Frits Zernike","Phase Contrast Microscope",
+  "Nobel Prize in Physics 1953 for his demonstration of the phase contrast method."],
+
+ ["Felix Bloch & Edward Purcell","Nuclear Magnetic Resonance",
+  "Nobel Prize in Physics 1952 for the development of new methods for nuclear magnetic precision measurements."],
+
+ ["John Cockcroft & Ernest Walton","Particle Accelerator",
+  "Nobel Prize in Physics 1951 for pioneering work on the transmutation of atomic nuclei by artificially accelerated atomic particles."],
+
+ ["Cecil Powell","Nuclear Photography",
+  "Nobel Prize in Physics 1950 for developing the photographic method of studying nuclear processes and his discoveries regarding mesons."],
+
+ ["Hideki Yukawa","Meson Theory",
+  "Nobel Prize in Physics 1949 for predicting the existence of mesons on the basis of theoretical work on nuclear forces."],
+
+ ["Patrick Blackett","Cloud Chamber",
+  "Nobel Prize in Physics 1948 for developing the Wilson cloud chamber method and discoveries in cosmic radiation."],
+
+ ["Edward Appleton","Ionosphere",
+  "Nobel Prize in Physics 1947 for his investigations of the physics of the upper atmosphere, especially the ionosphere."],
+
+ ["Percy Bridgman","High-Pressure Physics",
+  "Nobel Prize in Physics 1946 for the invention of an apparatus to produce extremely high pressures."],
+
+ ["Wolfgang Pauli","Exclusion Principle",
+  "Nobel Prize in Physics 1945 for the discovery of the exclusion principle, also called the Pauli principle."],
+
+ ["Isidor Rabi","Magnetic Resonance Method",
+  "Nobel Prize in Physics 1944 for his resonance method for recording the magnetic properties of atomic nuclei."],
+
+ ["Otto Stern","Molecular Beam Method",
+  "Nobel Prize in Physics 1943 for his contribution to the development of the molecular ray method and his discovery of the magnetic moment of the proton."],
+
+ ["Ernest Lawrence","Cyclotron",
+  "Nobel Prize in Physics 1939 for the invention and development of the cyclotron."],
+
+ ["Enrico Fermi (extra)","Neutron Irradiation",
+  "Also known for inducing radioactivity by neutron bombardment."],
+
+ ["Clinton Davisson & George Thomson","Electron Diffraction",
+  "Nobel Prize in Physics 1937 for their experimental discovery of the diffraction of electrons by crystals."],
+
+ ["Victor Hess & Carl Anderson","Cosmic Radiation & Positron",
+  "Nobel Prize in Physics 1936 for the discovery of cosmic radiation and the positron."],
+
+ ["James Chadwick","Neutron",
+  "Nobel Prize in Physics 1935 for the discovery of the neutron."],
+
+ ["Werner Heisenberg (extra)","Quantum Mechanics",
+  "Also known for his work on ferromagnetism and cosmic rays."],
+
+ ["Paul Dirac & Erwin Schrödinger","Atomic Theory",
+  "Nobel Prize in Physics 1933 for new productive forms of atomic theory."],
+
+ ["Werner Heisenberg (extra 2)","Quantum Theory",
+  "Also created the S-matrix theory."],
+
+ ["Chandrasekhara Raman","Raman Effect",
+  "Nobel Prize in Physics 1930 for his work on the scattering of light and the discovery of the Raman effect."],
+
+ ["Louis de Broglie","Wave Nature of Electrons",
+  "Nobel Prize in Physics 1929 for the discovery of the wave nature of electrons."],
+
+ ["Owen Willans Richardson","Thermionic Emission",
+  "Nobel Prize in Physics 1928 for his work on the thermionic phenomenon."],
+
+ ["Arthur Compton & C.T.R. Wilson","X-ray Scattering & Cloud Chamber",
+  "Nobel Prize in Physics 1927 for the scattering of X-rays and the cloud chamber."],
+
+ ["Jean Perrin","Brownian Motion",
+  "Nobel Prize in Physics 1926 for his work on the discontinuous structure of matter."],
+
+ ["James Franck & Gustav Hertz","Electron-Atom Collisions",
+  "Nobel Prize in Physics 1925 for discovering the laws governing the impact of an electron upon an atom."],
+
+ ["Manne Siegbahn","X-ray Spectroscopy",
+  "Nobel Prize in Physics 1924 for his discoveries and research in the field of X-ray spectroscopy."],
+
+ ["Robert Millikan","Elementary Charge & Photoelectric Effect",
+  "Nobel Prize in Physics 1923 for his work on the elementary charge of electricity and on the photoelectric effect."],
+
+ ["Albert Einstein (extra)","Photoelectric Effect",
+  "Nobel Prize in Physics 1921 for his services to theoretical physics and the law of the photoelectric effect."],
+
+ ["Charles Guillaume","Alloys",
+  "Nobel Prize in Physics 1920 for his discovery of anomalies in nickel-steel alloys."],
+
+ ["Johannes Stark","Stark Effect",
+  "Nobel Prize in Physics 1919 for his discovery of the Doppler effect in canal rays and the splitting of spectral lines in electric fields."],
+
+ ["Max Planck (extra)","Energy Quanta",
+  "Nobel Prize in Physics 1918 for his discovery of energy quanta."],
+
+ ["Charles Barkla","X-ray Scattering",
+  "Nobel Prize in Physics 1917 for his discovery of the characteristic Röntgen radiation of the elements."],
+
+ ["William Bragg & Lawrence Bragg","X-ray Crystallography",
+  "Nobel Prize in Physics 1915 for their services in the analysis of crystal structure by means of X-rays."],
+
+ ["Max von Laue","X-ray Diffraction",
+  "Nobel Prize in Physics 1914 for his discovery of the diffraction of X-rays by crystals."],
+
+ ["Heike Kamerlingh Onnes","Superconductivity & Low Temperatures",
+  "Nobel Prize in Physics 1913 for his investigations on the properties of matter at low temperatures."],
+
+ ["Nils Gustaf Dalén","Automatic Regulators",
+  "Nobel Prize in Physics 1912 for his invention of automatic regulators for use in conjunction with gas accumulators for illuminating lighthouses and buoys."],
+
+ ["Wilhelm Wien","Heat Radiation",
+  "Nobel Prize in Physics 1911 for his discoveries regarding the laws governing the radiation of heat."],
+
+ ["Johannes Diderik van der Waals","Equation of State",
+  "Nobel Prize in Physics 1910 for his work on the equation of state for gases and liquids."],
+
+ ["Guglielmo Marconi & Karl Braun","Wireless Telegraphy",
+  "Nobel Prize in Physics 1909 for their contributions to the development of wireless telegraphy."],
+
+ ["Gabriel Lippmann","Colour Photography",
+  "Nobel Prize in Physics 1908 for his method of reproducing colours photographically based on the phenomenon of interference."],
+
+ ["Albert Michelson","Optical Precision Instruments",
+  "Nobel Prize in Physics 1907 for his optical precision instruments and the spectroscopic and metrological investigations."],
+
+ ["J.J. Thomson","Conduction of Electricity in Gases",
+  "Nobel Prize in Physics 1906 for his theoretical and experimental investigations on the conduction of electricity by gases. Discovered the electron."],
+
+ ["Philipp Lenard","Cathode Rays",
+  "Nobel Prize in Physics 1905 for his work on cathode rays."],
+
+ ["Lord Rayleigh","Density of Gases",
+  "Nobel Prize in Physics 1904 for his investigations of the densities of the most important gases and his discovery of argon."],
+
+ ["Antoine Henri Becquerel & Pierre & Marie Curie","Radioactivity",
+  "Nobel Prize in Physics 1903 for the discovery of spontaneous radioactivity."],
+
+ ["Hendrik Lorentz & Pieter Zeeman","Zeeman Effect",
+  "Nobel Prize in Physics 1902 for their work on the influence of magnetism on radiation phenomena."],
+
+ ["Wilhelm Röntgen","X-rays",
+  "Nobel Prize in Physics 1901 for the discovery of X-rays."]
+
+];
+
+
+function loadScientists(){
+
+  document.getElementById(
+    "scientistsGrid"
+  ).innerHTML=
+
+  scientists.map(s=>`
+
+    <div class="infoCard">
+
+      <button
+        class="favorite"
+        onclick="addFavorite('${s[0].replace(/'/g,"\\'")}')">
+
+        ☆
+
+      </button>
+
+      <h3>${s[0]}</h3>
+
+      <p>
+        <strong>${s[1]}</strong>
+      </p>
+
+      <p>
+        ${s[2]}
+      </p>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* ================================================= */
+/* NOBEL PEOPLE                                    */
+/* ================================================= */
+
+const nobel=[
+
+ {
+  name: "Marie Curie",
+  icon: "🔬",
+  country: "Poland / France",
+  year: "1903 & 1911",
+  category: "Nobel Laureate",
+  info: "Marie Curie was a pioneering physicist and chemist whose research on radioactivity led to the discovery of polonium and radium. She received the Nobel Prize in Physics in 1903 and Chemistry in 1911."
+},
+
+{
+  name: "Albert Einstein",
+  icon: "💡",
+  country: "Germany / Switzerland",
+  year: "1921",
+  category: "Nobel Laureate",
+  info: "Albert Einstein made foundational contributions to modern physics. His Nobel Prize recognised his work on the photoelectric effect. His famous 1905 papers also addressed Brownian motion and special relativity."
+},
+
+{
+  name: "Malala Yousafzai",
+  icon: "🎓",
+  country: "Pakistan",
+  year: "2014",
+  category: "Nobel Laureate",
+  info: "Malala Yousafzai is a Pakistani education activist. She shared the 2014 Nobel Peace Prize with Kailash Satyarthi for their struggle for the rights of children and young people, including the right to education."
+},
+
+{
+  name: "Rabindranath Tagore",
+  icon: "📖",
+  country: "India",
+  year: "1913",
+  category: "Nobel Laureate",
+  info: "Rabindranath Tagore was a poet, novelist, playwright, philosopher, composer and painter. He received the 1913 Nobel Prize in Literature and became the first Asian Nobel Laureate."
+},
+
+{
+  name: "Naguib Mahfouz",
+  icon: "📚",
+  country: "Egypt",
+  year: "1988",
+  category: "Nobel Laureate",
+  info: "Naguib Mahfouz was an Egyptian novelist and one of the major figures of modern Arabic literature. His famous works include the Cairo Trilogy and Children of the Alley."
+},
+
+{
+  name: "Gabriel García Márquez",
+  icon: "🌹",
+  country: "Colombia",
+  year: "1982",
+  category: "Nobel Laureate",
+  info: "Gabriel García Márquez was a Colombian novelist and journalist. His famous works include One Hundred Years of Solitude, Love in the Time of Cholera and Chronicle of a Death Foretold."
+},
+
+{
+  name: "Ernest Hemingway",
+  icon: "🎣",
+  country: "United States",
+  year: "1954",
+  category: "Nobel Laureate",
+  info: "Ernest Hemingway was an American novelist and short-story writer known for his concise writing style. His major works include The Old Man and the Sea and A Farewell to Arms."
+},
+
+{
+  name: "Abdus Salam",
+  icon: "⚛️",
+  country: "Pakistan",
+  year: "1979",
+  category: "Nobel Laureate",
+  info: "Abdus Salam was a Pakistani theoretical physicist. He shared the 1979 Nobel Prize in Physics for contributions to the theory of the unified electromagnetic and weak interactions."
+},
+
+{
+  name: "Doris Lessing",
+  icon: "✍️",
+  country: "United Kingdom",
+  year: "2007",
+  category: "Nobel Laureate",
+  info: "Doris Lessing was a British writer whose works explored politics, psychology, social change and women's experiences. She received the 2007 Nobel Prize in Literature."
+},
+
+{
+  name: "Milton Friedman",
+  icon: "💰",
+  country: "United States",
+  year: "1976",
+  category: "Nobel Laureate",
+  info: "Milton Friedman was an influential economist associated with the Chicago School. He received the 1976 Nobel Prize in Economic Sciences for achievements in consumption analysis, monetary history and theory, and stabilization policy."
+},
+
+{
+  name: "Amartya Sen",
+  icon: "💰",
+  country: "India",
+  year: "1998",
+  category: "Nobel Laureate",
+  info: "Amartya Sen received the 1998 Nobel Prize in Economic Sciences for contributions to welfare economics. His work includes social choice theory, poverty measurement and the capability approach."
+},
+
+{
+  name: "Paul Krugman",
+  icon: "💰",
+  country: "United States",
+  year: "2008",
+  category: "Nobel Laureate",
+  info: "Paul Krugman received the 2008 Nobel Prize in Economic Sciences for his analysis of trade patterns and the location of economic activity."
+},
+
+{
+  name: "Abhijit Banerjee",
+  icon: "💰",
+  country: "India / United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Abhijit Banerjee shared the 2019 Nobel Prize in Economic Sciences for an experimental approach to alleviating global poverty."
+},
+
+{
+  name: "Esther Duflo",
+  icon: "💰",
+  country: "France / United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Esther Duflo shared the 2019 Nobel Prize in Economic Sciences for an experimental approach to alleviating global poverty. She became one of the youngest recipients of the prize."
+},
+
+{
+  name: "Michael Kremer",
+  icon: "💰",
+  country: "United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Michael Kremer shared the 2019 Nobel Prize in Economic Sciences with Abhijit Banerjee and Esther Duflo for their experimental approach to alleviating global poverty."
+},
+
+{
+  name: "Ivan Pavlov",
+  icon: "🧬",
+  country: "Russia",
+  year: "1904",
+  category: "Nobel Laureate",
+  info: "Ivan Pavlov received the 1904 Nobel Prize in Physiology or Medicine for his work on the physiology of digestion. His later research became closely associated with classical conditioning."
+},
+
+{
+  name: "Robert Koch",
+  icon: "🧬",
+  country: "Germany",
+  year: "1905",
+  category: "Nobel Laureate",
+  info: "Robert Koch was a pioneer of medical microbiology. He received the 1905 Nobel Prize in Physiology or Medicine for his investigations concerning tuberculosis."
+},
+
+{
+  name: "Alexander Fleming",
+  icon: "💊",
+  country: "United Kingdom",
+  year: "1945",
+  category: "Nobel Laureate",
+  info: "Alexander Fleming shared the 1945 Nobel Prize in Physiology or Medicine with Ernst Chain and Howard Florey for the discovery of penicillin and its curative effect in infectious diseases."
+},
+
+{
+  name: "James Watson",
+  icon: "🧬",
+  country: "United States",
+  year: "1962",
+  category: "Nobel Laureate",
+  info: "James Watson shared the 1962 Nobel Prize in Physiology or Medicine with Francis Crick and Maurice Wilkins for discoveries concerning the molecular structure of nucleic acids."
+},
+
+{
+  name: "Francis Crick",
+  icon: "🧬",
+  country: "United Kingdom",
+  year: "1962",
+  category: "Nobel Laureate",
+  info: "Francis Crick shared the 1962 Nobel Prize in Physiology or Medicine with James Watson and Maurice Wilkins for discoveries concerning the molecular structure of nucleic acids."
+},
+
+{
+  name: "Barbara McClintock",
+  icon: "🧬",
+  country: "United States",
+  year: "1983",
+  category: "Nobel Laureate",
+  info: "Barbara McClintock received the 1983 Nobel Prize in Physiology or Medicine for her discovery of mobile genetic elements, also known as transposons."
+},
+
+{
+  name: "Tu Youyou",
+  icon: "🌿",
+  country: "China",
+  year: "2015",
+  category: "Nobel Laureate",
+  info: "Tu Youyou shared the 2015 Nobel Prize in Physiology or Medicine for her discovery of artemisinin, a drug that has significantly reduced mortality from malaria."
+},
+
+{
+  name: "Jacobus Henricus van 't Hoff",
+  icon: "🧪",
+  country: "Netherlands",
+  year: "1901",
+  category: "Nobel Laureate",
+  info: "Jacobus Henricus van 't Hoff was the first recipient of the Nobel Prize in Chemistry. He was awarded the 1901 prize for his discovery of the laws of chemical dynamics and osmotic pressure in solutions."
+},
+
+{
+  name: "Ernest Rutherford",
+  icon: "⚛️",
+  country: "New Zealand / United Kingdom",
+  year: "1908",
+  category: "Nobel Laureate",
+  info: "Ernest Rutherford received the 1908 Nobel Prize in Chemistry for his investigations into the disintegration of the elements and the chemistry of radioactive substances."
+},
+
+{
+  name: "Linus Pauling",
+  icon: "🧪",
+  country: "United States",
+  year: "1954",
+  category: "Nobel Laureate",
+  info: "Linus Pauling received the 1954 Nobel Prize in Chemistry for his research into the nature of the chemical bond. He later received the Nobel Peace Prize in 1962."
+},
+
+{
+  name: "Frederick Sanger",
+  icon: "🧬",
+  country: "United Kingdom",
+  year: "1958 & 1980",
+  category: "Nobel Laureate",
+  info: "Frederick Sanger won the Nobel Prize in Chemistry twice. His first prize recognised his work on the structure of proteins, especially insulin, and his second recognised his contributions concerning DNA sequencing."
+},
+
+{
+  name: "Frances Arnold",
+  icon: "🧪",
+  country: "United States",
+  year: "2018",
+  category: "Nobel Laureate",
+  info: "Frances Arnold received the 2018 Nobel Prize in Chemistry for her work on the directed evolution of enzymes."
+},
+
+{
+  name: "John B. Goodenough",
+  icon: "🔋",
+  country: "United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "John B. Goodenough shared the 2019 Nobel Prize in Chemistry for the development of lithium-ion batteries."
+},
+
+{
+  name: "Wilhelm Röntgen",
+  icon: "⚛️",
+  country: "Germany",
+  year: "1901",
+  category: "Nobel Laureate",
+  info: "Wilhelm Röntgen received the first Nobel Prize in Physics in 1901 for the discovery of X-rays."
+},
+
+{
+  name: "Niels Bohr",
+  icon: "⚛️",
+  country: "Denmark",
+  year: "1922",
+  category: "Nobel Laureate",
+  info: "Niels Bohr received the 1922 Nobel Prize in Physics for his investigation of the structure of atoms and the radiation emanating from them."
+},
+
+{
+  name: "Werner Heisenberg",
+  icon: "⚛️",
+  country: "Germany",
+  year: "1932",
+  category: "Nobel Laureate",
+  info: "Werner Heisenberg received the 1932 Nobel Prize in Physics for the creation of quantum mechanics. He is also famous for the uncertainty principle."
+},
+
+{
+  name: "Erwin Schrödinger",
+  icon: "⚛️",
+  country: "Austria",
+  year: "1933",
+  category: "Nobel Laureate",
+  info: "Erwin Schrödinger shared the 1933 Nobel Prize in Physics with Paul Dirac for the discovery of new productive forms of atomic theory."
+},
+
+{
+  name: "Richard Feynman",
+  icon: "⚛️",
+  country: "United States",
+  year: "1965",
+  category: "Nobel Laureate",
+  info: "Richard Feynman shared the 1965 Nobel Prize in Physics for fundamental work in quantum electrodynamics."
+},
+
+{
+  name: "Peter Higgs",
+  icon: "⚛️",
+  country: "United Kingdom",
+  year: "2013",
+  category: "Nobel Laureate",
+  info: "Peter Higgs shared the 2013 Nobel Prize in Physics with François Englert for the theoretical discovery of the mechanism associated with the Higgs boson."
+},
+
+{
+  name: "James Peebles",
+  icon: "🌌",
+  country: "Canada / United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "James Peebles received half of the 2019 Nobel Prize in Physics for theoretical discoveries in physical cosmology."
+},
+
+{
+  name: "Theodore Roosevelt",
+  icon: "🕊️",
+  country: "United States",
+  year: "1906",
+  category: "Nobel Laureate",
+  info: "Theodore Roosevelt received the 1906 Nobel Peace Prize for his role in bringing about an end to the Russo-Japanese War and for his interest in arbitration."
+},
+
+{
+  name: "Fridtjof Nansen",
+  icon: "🕊️",
+  country: "Norway",
+  year: "1922",
+  category: "Nobel Laureate",
+  info: "Fridtjof Nansen received the 1922 Nobel Peace Prize for his humanitarian work, particularly his work with refugees through the League of Nations."
+},
+
+{
+  name: "Albert Schweitzer",
+  icon: "🕊️",
+  country: "Germany / France",
+  year: "1952",
+  category: "Nobel Laureate",
+  info: "Albert Schweitzer received the 1952 Nobel Peace Prize for his philosophy of Reverence for Life and his humanitarian and medical work in Africa."
+},
+
+{
+  name: "Martin Luther King Jr.",
+  icon: "🕊️",
+  country: "United States",
+  year: "1964",
+  category: "Nobel Laureate",
+  info: "Martin Luther King Jr. received the 1964 Nobel Peace Prize for his nonviolent struggle for civil rights for African Americans in the United States."
+},
+
+{
+  name: "Mother Teresa",
+  icon: "🕊️",
+  country: "India",
+  year: "1979",
+  category: "Nobel Laureate",
+  info: "Mother Teresa received the 1979 Nobel Peace Prize for her work in bringing help to suffering humanity, particularly through her service to poor and sick people."
+},
+
+{
+  name: "Desmond Tutu",
+  icon: "🕊️",
+  country: "South Africa",
+  year: "1984",
+  category: "Nobel Laureate",
+  info: "Desmond Tutu received the 1984 Nobel Peace Prize for his role as a unifying leader in the anti-apartheid movement in South Africa."
+},
+
+{
+  name: "Aung San Suu Kyi",
+  icon: "🕊️",
+  country: "Myanmar",
+  year: "1991",
+  category: "Nobel Laureate",
+  info: "Aung San Suu Kyi received the 1991 Nobel Peace Prize for her nonviolent struggle for democracy and human rights in Myanmar."
+},
+
+{
+  name: "Kailash Satyarthi",
+  icon: "🕊️",
+  country: "India",
+  year: "2014",
+  category: "Nobel Laureate",
+  info: "Kailash Satyarthi shared the 2014 Nobel Peace Prize with Malala Yousafzai for their struggle against the suppression of children and young people and for children's right to education."
+},
+
+{
+  name: "Abiy Ahmed Ali",
+  icon: "🕊️",
+  country: "Ethiopia",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Abiy Ahmed Ali received the 2019 Nobel Peace Prize for his efforts to achieve peace and international cooperation, particularly his initiative to resolve the border conflict between Ethiopia and Eritrea."
+},
+
+{
+  name: "Rudyard Kipling",
+  icon: "📚",
+  country: "United Kingdom",
+  year: "1907",
+  category: "Nobel Laureate",
+  info: "Rudyard Kipling was a British writer and poet. His famous works include The Jungle Book, Kim and many poems and short stories."
+},
+
+{
+  name: "Selma Lagerlöf",
+  icon: "📖",
+  country: "Sweden",
+  year: "1909",
+  category: "Nobel Laureate",
+  info: "Selma Lagerlöf was a Swedish writer and the first woman to receive the Nobel Prize in Literature."
+},
+
+{
+  name: "George Bernard Shaw",
+  icon: "🎭",
+  country: "Ireland / United Kingdom",
+  year: "1925",
+  category: "Nobel Laureate",
+  info: "George Bernard Shaw was an Irish playwright and critic famous for his wit, satire and social commentary. He received the 1925 Nobel Prize in Literature."
+},
+
+{
+  name: "Thomas Mann",
+  icon: "📚",
+  country: "Germany",
+  year: "1929",
+  category: "Nobel Laureate",
+  info: "Thomas Mann was a German novelist and essayist. His famous works include Buddenbrooks, The Magic Mountain and Death in Venice."
+},
+
+{
+  name: "Winston Churchill",
+  icon: "✍️",
+  country: "United Kingdom",
+  year: "1953",
+  category: "Nobel Laureate",
+  info: "Winston Churchill received the 1953 Nobel Prize in Literature for his historical and biographical writing and his brilliant oratory."
+},
+
+{
+  name: "Albert Camus",
+  icon: "📖",
+  country: "France",
+  year: "1957",
+  category: "Nobel Laureate",
+  info: "Albert Camus was a French writer and philosopher. His major works include The Stranger, The Plague and The Myth of Sisyphus."
+},
+
+{
+  name: "Toni Morrison",
+  icon: "📖",
+  country: "United States",
+  year: "1993",
+  category: "Nobel Laureate",
+  info: "Toni Morrison was an American novelist whose major works include Beloved, Song of Solomon and The Bluest Eye. She received the 1993 Nobel Prize in Literature."
+},
+
+{
+  name: "Olga Tokarczuk",
+  icon: "📖",
+  country: "Poland",
+  year: "2018",
+  category: "Nobel Laureate",
+  info: "Olga Tokarczuk is a Polish novelist and essayist known for imaginative and complex narratives. She received the Nobel Prize in Literature for 2018."
+}
+
+];
+
+
+function loadNobel(){
+
+  document.getElementById(
+    "nobelGrid"
+  ).innerHTML=
+
+  nobel.map(n=>`
+
+    <div class="infoCard">
+
+      <button
+        class="favorite"
+        onclick="addFavorite('${n.name.replace(/'/g,"\\'")}')">
+
+        ☆
+
+      </button>
+
+      <h3>${n.icon} ${n.name}</h3>
+
+      <p>
+        <strong>${n.category}</strong> — ${n.country} (${n.year})
+      </p>
+
+      <p>
+        ${n.info}
+      </p>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* ================================================= */
+/* FAVORITES                                       */
+/* ================================================= */
+
+function addFavorite(name){
+
+  let fav=
+    JSON.parse(
+      localStorage.getItem(
+        "litFavorites"
+      ) || "[]"
+    );
+
+
+  if(!fav.includes(name)){
+
+    fav.push(name);
+
+    localStorage.setItem(
+      "litFavorites",
+      JSON.stringify(fav)
+    );
+
+    alert(
+      "Added to Favorites ⭐"
+    );
+
+  }
+
+}
+
+
+function loadFavorites(){
+
+  const box=
+    document.getElementById(
+      "favoritesGrid"
+    );
+
+
+  let fav=
+    JSON.parse(
+      localStorage.getItem(
+        "litFavorites"
+      ) || "[]"
+    );
+
+
+  if(fav.length===0){
+
+    box.innerHTML=`
+
+      <div class="infoCard">
+
+        <h3>
+          No favorites yet
+        </h3>
+
+        <p>
+          Tap ☆ on an item to save it here.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML=
+    fav.map(name=>`
+
+      <div class="infoCard">
+
+        <h3>
+          ⭐ ${name}
+        </h3>
+
+        <p>
+          Saved in your Lit en Lingo favorites.
+        </p>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* ================================================= */
+/* SEARCH                                          */
+/* ================================================= */
+
+function globalSearch(){
+
+  const query=
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  if(!query){
+
+    alert(
+      "Please type something to search."
+    );
+
+    return;
+
+  }
+
+
+  let results=[];
+
+
+  writers.forEach(w=>{
+
+    if(
+      w.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:w[0],
+
+        info:
+          w[1]+" — "+w[2]
+
+      });
+
+    }
+
+  });
+
+
+  works.forEach(w=>{
+
+    if(
+      w.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:w[0],
+
+        info:
+          w[1]+" — "+w[2]
+
+      });
+
+    }
+
+  });
+
+
+  scientists.forEach(s=>{
+
+    if(
+      s.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:s[0],
+
+        info:
+          s[1]+" — "+s[2]
+
+      });
+
+    }
+
+  });
+
+
+  nobel.forEach(n=>{
+
+    if(
+      (n.name+" "+n.info+" "+n.category+" "+n.country)
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:n.icon+" "+n.name,
+
+        info:
+          n.category+" — "+n.info
+
+      });
+
+    }
+
+  });
+
+
+  const box=
+    document.getElementById(
+      "resultsGrid"
+    );
+
+
+  if(results.length===0){
+
+    box.innerHTML=`
+
+      <div class="infoCard">
+
+        <h3>
+          No results
+        </h3>
+
+        <p>
+          Try another word.
+        </p>
+
+      </div>
+
+    `;
+
+  }else{
+
+    box.innerHTML=
+
+      results.map(r=>`
+
+        <div class="infoCard">
+
+          <h3>
+            ${r.title}
+          </h3>
+
+          <p>
+            ${r.info}
+          </p>
+
+        </div>
+
+      `).join("");
+
+  }
+
+
+  showScreen(
+    "searchResults"
+  );
+
+}
+
+
+/* ================================================= */
+/* START APP                                       */
+/* ================================================= */
+
+loadHistory();
+
+loadWriters();
+
+loadWorks();
+
+loadScientists();
+
+loadNobel();
+
+buildLanguageSelector();
+
+setLanguage("English");
+
+randomDiscovery();
+
+</script>
+
+</body>
+  </html>
