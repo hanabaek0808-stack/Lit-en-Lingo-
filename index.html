@@ -1,0 +1,4317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#6f4328">
+<title>Lit en Lingo</title>
+
+<style>
+:root{
+  --bg:#f4e8d8;
+  --card:#fffaf2;
+  --brown:#6f4328;
+  --brown2:#8b5e3c;
+  --gold:#c6924b;
+  --text:#34251d;
+  --muted:#806c5d;
+  --border:#dfcdb9;
+  --shadow:0 10px 30px rgba(70,40,20,.12);
+  --success:#4d8b62;
+}
+
+body.dark{
+  --bg:#211812;
+  --card:#30231b;
+  --brown:#c18a5b;
+  --brown2:#a66d43;
+  --gold:#d4a15e;
+  --text:#f8eee3;
+  --muted:#c5b09d;
+  --border:#554033;
+  --shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  transition:.3s;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+#particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.particle{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  opacity:.2;
+  animation:float 12s infinite ease-in-out;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0)}
+  100%{transform:translateY(-10vh) rotate(360deg)}
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--brown);
+  color:white;
+  padding:12px 18px;
+  box-shadow:var(--shadow);
+}
+
+.headerInner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
+}
+
+.logoBadge{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:#f2d2a2;
+  color:var(--brown);
+  display:grid;
+  place-items:center;
+  font-size:20px;
+}
+
+.logoText{
+  font-size:18px;
+}
+
+.headerButtons{
+  display:flex;
+  gap:7px;
+}
+
+.headerButtons button{
+  border:0;
+  background:rgba(255,255,255,.15);
+  color:white;
+  border-radius:10px;
+  padding:8px 11px;
+}
+
+main{
+  position:relative;
+  z-index:1;
+  max-width:1200px;
+  margin:auto;
+  padding:25px 15px 60px;
+}
+
+.screen{
+  display:none;
+  animation:appear .35s ease;
+}
+
+.screen.active{
+  display:block;
+}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.hero{
+  text-align:center;
+  padding:35px 10px;
+}
+
+.hero h1{
+  font-size:42px;
+  color:var(--brown);
+  margin-bottom:10px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:700px;
+  margin:auto;
+  line-height:1.7;
+}
+
+.sectionTitle{
+  text-align:center;
+  margin:20px 0 25px;
+}
+
+.sectionTitle h2{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.sectionTitle p{
+  color:var(--muted);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+.cardIcon{
+  font-size:34px;
+  margin-bottom:12px;
+}
+
+.card h3{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.5;
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.card button,
+.primary,
+.secondary,
+.backBtn{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:bold;
+}
+
+.card button,
+.primary{
+  background:var(--brown);
+  color:white;
+}
+
+.secondary{
+  background:var(--gold);
+  color:#2c1c10;
+}
+
+.backBtn{
+  background:var(--card);
+  color:var(--brown);
+  border:1px solid var(--border);
+  margin-bottom:18px;
+}
+
+.contentGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.infoCard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.infoCard h3{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.infoCard p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.detail{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.detail h2{
+  color:var(--brown);
+  margin-bottom:10px;
+}
+
+.detail>p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.quote{
+  margin-top:20px;
+  padding:22px;
+  background:rgba(198,146,75,.12);
+  border-left:5px solid var(--gold);
+  border-radius:12px;
+  line-height:1.8;
+}
+
+.quote h3{
+  color:var(--brown);
+  margin-bottom:12px;
+}
+
+.actionRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.searchBox{
+  display:flex;
+  gap:8px;
+  margin:20px auto;
+  max-width:650px;
+}
+
+.searchBox input{
+  flex:1;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+}
+
+.searchBox button{
+  border:0;
+  border-radius:12px;
+  background:var(--brown);
+  color:white;
+  padding:0 18px;
+}
+
+.languageSelector{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:20px 0;
+}
+
+.languageSelector button{
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:9px 13px;
+  border-radius:20px;
+}
+
+.languageSelector button.active{
+  background:var(--brown);
+  color:white;
+}
+
+.languageIntro{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+
+.languageIntro h2{
+  color:var(--brown);
+}
+
+.favorite{
+  float:right;
+  border:0;
+  background:none;
+  font-size:22px;
+}
+
+.storyList{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.storyCard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.storyCard h3{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.storyCard p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.storyCard button{
+  margin-top:14px;
+  background:var(--brown);
+  color:white;
+  border:0;
+  padding:9px 13px;
+  border-radius:9px;
+}
+
+.word{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:15px;
+}
+
+.word strong{
+  color:var(--brown);
+}
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+}
+
+
+/* ============================= */
+/* WRITING WORKSHEET             */
+/* ============================= */
+
+.worksheet{
+  margin-top:20px;
+}
+
+.worksheetTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.worksheetBadge{
+  display:inline-block;
+  background:rgba(198,146,75,.18);
+  color:var(--brown);
+  padding:7px 12px;
+  border-radius:20px;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.progressBox{
+  flex:1;
+  min-width:180px;
+  max-width:350px;
+}
+
+.progressText{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.progressBar{
+  height:10px;
+  background:var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:var(--gold);
+  border-radius:20px;
+  transition:.3s;
+}
+
+.worksheetGrid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:18px;
+}
+
+.practiceCard{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+
+.practiceCard h3{
+  color:var(--brown);
+  margin-bottom:12px;
+}
+
+.modelArea{
+  min-height:250px;
+  border:2px dashed var(--border);
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:rgba(198,146,75,.06);
+  text-align:center;
+  padding:20px;
+}
+
+.modelCharacter{
+  font-size:110px;
+  line-height:1;
+  color:var(--brown);
+  font-weight:bold;
+  margin-bottom:15px;
+  user-select:none;
+}
+
+.modelRoman{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.modelExample{
+  margin-top:12px;
+  color:var(--text);
+  font-size:15px;
+}
+
+.modelExample strong{
+  color:var(--brown);
+}
+
+.traceArea{
+  margin-top:18px;
+}
+
+.traceTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.traceTitle span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.traceCharacter{
+  height:105px;
+  border:2px dashed var(--border);
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:75px;
+  color:rgba(111,67,40,.22);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 34px,
+      rgba(128,108,93,.15) 35px
+    );
+  user-select:none;
+}
+
+body.dark .traceCharacter{
+  color:rgba(241,211,174,.2);
+}
+
+.canvasTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.canvasTitle span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.canvasWrap{
+  position:relative;
+  width:100%;
+  height:280px;
+  border:2px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  background:#fffdf9;
+  touch-action:none;
+}
+
+body.dark .canvasWrap{
+  background:#f8eee3;
+}
+
+#writingCanvas{
+  width:100%;
+  height:100%;
+  display:block;
+  cursor:crosshair;
+  touch-action:none;
+}
+
+.canvasHint{
+  position:absolute;
+  bottom:10px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#a38f7c;
+  font-size:12px;
+  pointer-events:none;
+}
+
+.worksheetButtons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+
+.worksheetButtons button{
+  border:0;
+  border-radius:10px;
+  padding:10px 13px;
+  font-weight:bold;
+}
+
+.btnCheck{
+  background:var(--success);
+  color:white;
+}
+
+.btnClear{
+  background:var(--border);
+  color:var(--text);
+}
+
+.btnListen{
+  background:var(--gold);
+  color:#2c1c10;
+}
+
+.btnPrint{
+  background:var(--brown);
+  color:white;
+}
+
+.navigation{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:18px;
+}
+
+.navigation button{
+  flex:1;
+  border:0;
+  border-radius:12px;
+  padding:12px;
+  font-weight:bold;
+}
+
+.navPrev{
+  background:var(--card);
+  border:1px solid var(--border)!important;
+  color:var(--brown);
+}
+
+.navNext{
+  background:var(--brown);
+  color:white;
+}
+
+.feedback{
+  min-height:48px;
+  margin-top:15px;
+  border-radius:12px;
+  padding:13px;
+  display:none;
+  line-height:1.5;
+}
+
+.feedback.show{
+  display:block;
+}
+
+.feedback.success{
+  background:rgba(77,139,98,.13);
+  color:var(--success);
+  border:1px solid rgba(77,139,98,.3);
+}
+
+.feedback.info{
+  background:rgba(198,146,75,.13);
+  color:var(--brown);
+  border:1px solid rgba(198,146,75,.3);
+}
+
+.worksheetInfo{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.miniInfo{
+  background:rgba(198,146,75,.08);
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:13px;
+}
+
+.miniInfo strong{
+  color:var(--brown);
+  display:block;
+  margin-bottom:5px;
+}
+
+.miniInfo span{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.freePractice{
+  margin-top:18px;
+}
+
+.freePracticeBox{
+  min-height:120px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:15px;
+  background:rgba(198,146,75,.05);
+  color:var(--muted);
+  line-height:2;
+}
+
+.worksheetIntro{
+  background:linear-gradient(
+    135deg,
+    rgba(198,146,75,.14),
+    rgba(111,67,40,.06)
+  );
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.worksheetIntro h2{
+  color:var(--brown);
+  margin-bottom:8px;
+}
+
+.worksheetIntro p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.resetButton{
+  margin-top:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--brown);
+  padding:9px 13px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+
+/* PRINT */
+
+@media print{
+
+  body{
+    background:white!important;
+    color:black!important;
+  }
+
+  header,
+  footer,
+  .backBtn,
+  .languageSelector,
+  .languageIntro,
+  .worksheetButtons,
+  .navigation,
+  .freePractice,
+  #particles{
+    display:none!important;
+  }
+
+  main{
+    padding:0;
+    max-width:none;
+  }
+
+  .screen{
+    display:none!important;
+  }
+
+  #languages{
+    display:block!important;
+  }
+
+  #languageLesson{
+    display:block!important;
+  }
+
+  .worksheet{
+    display:block!important;
+  }
+
+  .worksheetGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .practiceCard{
+    box-shadow:none;
+    border:1px solid #ccc;
+  }
+
+  .canvasWrap{
+    height:300px;
+  }
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .contentGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .worksheetGrid{
+    grid-template-columns:1fr;
+  }
+
+  .worksheetInfo{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:550px){
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .contentGrid,
+  .storyList{
+    grid-template-columns:1fr;
+  }
+
+  .logoText{
+    display:none;
+  }
+
+  .detail{
+    padding:17px;
+  }
+
+  .practiceCard{
+    padding:15px;
+  }
+
+  .modelCharacter{
+    font-size:85px;
+  }
+
+  .traceCharacter{
+    font-size:60px;
+  }
+
+  .canvasWrap{
+    height:240px;
+  }
+
+  .worksheetInfo{
+    grid-template-columns:1fr;
+  }
+
+  .navigation{
+    position:sticky;
+    bottom:8px;
+    z-index:5;
+  }
+
+  .navigation button{
+    padding:13px 8px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<header>
+  <div class="headerInner">
+
+    <div class="logo">
+      <div class="logoBadge">en</div>
+      <div class="logoText">Lit en Lingo</div>
+    </div>
+
+    <div class="headerButtons">
+      <button onclick="toggleDark()">🌙</button>
+      <button onclick="showScreen('favorites')">⭐</button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="screen active">
+
+  <div class="hero">
+    <h1>Lit en Lingo</h1>
+
+    <p>
+      Learn literature, languages, science and famous people
+      in a simple and interesting way.
+    </p>
+  </div>
+
+  <div class="searchBox">
+    <input id="searchInput" placeholder="Search anything...">
+    <button onclick="globalSearch()">Search</button>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="cardIcon">📚</div>
+      <h3>Literature</h3>
+      <p>Explore writers, periods, famous books and world literature.</p>
+      <button onclick="showScreen('literature')">Open →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🌍</div>
+      <h3>Languages</h3>
+      <p>Learn writing, listening, vocabulary, sentences and stories.</p>
+      <button onclick="showScreen('languages')">Open →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🔬</div>
+      <h3>Science</h3>
+      <p>Learn about famous scientists and important theories.</p>
+      <button onclick="showScreen('science')">Open →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🏆</div>
+      <h3>Personalities</h3>
+      <p>Learn about famous Nobel Prize winners.</p>
+      <button onclick="showScreen('personalities')">Open →</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- LITERATURE -->
+<section id="literature" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+
+  <div class="sectionTitle">
+    <h2>📚 Literature</h2>
+    <p>Explore world literature.</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="cardIcon">🕰️</div>
+      <h3>History & Periods</h3>
+      <p>Learn about important literary periods.</p>
+      <button onclick="showScreen('litHistory')">Explore →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">✍️</div>
+      <h3>Writers & Poets</h3>
+      <p>Discover famous writers and poets.</p>
+      <button onclick="showScreen('writers')">Explore →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">📖</div>
+      <h3>Works & Classics</h3>
+      <p>Explore famous books and literary works.</p>
+      <button onclick="showScreen('works')">Explore →</button>
+    </div>
+
+    <div class="card">
+      <div class="cardIcon">🔎</div>
+      <h3>Literature Explorer</h3>
+      <p>Find a random literary discovery.</p>
+      <button onclick="showScreen('explorer');randomDiscovery()">Explore →</button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- HISTORY -->
+<section id="litHistory" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+    <h2>🕰️ History & Periods</h2>
+    <p>Important literary periods from different traditions.</p>
+  </div>
+
+  <div id="historyGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- WRITERS -->
+<section id="writers" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+    <h2>✍️ Writers & Poets</h2>
+  </div>
+
+  <div id="writersGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- WORKS -->
+<section id="works" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+    <h2>📖 Works & Classics</h2>
+  </div>
+
+  <div id="worksGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- EXPLORER -->
+<section id="explorer" class="screen">
+
+  <button class="backBtn" onclick="showScreen('literature')">
+    ← Back
+  </button>
+
+  <div class="detail">
+
+    <h2>🔎 Literature Explorer</h2>
+
+    <p>
+      Discover something interesting from literature.
+    </p>
+
+    <div id="randomDiscovery" class="quote"></div>
+
+    <button class="primary" onclick="randomDiscovery()">
+      🎲 Discover Again
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- LANGUAGES -->
+<section id="languages" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🌍 Languages</h2>
+
+    <p>
+      Choose a language and start learning.
+    </p>
+
+  </div>
+
+  <div
+    class="languageSelector"
+    id="languageSelector">
+  </div>
+
+  <div
+    id="languageIntro"
+    class="languageIntro">
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="cardIcon">✍️</div>
+
+      <h3>Writing</h3>
+
+      <p>
+        Practice letters, characters and writing
+        with interactive worksheets.
+      </p>
+
+      <button onclick="showLanguage('writing')">
+        Practice →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">🎧</div>
+
+      <h3>Listening</h3>
+
+      <p>
+        Listen to useful words and sentences.
+      </p>
+
+      <button onclick="showLanguage('listening')">
+        Listen →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">📚</div>
+
+      <h3>Vocabulary</h3>
+
+      <p>
+        Build your everyday vocabulary.
+      </p>
+
+      <button onclick="showLanguage('vocabulary')">
+        Learn →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">💬</div>
+
+      <h3>Useful Sentences</h3>
+
+      <p>
+        Learn simple sentences for daily life.
+      </p>
+
+      <button onclick="showLanguage('sentences')">
+        Learn →
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardIcon">📖</div>
+
+      <h3>Stories</h3>
+
+      <p>
+        Learn words and sentences through
+        easy stories.
+      </p>
+
+      <button onclick="showLanguage('stories')">
+        Read Stories →
+      </button>
+
+    </div>
+
+  </div>
+
+  <div
+    id="languageLesson"
+    style="margin-top:20px">
+  </div>
+
+</section>
+
+
+<!-- SCIENCE -->
+<section id="science" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🔬 Scientists & Theories</h2>
+
+    <p>
+      Learn about famous scientists and their ideas.
+    </p>
+
+  </div>
+
+  <div id="scientistsGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- PERSONALITIES -->
+<section id="personalities" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🏆 Nobel Prize People</h2>
+
+    <p>
+      Learn about people who received Nobel Prizes.
+    </p>
+
+  </div>
+
+  <div id="nobelGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- FAVORITES -->
+<section id="favorites" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>⭐ Favorites</h2>
+
+    <p>
+      Your saved learning items.
+    </p>
+
+  </div>
+
+  <div id="favoritesGrid" class="contentGrid"></div>
+
+</section>
+
+
+<!-- SEARCH -->
+<section id="searchResults" class="screen">
+
+  <button class="backBtn" onclick="showScreen('home')">
+    ← Back
+  </button>
+
+  <div class="sectionTitle">
+
+    <h2>🔎 Search Results</h2>
+
+  </div>
+
+  <div id="resultsGrid" class="contentGrid"></div>
+
+</section>
+
+</main>
+
+<footer>
+  Lit en Lingo • Learn • Explore • Discover
+</footer>
+
+
+<script>
+
+/* ============================= */
+/* PARTICLES                     */
+/* ============================= */
+
+for(let i=0;i<35;i++){
+
+  const p=document.createElement("div");
+
+  p.className="particle";
+
+  p.style.left=Math.random()*100+"%";
+
+  p.style.animationDelay=Math.random()*10+"s";
+
+  p.style.animationDuration=
+    (8+Math.random()*8)+"s";
+
+  document
+    .getElementById("particles")
+    .appendChild(p);
+}
+
+
+/* ============================= */
+/* SCREEN SYSTEM                  */
+/* ============================= */
+
+function showScreen(id){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen=>{
+      screen.classList.remove("active");
+    });
+
+  const target=document.getElementById(id);
+
+  if(target){
+
+    target.classList.add("active");
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+  if(id==="favorites"){
+    loadFavorites();
+  }
+}
+
+
+/* ============================= */
+/* DARK MODE                      */
+/* ============================= */
+
+function toggleDark(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "litDark",
+    document.body.classList.contains("dark")
+  );
+}
+
+if(localStorage.getItem("litDark")==="true"){
+  document.body.classList.add("dark");
+}
+
+
+/* ============================= */
+/* LITERATURE HISTORY             */
+/* ============================= */
+
+const historyData=[
+
+  {
+    country:"🇬🇧 British Literature",
+    periods:
+      "Old English → Middle English → Renaissance → Restoration → Romantic → Victorian → Modern"
+  },
+
+  {
+    country:"🇺🇸 American Literature",
+    periods:
+      "Colonial → Romanticism → Transcendentalism → Realism → Modernism → Contemporary"
+  },
+
+  {
+    country:"🇫🇷 French Literature",
+    periods:
+      "Medieval → Renaissance → Classicism → Enlightenment → Romanticism → Realism → Modern"
+  },
+
+  {
+    country:"🇩🇪 German Literature",
+    periods:
+      "Medieval → Enlightenment → Sturm und Drang → Romanticism → Modern"
+  },
+
+  {
+    country:"🇮🇹 Italian Literature",
+    periods:
+      "Medieval → Renaissance → Enlightenment → Romanticism → Modern"
+  },
+
+  {
+    country:"🇪🇸 Spanish Literature",
+    periods:
+      "Medieval → Golden Age → Enlightenment → Romanticism → Realism → Modern"
+  },
+
+  {
+    country:"🇷🇺 Russian Literature",
+    periods:
+      "Golden Age → Realism → Symbolism → Soviet → Contemporary"
+  },
+
+  {
+    country:"🇨🇳 Chinese Literature",
+    periods:
+      "Classical → Tang Poetry → Song → Ming → Qing → Modern"
+  },
+
+  {
+    country:"🇯🇵 Japanese Literature",
+    periods:
+      "Classical → Heian → Medieval → Edo → Meiji → Modern"
+  },
+
+  {
+    country:"🌙 Arabic Literature",
+    periods:
+      "Pre-Islamic → Islamic → Abbasid → Andalusian → Modern"
+  }
+
+];
+
+
+function loadHistory(){
+
+  const box=document.getElementById("historyGrid");
+
+  box.innerHTML=
+    historyData.map(x=>`
+
+      <div class="infoCard">
+
+        <h3>${x.country}</h3>
+
+        <p>${x.periods}</p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* ============================= */
+/* WRITERS                       */
+/* ============================= */
+
+const writers=[
+
+ ["William Shakespeare","England",
+ "Playwright and poet. Famous works include Hamlet and Macbeth."],
+
+ ["Geoffrey Chaucer","England",
+ "Medieval English poet and author of The Canterbury Tales."],
+
+ ["Jane Austen","England",
+ "Known for novels such as Pride and Prejudice."],
+
+ ["Charles Dickens","England",
+ "Victorian novelist known for Great Expectations and Oliver Twist."],
+
+ ["Virginia Woolf","England",
+ "Modernist writer known for Mrs Dalloway and To the Lighthouse."],
+
+ ["William Wordsworth","England",
+ "Important Romantic poet who wrote about nature."],
+
+ ["Emily Dickinson","USA",
+ "American poet known for short, powerful poems."],
+
+ ["Mark Twain","USA",
+ "American writer famous for The Adventures of Tom Sawyer."],
+
+ ["Ernest Hemingway","USA",
+ "Modernist writer and Nobel Prize winner."],
+
+ ["Victor Hugo","France",
+ "French writer known for Les Misérables."],
+
+ ["Gustave Flaubert","France",
+ "French realist novelist."],
+
+ ["Dante Alighieri","Italy",
+ "Author of The Divine Comedy."],
+
+ ["Miguel de Cervantes","Spain",
+ "Author of Don Quixote."],
+
+ ["Leo Tolstoy","Russia",
+ "Author of War and Peace and Anna Karenina."],
+
+ ["Fyodor Dostoevsky","Russia",
+ "Author of Crime and Punishment."],
+
+ ["Matsuo Bashō","Japan",
+ "Famous Japanese haiku poet."],
+
+ ["Lu Xun","China",
+ "Important modern Chinese writer."],
+
+ ["Naguib Mahfouz","Egypt",
+ "Arabic novelist and Nobel Prize winner."]
+
+];
+
+
+function loadWriters(){
+
+  document.getElementById("writersGrid").innerHTML=
+
+    writers.map((w,i)=>`
+
+      <div class="infoCard">
+
+        <button
+          class="favorite"
+          onclick="addFavorite('${w[0]}')">
+          ☆
+        </button>
+
+        <h3>${w[0]}</h3>
+
+        <p>
+          <strong>${w[1]}</strong>
+        </p>
+
+        <p>${w[2]}</p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* ============================= */
+/* WORKS                         */
+/* ============================= */
+
+const works=[
+
+ ["Hamlet","William Shakespeare",
+ "A tragedy about Prince Hamlet of Denmark."],
+
+ ["Pride and Prejudice","Jane Austen",
+ "A novel about love, society and marriage."],
+
+ ["Great Expectations","Charles Dickens",
+ "The story of Pip and his changing life."],
+
+ ["The Canterbury Tales","Geoffrey Chaucer",
+ "A collection of stories told by pilgrims."],
+
+ ["Paradise Lost","John Milton",
+ "An epic poem about the Fall of Man."],
+
+ ["The Divine Comedy","Dante Alighieri",
+ "A famous Italian epic journey through the afterlife."],
+
+ ["Don Quixote","Miguel de Cervantes",
+ "A famous Spanish novel about an imaginative knight."],
+
+ ["War and Peace","Leo Tolstoy",
+ "A major Russian novel about war, society and family."],
+
+ ["The Tale of Genji","Murasaki Shikibu",
+ "A classical Japanese work."],
+
+ ["One Hundred Years of Solitude",
+ "Gabriel García Márquez",
+ "A famous Latin American magical-realist novel."]
+
+];
+
+
+function loadWorks(){
+
+  document.getElementById("worksGrid").innerHTML=
+
+    works.map(w=>`
+
+      <div class="infoCard">
+
+        <button
+          class="favorite"
+          onclick="addFavorite('${w[0]}')">
+          ☆
+        </button>
+
+        <h3>${w[0]}</h3>
+
+        <p>
+          <strong>${w[1]}</strong>
+        </p>
+
+        <p>${w[2]}</p>
+
+      </div>
+
+    `).join("");
+}
+
+
+/* ============================= */
+/* LITERATURE EXPLORER            */
+/* ============================= */
+
+const discoveries=[
+
+ "Shakespeare wrote many famous plays and sonnets.",
+
+ "The Romantic period gave great importance to nature and emotion.",
+
+ "The Canterbury Tales uses a group of pilgrims as storytellers.",
+
+ "Haiku is a short Japanese poetic form.",
+
+ "The Divine Comedy was written by Dante Alighieri.",
+
+ "Don Quixote is one of the most famous works of Spanish literature.",
+
+ "Modernism changed traditional ideas about literature and storytelling."
+
+];
+
+
+function randomDiscovery(){
+
+  const item=
+    discoveries[
+      Math.floor(
+        Math.random()*discoveries.length
+      )
+    ];
+
+  document.getElementById(
+    "randomDiscovery"
+  ).innerHTML=`
+
+    <strong>💡 Discovery</strong>
+
+    <p>${item}</p>
+
+  `;
+}
+
+
+/* ================================================= */
+/* LANGUAGES                                         */
+/* ================================================= */
+
+const languageData={
+
+ English:{
+  code:"en-US",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+
+  words:[
+   ["Hello","A greeting"],
+   ["Friend","A person you like and trust"],
+   ["Learn","To gain knowledge"],
+   ["Beautiful","Pleasant to look at"],
+   ["Journey","A trip from one place to another"]
+  ],
+
+  sentences:[
+   "Hello, how are you?",
+   "My name is Sara.",
+   "I am learning English.",
+   "Could you help me?",
+   "Thank you very much."
+  ],
+
+  story:{
+   title:"The Little Library",
+
+   text:
+   "Every morning, Sara walked to the library. She loved reading books because every book opened a new world. One day, she found a book about languages. She became curious and decided to learn a new language."
+  }
+ },
+
+
+ French:{
+  code:"fr-FR",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+
+  words:[
+   ["Bonjour","Hello"],
+   ["Ami","Friend"],
+   ["Livre","Book"],
+   ["École","School"],
+   ["Merci","Thank you"]
+  ],
+
+  sentences:[
+   "Bonjour, comment allez-vous?",
+   "Je m'appelle Sara.",
+   "J'apprends le français.",
+   "Merci beaucoup.",
+   "Au revoir."
+  ],
+
+  story:{
+   title:"Une petite histoire",
+
+   text:
+   "Sara aime lire des livres. Chaque matin, elle va à la bibliothèque. Un jour, elle trouve un livre sur les langues. Elle décide d'apprendre une nouvelle langue."
+  }
+ },
+
+
+ Spanish:{
+  code:"es-ES",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+
+  words:[
+   ["Hola","Hello"],
+   ["Amigo","Friend"],
+   ["Libro","Book"],
+   ["Casa","House"],
+   ["Gracias","Thank you"]
+  ],
+
+  sentences:[
+   "Hola, ¿cómo estás?",
+   "Me llamo Sara.",
+   "Estoy aprendiendo español.",
+   "Muchas gracias.",
+   "Hasta luego."
+  ],
+
+  story:{
+   title:"El pequeño libro",
+
+   text:
+   "Sara ama leer libros. Cada mañana va a la biblioteca. Un día encuentra un libro sobre idiomas. Decide aprender un idioma nuevo."
+  }
+ },
+
+
+ German:{
+  code:"de-DE",
+
+  writing:
+    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Ä Ö Ü ß",
+
+  words:[
+   ["Hallo","Hello"],
+   ["Freund","Friend"],
+   ["Buch","Book"],
+   ["Haus","House"],
+   ["Danke","Thank you"]
+  ],
+
+  sentences:[
+   "Hallo, wie geht es dir?",
+   "Ich heiße Sara.",
+   "Ich lerne Deutsch.",
+   "Vielen Dank.",
+   "Auf Wiedersehen."
+  ],
+
+  story:{
+   title:"Das kleine Buch",
+
+   text:
+   "Sara liest gern Bücher. Jeden Morgen geht sie in die Bibliothek. Eines Tages findet sie ein Buch über Sprachen. Sie möchte eine neue Sprache lernen."
+  }
+ },
+
+
+ Italian:{
+  code:"it-IT",
+
+  writing:
+    "A B C D E F G H I L M N O P Q R S T U V Z",
+
+  words:[
+   ["Ciao","Hello"],
+   ["Amico","Friend"],
+   ["Libro","Book"],
+   ["Casa","House"],
+   ["Grazie","Thank you"]
+  ],
+
+  sentences:[
+   "Ciao, come stai?",
+   "Mi chiamo Sara.",
+   "Sto imparando l'italiano.",
+   "Grazie mille.",
+   "Arrivederci."
+  ],
+
+  story:{
+   title:"La piccola biblioteca",
+
+   text:
+   "Sara ama leggere. Ogni mattina va in biblioteca. Un giorno trova un libro sulle lingue. Decide di imparare una nuova lingua."
+  }
+ },
+
+
+ Arabic:{
+  code:"ar-SA",
+
+  writing:
+    "ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي",
+
+  words:[
+   ["مرحبا","Hello"],
+   ["صديق","Friend"],
+   ["كتاب","Book"],
+   ["بيت","House"],
+   ["شكرا","Thank you"]
+  ],
+
+  sentences:[
+   "مرحبا، كيف حالك؟",
+   "اسمي سارة.",
+   "أنا أتعلم العربية.",
+   "شكرا جزيلا.",
+   "إلى اللقاء."
+  ],
+
+  story:{
+   title:"الكتاب الصغير",
+
+   text:
+   "تحب سارة قراءة الكتب. كل صباح تذهب إلى المكتبة. في يوم من الأيام وجدت كتابا عن اللغات. قررت أن تتعلم لغة جديدة."
+  }
+ },
+
+
+ Chinese:{
+  code:"zh-CN",
+
+  writing:
+    "汉字 Chinese characters",
+
+  words:[
+   ["你好","Hello"],
+   ["朋友","Friend"],
+   ["书","Book"],
+   ["家","Home"],
+   ["谢谢","Thank you"]
+  ],
+
+  sentences:[
+   "你好，你好吗？",
+   "我叫莎拉。",
+   "我学习中文。",
+   "谢谢你。",
+   "再见。"
+  ],
+
+  story:{
+   title:"小故事",
+
+   text:
+   "莎拉喜欢读书。每天早上，她去图书馆。有一天，她发现了一本关于语言的书。她决定学习一门新语言。"
+  }
+ },
+
+
+ Japanese:{
+  code:"ja-JP",
+
+  writing:
+    "ひらがな • カタカナ • 漢字",
+
+  words:[
+   ["こんにちは","Hello"],
+   ["友達","Friend"],
+   ["本","Book"],
+   ["家","House"],
+   ["ありがとう","Thank you"]
+  ],
+
+  sentences:[
+   "こんにちは。",
+   "私はサラです。",
+   "日本語を勉強しています。",
+   "ありがとうございます。",
+   "さようなら。"
+  ],
+
+  story:{
+   title:"小さな図書館",
+
+   text:
+   "サラは本を読むのが好きです。毎朝、図書館へ行きます。ある日、言語についての本を見つけました。そして、新しい言語を学ぶことにしました。"
+  }
+ },
+
+
+ Korean:{
+  code:"ko-KR",
+
+  writing:
+    "한글 • Korean alphabet",
+
+  words:[
+   ["안녕하세요","Hello"],
+   ["친구","Friend"],
+   ["책","Book"],
+   ["집","House"],
+   ["감사합니다","Thank you"]
+  ],
+
+  sentences:[
+   "안녕하세요?",
+   "제 이름은 사라예요.",
+   "저는 한국어를 공부해요.",
+   "감사합니다.",
+   "안녕히 가세요."
+  ],
+
+  story:{
+   title:"작은 도서관",
+
+   text:
+   "사라는 책을 읽는 것을 좋아합니다. 매일 아침 도서관에 갑니다. 어느 날 언어에 관한 책을 발견했습니다. 그리고 새로운 언어를 배우기로 했습니다."
+  }
+ },
+
+
+ Russian:{
+  code:"ru-RU",
+
+  writing:
+    "А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ы Э Ю Я",
+
+  words:[
+   ["Привет","Hello"],
+   ["Друг","Friend"],
+   ["Книга","Book"],
+   ["Дом","House"],
+   ["Спасибо","Thank you"]
+  ],
+
+  sentences:[
+   "Привет, как дела?",
+   "Меня зовут Сара.",
+   "Я изучаю русский язык.",
+   "Большое спасибо.",
+   "До свидания."
+  ],
+
+  story:{
+   title:"Маленькая библиотека",
+
+   text:
+   "Сара любит читать книги. Каждое утро она идет в библиотеку. Однажды она нашла книгу о языках. Она решила изучать новый язык."
+  }
+ }
+
+};
+
+
+let currentLanguage="English";
+
+
+/* ================================================= */
+/* WRITING WORKSHEET DATA                            */
+/* ================================================= */
+
+const worksheetData={
+
+ English:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Apple","A is for Apple","Letter A"],
+    ["B","b","Book","B is for Book","Letter B"],
+    ["C","c","Cat","C is for Cat","Letter C"],
+    ["D","d","Dog","D is for Dog","Letter D"],
+    ["E","e","Egg","E is for Egg","Letter E"],
+    ["F","f","Fish","F is for Fish","Letter F"],
+    ["G","g","Girl","G is for Girl","Letter G"],
+    ["H","h","House","H is for House","Letter H"],
+    ["I","i","Ice","I is for Ice","Letter I"],
+    ["J","j","Juice","J is for Juice","Letter J"],
+    ["K","k","Key","K is for Key","Letter K"],
+    ["L","l","Lion","L is for Lion","Letter L"],
+    ["M","m","Moon","M is for Moon","Letter M"],
+    ["N","n","Nest","N is for Nest","Letter N"],
+    ["O","o","Orange","O is for Orange","Letter O"],
+    ["P","p","Pen","P is for Pen","Letter P"],
+    ["Q","q","Queen","Q is for Queen","Letter Q"],
+    ["R","r","Rabbit","R is for Rabbit","Letter R"],
+    ["S","s","Sun","S is for Sun","Letter S"],
+    ["T","t","Tree","T is for Tree","Letter T"],
+    ["U","u","Umbrella","U is for Umbrella","Letter U"],
+    ["V","v","Van","V is for Van","Letter V"],
+    ["W","w","Water","W is for Water","Letter W"],
+    ["X","x","Xylophone","X is for Xylophone","Letter X"],
+    ["Y","y","Yellow","Y is for Yellow","Letter Y"],
+    ["Z","z","Zoo","Z is for Zoo","Letter Z"]
+   ]
+ },
+
+ French:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Ami","A comme Ami","Lettre A"],
+    ["B","b","Banane","B comme Banane","Lettre B"],
+    ["C","c","Chat","C comme Chat","Lettre C"],
+    ["D","d","Dame","D comme Dame","Lettre D"],
+    ["E","e","École","E comme École","Lettre E"],
+    ["F","f","Fleur","F comme Fleur","Lettre F"],
+    ["G","g","Gâteau","G comme Gâteau","Lettre G"],
+    ["H","h","Hôtel","H comme Hôtel","Lettre H"],
+    ["I","i","Image","I comme Image","Lettre I"],
+    ["J","j","Jardin","J comme Jardin","Lettre J"],
+    ["K","k","Kilo","K comme Kilo","Lettre K"],
+    ["L","l","Livre","L comme Livre","Lettre L"],
+    ["M","m","Maison","M comme Maison","Lettre M"],
+    ["N","n","Nez","N comme Nez","Lettre N"],
+    ["O","o","Orange","O comme Orange","Lettre O"],
+    ["P","p","Pomme","P comme Pomme","Lettre P"],
+    ["Q","q","Question","Q comme Question","Lettre Q"],
+    ["R","r","Rose","R comme Rose","Lettre R"],
+    ["S","s","Soleil","S comme Soleil","Lettre S"],
+    ["T","t","Table","T comme Table","Lettre T"],
+    ["U","u","Uniforme","U comme Uniforme","Lettre U"],
+    ["V","v","Ville","V comme Ville","Lettre V"],
+    ["W","w","Week-end","W comme Week-end","Lettre W"],
+    ["X","x","Xylophone","X comme Xylophone","Lettre X"],
+    ["Y","y","Yoga","Y comme Yoga","Lettre Y"],
+    ["Z","z","Zéro","Z comme Zéro","Lettre Z"]
+   ]
+ },
+
+ Spanish:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Árbol","A de Árbol","Letra A"],
+    ["B","b","Barco","B de Barco","Letra B"],
+    ["C","c","Casa","C de Casa","Letra C"],
+    ["D","d","Dado","D de Dado","Letra D"],
+    ["E","e","Elefante","E de Elefante","Letra E"],
+    ["F","f","Flor","F de Flor","Letra F"],
+    ["G","g","Gato","G de Gato","Letra G"],
+    ["H","h","Hola","H de Hola","Letra H"],
+    ["I","i","Isla","I de Isla","Letra I"],
+    ["J","j","Jardín","J de Jardín","Letra J"],
+    ["K","k","Kiwi","K de Kiwi","Letra K"],
+    ["L","l","Libro","L de Libro","Letra L"],
+    ["M","m","Mano","M de Mano","Letra M"],
+    ["N","n","Nube","N de Nube","Letra N"],
+    ["O","o","Oso","O de Oso","Letra O"],
+    ["P","p","Pan","P de Pan","Letra P"],
+    ["Q","q","Queso","Q de Queso","Letra Q"],
+    ["R","r","Rosa","R de Rosa","Letra R"],
+    ["S","s","Sol","S de Sol","Letra S"],
+    ["T","t","Taza","T de Taza","Letra T"],
+    ["U","u","Uva","U de Uva","Letra U"],
+    ["V","v","Vaca","V de Vaca","Letra V"],
+    ["W","w","Web","W de Web","Letra W"],
+    ["X","x","Xilófono","X de Xilófono","Letra X"],
+    ["Y","y","Yoga","Y de Yoga","Letra Y"],
+    ["Z","z","Zapato","Z de Zapato","Letra Z"]
+   ]
+ },
+
+ German:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Apfel","A wie Apfel","Buchstabe A"],
+    ["B","b","Buch","B wie Buch","Buchstabe B"],
+    ["C","c","Computer","C wie Computer","Buchstabe C"],
+    ["D","d","Dach","D wie Dach","Buchstabe D"],
+    ["E","e","Ente","E wie Ente","Buchstabe E"],
+    ["F","f","Fisch","F wie Fisch","Buchstabe F"],
+    ["G","g","Garten","G wie Garten","Buchstabe G"],
+    ["H","h","Haus","H wie Haus","Buchstabe H"],
+    ["I","i","Insel","I wie Insel","Buchstabe I"],
+    ["J","j","Jahr","J wie Jahr","Buchstabe J"],
+    ["K","k","Katze","K wie Katze","Buchstabe K"],
+    ["L","l","Lampe","L wie Lampe","Buchstabe L"],
+    ["M","m","Maus","M wie Maus","Buchstabe M"],
+    ["N","n","Nase","N wie Nase","Buchstabe N"],
+    ["O","o","Orange","O wie Orange","Buchstabe O"],
+    ["P","p","Park","P wie Park","Buchstabe P"],
+    ["Q","q","Quelle","Q wie Quelle","Buchstabe Q"],
+    ["R","r","Rose","R wie Rose","Buchstabe R"],
+    ["S","s","Sonne","S wie Sonne","Buchstabe S"],
+    ["T","t","Tisch","T wie Tisch","Buchstabe T"],
+    ["U","u","Uhr","U wie Uhr","Buchstabe U"],
+    ["V","v","Vogel","V wie Vogel","Buchstabe V"],
+    ["W","w","Wasser","W wie Wasser","Buchstabe W"],
+    ["X","x","Xylophon","X wie Xylophon","Buchstabe X"],
+    ["Y","y","Yoga","Y wie Yoga","Buchstabe Y"],
+    ["Z","z","Zebra","Z wie Zebra","Buchstabe Z"],
+    ["Ä","ä","Äpfel","Ä wie Äpfel","Umlaut Ä"],
+    ["Ö","ö","Öl","Ö wie Öl","Umlaut Ö"],
+    ["Ü","ü","Über","Ü wie Über","Umlaut Ü"],
+    ["ß","ß","Straße","ß wie Straße","Eszett"]
+   ]
+ },
+
+ Italian:{
+   direction:"ltr",
+
+   items:[
+    ["A","a","Amico","A come Amico","Lettera A"],
+    ["B","b","Bambino","B come Bambino","Lettera B"],
+    ["C","c","Casa","C come Casa","Lettera C"],
+    ["D","d","Dado","D come Dado","Lettera D"],
+    ["E","e","Elefante","E come Elefante","Lettera E"],
+    ["F","f","Fiore","F come Fiore","Lettera F"],
+    ["G","g","Gatto","G come Gatto","Lettera G"],
+    ["H","h","Hotel","H come Hotel","Lettera H"],
+    ["I","i","Isola","I come Isola","Lettera I"],
+    ["L","l","Libro","L come Libro","Lettera L"],
+    ["M","m","Mare","M come Mare","Lettera M"],
+    ["N","n","Nave","N come Nave","Lettera N"],
+    ["O","o","Orso","O come Orso","Lettera O"],
+    ["P","p","Pane","P come Pane","Lettera P"],
+    ["Q","q","Quando","Q come Quando","Lettera Q"],
+    ["R","r","Rosa","R come Rosa","Lettera R"],
+    ["S","s","Sole","S come Sole","Lettera S"],
+    ["T","t","Tavolo","T come Tavolo","Lettera T"],
+    ["U","u","Uva","U come Uva","Lettera U"],
+    ["V","v","Vino","V come Vino","Lettera V"],
+    ["Z","z","Zaino","Z come Zaino","Lettera Z"]
+   ]
+ },
+
+ Arabic:{
+   direction:"rtl",
+
+   items:[
+    ["ا","ا","أسد","ا مثل أسد","حرف الألف"],
+    ["ب","ب","باب","ب مثل باب","حرف الباء"],
+    ["ت","ت","تفاح","ت مثل تفاح","حرف التاء"],
+    ["ث","ث","ثوب","ث مثل ثوب","حرف الثاء"],
+    ["ج","ج","جمل","ج مثل جمل","حرف الجيم"],
+    ["ح","ح","حب","ح مثل حب","حرف الحاء"],
+    ["خ","خ","خبز","خ مثل خبز","حرف الخاء"],
+    ["د","د","دار","د مثل دار","حرف الدال"],
+    ["ذ","ذ","ذهب","ذ مثل ذهب","حرف الذال"],
+    ["ر","ر","رجل","ر مثل رجل","حرف الراء"],
+    ["ز","ز","زهرة","ز مثل زهرة","حرف الزاي"],
+    ["س","س","سمك","س مثل سمك","حرف السين"],
+    ["ش","ش","شمس","ش مثل شمس","حرف الشين"],
+    ["ص","ص","صباح","ص مثل صباح","حرف الصاد"],
+    ["ض","ض","ضوء","ض مثل ضوء","حرف الضاد"],
+    ["ط","ط","طائر","ط مثل طائر","حرف الطاء"],
+    ["ظ","ظ","ظل","ظ مثل ظل","حرف الظاء"],
+    ["ع","ع","عين","ع مثل عين","حرف العين"],
+    ["غ","غ","غزال","غ مثل غزال","حرف الغين"],
+    ["ف","ف","فيل","ف مثل فيل","حرف الفاء"],
+    ["ق","ق","قلم","ق مثل قلم","حرف القاف"],
+    ["ك","ك","كتاب","ك مثل كتاب","حرف الكاف"],
+    ["ل","ل","لبن","ل مثل لبن","حرف اللام"],
+    ["م","م","ماء","م مثل ماء","حرف الميم"],
+    ["ن","ن","نجم","ن مثل نجم","حرف النون"],
+    ["ه","ه","هدية","ه مثل هدية","حرف الهاء"],
+    ["و","و","ورد","و مثل ورد","حرف الواو"],
+    ["ي","ي","يد","ي مثل يد","حرف الياء"]
+   ]
+ },
+
+ Chinese:{
+   direction:"ltr",
+
+   items:[
+    ["一","","One","一 = one","Basic character"],
+    ["人","","Person","人 = person","Basic character"],
+    ["大","","Big","大 = big","Basic character"],
+    ["小","","Small","小 = small","Basic character"],
+    ["日","","Sun","日 = sun/day","Basic character"],
+    ["月","","Moon","月 = moon/month","Basic character"],
+    ["山","","Mountain","山 = mountain","Basic character"],
+    ["水","","Water","水 = water","Basic character"],
+    ["火","","Fire","火 = fire","Basic character"],
+    ["木","","Tree","木 = tree","Basic character"],
+    ["天","","Sky","天 = sky","Basic character"],
+    ["中","","Middle","中 = middle","Basic character"],
+    ["上","","Up","上 = up","Basic character"],
+    ["下","","Down","下 = down","Basic character"],
+    ["口","","Mouth","口 = mouth","Basic character"],
+    ["手","","Hand","手 = hand","Basic character"],
+    ["心","","Heart","心 = heart","Basic character"],
+    ["子","","Child","子 = child","Basic character"],
+    ["女","","Woman","女 = woman","Basic character"],
+    ["好","","Good","好 = good","Basic character"]
+   ]
+ },
+
+ Japanese:{
+   direction:"ltr",
+
+   items:[
+    ["あ","","あめ","あ = a","Hiragana"],
+    ["い","","いぬ","い = i","Hiragana"],
+    ["う","","うみ","う = u","Hiragana"],
+    ["え","","えき","え = e","Hiragana"],
+    ["お","","おちゃ","お = o","Hiragana"],
+    ["か","","かさ","か = ka","Hiragana"],
+    ["き","","き","き = ki","Hiragana"],
+    ["く","","くも","く = ku","Hiragana"],
+    ["け","","けしごむ","け = ke","Hiragana"],
+    ["こ","","こえ","こ = ko","Hiragana"],
+    ["さ","","さかな","さ = sa","Hiragana"],
+    ["し","","しお","し = shi","Hiragana"],
+    ["す","","すし","す = su","Hiragana"],
+    ["せ","","せんせい","せ = se","Hiragana"],
+    ["そ","","そら","そ = so","Hiragana"],
+    ["た","","たまご","た = ta","Hiragana"],
+    ["ち","","ちず","ち = chi","Hiragana"],
+    ["つ","","つき","つ = tsu","Hiragana"],
+    ["て","","て","て = te","Hiragana"],
+    ["と","","とけい","と = to","Hiragana"],
+    ["な","","なまえ","な = na","Hiragana"],
+    ["に","","にく","に = ni","Hiragana"],
+    ["ぬ","","ぬの","ぬ = nu","Hiragana"],
+    ["ね","","ねこ","ね = ne","Hiragana"],
+    ["の","","のみもの","の = no","Hiragana"],
+    ["は","","はな","は = ha","Hiragana"],
+    ["ひ","","ひ","ひ = hi","Hiragana"],
+    ["ふ","","ふね","ふ = fu","Hiragana"],
+    ["へ","","へや","へ = he","Hiragana"],
+    ["ほ","","ほし","ほ = ho","Hiragana"],
+    ["ま","","まど","ま = ma","Hiragana"],
+    ["み","","みみ","み = mi","Hiragana"],
+    ["む","","むし","む = mu","Hiragana"],
+    ["め","","め","め = me","Hiragana"],
+    ["も","","もも","も = mo","Hiragana"],
+    ["や","","やま","や = ya","Hiragana"],
+    ["ゆ","","ゆき","ゆ = yu","Hiragana"],
+    ["よ","","よる","よ = yo","Hiragana"],
+    ["ら","","らいおん","ら = ra","Hiragana"],
+    ["り","","りんご","り = ri","Hiragana"],
+    ["る","","るす","る = ru","Hiragana"],
+    ["れ","","れいぞうこ","れ = re","Hiragana"],
+    ["ろ","","ろうそく","ろ = ro","Hiragana"],
+    ["わ","","わたし","わ = wa","Hiragana"],
+    ["を","","を","を = wo","Hiragana"],
+    ["ん","","ほん","ん = n","Hiragana"]
+   ]
+ },
+
+ Korean:{
+   direction:"ltr",
+
+   items:[
+    ["가","","가방","가 = ga","Hangul syllable"],
+    ["나","","나라","나 = na","Hangul syllable"],
+    ["다","","다리","다 = da","Hangul syllable"],
+    ["라","","라디오","라 = ra","Hangul syllable"],
+    ["마","","마음","마 = ma","Hangul syllable"],
+    ["바","","바다","바 = ba","Hangul syllable"],
+    ["사","","사람","사 = sa","Hangul syllable"],
+    ["아","","아이","아 = a","Hangul syllable"],
+    ["자","","자동차","자 = ja","Hangul syllable"],
+    ["차","","차","차 = cha","Hangul syllable"],
+    ["카","","카메라","카 = ka","Hangul syllable"],
+    ["타","","타다","타 = ta","Hangul syllable"],
+    ["파","","파도","파 = pa","Hangul syllable"],
+    ["하","","하늘","하 = ha","Hangul syllable"],
+    ["한","","한국","한 = han","Hangul syllable"],
+    ["글","","글","글 = geul","Hangul syllable"],
+    ["친","","친구","친 = chin","Hangul syllable"],
+    ["구","","친구","구 = gu","Hangul syllable"],
+    ["책","","책","책 = book","Hangul syllable"],
+    ["집","","집","집 = house","Hangul syllable"]
+   ]
+ },
+
+ Russian:{
+   direction:"ltr",
+
+   items:[
+    ["А","а","Аист","А как Аист","Буква А"],
+    ["Б","б","Банан","Б как Банан","Буква Б"],
+    ["В","в","Вода","В как Вода","Буква В"],
+    ["Г","г","Гора","Г как Гора","Буква Г"],
+    ["Д","д","Дом","Д как Дом","Буква Д"],
+    ["Е","е","Ель","Е как Ель","Буква Е"],
+    ["Ё","ё","Ёлка","Ё как Ёлка","Буква Ё"],
+    ["Ж","ж","Жук","Ж как Жук","Буква Ж"],
+    ["З","з","Зима","З как Зима","Буква З"],
+    ["И","и","Игра","И как Игра","Буква И"],
+    ["Й","й","Йод","Й как Йод","Буква Й"],
+    ["К","к","Книга","К как Книга","Буква К"],
+    ["Л","л","Лес","Л как Лес","Буква Л"],
+    ["М","м","Море","М как Море","Буква М"],
+    ["Н","н","Нос","Н как Нос","Буква Н"],
+    ["О","о","Озеро","О как Озеро","Буква О"],
+    ["П","п","Парк","П как Парк","Буква П"],
+    ["Р","р","Рыба","Р как Рыба","Буква Р"],
+    ["С","с","Солнце","С как Солнце","Буква С"],
+    ["Т","т","Торт","Т как Торт","Буква Т"],
+    ["У","у","Утка","У как Утка","Буква У"],
+    ["Ф","ф","Фрукты","Ф как Фрукты","Буква Ф"],
+    ["Х","х","Хлеб","Х как Хлеб","Буква Х"],
+    ["Ц","ц","Цветок","Ц как Цветок","Буква Ц"],
+    ["Ч","ч","Чай","Ч как Чай","Буква Ч"],
+    ["Ш","ш","Шар","Ш как Шар","Буква Ш"],
+    ["Щ","щ","Щука","Щ как Щука","Буква Щ"],
+    ["Ы","ы","Мы","Ы как в Мы","Буква Ы"],
+    ["Э","э","Эхо","Э как Эхо","Буква Э"],
+    ["Ю","ю","Юла","Ю как Юла","Буква Ю"],
+    ["Я","я","Яблоко","Я как Яблоко","Буква Я"]
+   ]
+ }
+
+};
+
+
+/* ================================================= */
+/* LANGUAGE SELECTOR                                */
+/* ================================================= */
+
+function buildLanguageSelector(){
+
+  const box=
+    document.getElementById(
+      "languageSelector"
+    );
+
+  box.innerHTML=
+    Object.keys(languageData)
+      .map(lang=>`
+
+        <button
+          data-lang="${lang}"
+          onclick="setLanguage('${lang}')">
+
+          ${lang}
+
+        </button>
+
+      `)
+      .join("");
+}
+
+
+/* ================================================= */
+/* SET LANGUAGE                                     */
+/* ================================================= */
+
+function setLanguage(lang){
+
+  currentLanguage=lang;
+
+  document
+    .querySelectorAll(
+      ".languageSelector button"
+    )
+    .forEach(btn=>{
+
+      btn.classList.toggle(
+        "active",
+        btn.dataset.lang===lang
+      );
+
+    });
+
+  const data=
+    languageData[lang];
+
+  document.getElementById(
+    "languageIntro"
+  ).innerHTML=`
+
+    <h2>🌍 ${lang}</h2>
+
+    <p>
+      Start learning ${lang} step by step.
+    </p>
+
+  `;
+
+  document.getElementById(
+    "languageLesson"
+  ).innerHTML="";
+
+}
+
+
+/* ================================================= */
+/* LANGUAGE LESSONS                                 */
+/* ================================================= */
+
+function showLanguage(type){
+
+  const data=
+    languageData[currentLanguage];
+
+  let html="";
+
+
+  /* ============================= */
+  /* WRITING WORKSHEET             */
+  /* ============================= */
+
+  if(type==="writing"){
+
+    html=`
+
+      <div class="worksheet">
+
+        <div class="worksheetIntro">
+
+          <h2>
+            ✍️ ${currentLanguage} Writing Worksheet
+          </h2>
+
+          <p>
+            Practice ${currentLanguage} step by step.
+            Look at the model, trace the character,
+            then write it yourself.
+          </p>
+
+          <button
+            class="resetButton"
+            onclick="resetWritingProgress()">
+
+            🔄 Reset Progress
+
+          </button>
+
+        </div>
+
+
+        <div class="worksheetTop">
+
+          <span class="worksheetBadge">
+            ✍️ Writing Practice
+          </span>
+
+          <div class="progressBox">
+
+            <div class="progressText">
+
+              <span id="worksheetProgressText">
+                1 / 1
+              </span>
+
+              <span id="worksheetPercent">
+                0%
+              </span>
+
+            </div>
+
+            <div class="progressBar">
+
+              <div
+                id="worksheetProgressFill"
+                class="progressFill">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="worksheetGrid">
+
+
+          <!-- MODEL -->
+
+          <div class="practiceCard">
+
+            <h3>
+              👀 1. Look & Learn
+            </h3>
+
+            <div class="modelArea">
+
+              <div
+                id="modelCharacter"
+                class="modelCharacter">
+              </div>
+
+              <div
+                id="modelRoman"
+                class="modelRoman">
+              </div>
+
+              <div
+                id="modelExample"
+                class="modelExample">
+              </div>
+
+            </div>
+
+
+            <div class="traceArea">
+
+              <div class="traceTitle">
+
+                <strong>
+                  ✏️ 2. Trace
+                </strong>
+
+                <span>
+                  Follow the shape
+                </span>
+
+              </div>
+
+              <div
+                id="traceCharacter"
+                class="traceCharacter">
+              </div>
+
+            </div>
+
+
+            <div class="worksheetInfo">
+
+              <div class="miniInfo">
+
+                <strong>🔤 Character</strong>
+
+                <span id="infoCharacter">
+                </span>
+
+              </div>
+
+              <div class="miniInfo">
+
+                <strong>📖 Example</strong>
+
+                <span id="infoExample">
+                </span>
+
+              </div>
+
+              <div class="miniInfo">
+
+                <strong>💡 Tip</strong>
+
+                <span>
+                  Write slowly and carefully.
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- WRITE -->
+
+          <div class="practiceCard">
+
+            <div class="canvasTitle">
+
+              <h3>
+                📝 3. Your Turn
+              </h3>
+
+              <span>
+                Draw with finger or mouse
+              </span>
+
+            </div>
+
+
+            <div
+              class="canvasWrap"
+              id="canvasWrap">
+
+              <canvas
+                id="writingCanvas">
+              </canvas>
+
+              <div class="canvasHint">
+                Write the character here
+              </div>
+
+            </div>
+
+
+            <div class="worksheetButtons">
+
+              <button
+                class="btnClear"
+                onclick="clearCanvas()">
+
+                🧹 Clear
+
+              </button>
+
+              <button
+                class="btnCheck"
+                onclick="checkWriting()">
+
+                ✅ Check
+
+              </button>
+
+              <button
+                class="btnListen"
+                onclick="listenCurrentCharacter()">
+
+                🔊 Listen
+
+              </button>
+
+              <button
+                class="btnPrint"
+                onclick="printWorksheet()">
+
+                🖨️ Print
+
+              </button>
+
+            </div>
+
+
+            <div
+              id="writingFeedback"
+              class="feedback">
+            </div>
+
+
+            <div class="freePractice">
+
+              <h3>
+                📝 Free Practice
+              </h3>
+
+              <div class="freePracticeBox">
+
+                ${data.writing}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="navigation">
+
+          <button
+            class="navPrev"
+            onclick="previousWritingItem()">
+
+            ← Previous
+
+          </button>
+
+          <button
+            class="navNext"
+            onclick="nextWritingItem()">
+
+            Next →
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ============================= */
+  /* VOCABULARY                    */
+  /* ============================= */
+
+  if(type==="vocabulary"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          📚 ${currentLanguage} Vocabulary
+        </h2>
+
+        <p>
+          Learn these useful words:
+        </p>
+
+        <div class="contentGrid">
+
+          ${data.words.map(w=>`
+
+            <div class="word">
+
+              <strong>${w[0]}</strong>
+
+              <p>${w[1]}</p>
+
+              <button
+                class="secondary"
+                onclick="speak('${escapeSpeech(w[0])}','${data.code}')">
+
+                🔊
+
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ============================= */
+  /* SENTENCES                     */
+  /* ============================= */
+
+  if(type==="sentences"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          💬 Useful ${currentLanguage} Sentences
+        </h2>
+
+        <div class="contentGrid">
+
+          ${data.sentences.map(sentence=>`
+
+            <div class="word">
+
+              <p>${sentence}</p>
+
+              <button
+                class="secondary"
+                onclick="speak('${escapeSpeech(sentence)}','${data.code}')">
+
+                🔊 Listen
+
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ============================= */
+  /* LISTENING                     */
+  /* ============================= */
+
+  if(type==="listening"){
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          🎧 ${currentLanguage} Listening
+        </h2>
+
+        <p>
+          Tap a sentence and listen to its pronunciation.
+        </p>
+
+        <div class="contentGrid">
+
+          ${data.sentences.map(sentence=>`
+
+            <div class="word">
+
+              <p>${sentence}</p>
+
+              <button
+                class="primary"
+                onclick="speak('${escapeSpeech(sentence)}','${data.code}')">
+
+                🔊 Listen
+
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ============================= */
+  /* STORIES                       */
+  /* ============================= */
+
+  if(type==="stories"){
+
+    const story=data.story;
+
+    html=`
+
+      <div class="detail">
+
+        <h2>
+          📖 ${currentLanguage} Stories
+        </h2>
+
+        <p>
+          Read an easy story and learn useful words
+          through the story.
+        </p>
+
+        <div class="storyList">
+
+          <div class="storyCard">
+
+            <h3>
+              ${story.title}
+            </h3>
+
+            <p>
+              ${story.text}
+            </p>
+
+            <button onclick="speakStory()">
+              🔊 Listen
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="actionRow">
+
+          <button
+            class="secondary"
+            onclick="showStoryVocabulary()">
+
+            🧠 New Words
+
+          </button>
+
+        </div>
+
+        <div id="storyVocabulary"></div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  document.getElementById(
+    "languageLesson"
+  ).innerHTML=html;
+
+
+  /* Initialize worksheet AFTER HTML exists */
+
+  if(type==="writing"){
+
+    writingIndex=0;
+
+    completedWriting=
+      getWritingProgress();
+
+    setupCanvas();
+
+    renderWritingItem();
+
+  }
+
+}
+
+
+/* ================================================= */
+/* WRITING WORKSHEET ENGINE                         */
+/* ================================================= */
+
+let writingIndex=0;
+
+let completedWriting={};
+
+let canvas=null;
+
+let ctx=null;
+
+let drawing=false;
+
+
+/* GET CURRENT DATA */
+
+function getCurrentWorksheet(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(!data){
+    return null;
+  }
+
+  return data.items[writingIndex];
+
+}
+
+
+/* PROGRESS STORAGE */
+
+function getProgressKey(){
+
+  return "litWriting_" +
+    currentLanguage;
+
+}
+
+
+function getWritingProgress(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        getProgressKey()
+      ) || "{}"
+    );
+
+  }catch(e){
+
+    return {};
+
+  }
+
+}
+
+
+function saveWritingProgress(){
+
+  localStorage.setItem(
+    getProgressKey(),
+    JSON.stringify(completedWriting)
+  );
+
+}
+
+
+/* ================================================= */
+/* RENDER WRITING ITEM                              */
+/* ================================================= */
+
+function renderWritingItem(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(!data){
+    return;
+  }
+
+  const item=
+    data.items[writingIndex];
+
+  if(!item){
+    return;
+  }
+
+
+  const mainCharacter=item[0];
+
+  const lowerCharacter=item[1];
+
+  const example=item[2];
+
+  const description=item[3];
+
+  const type=item[4];
+
+
+  const model=
+    document.getElementById(
+      "modelCharacter"
+    );
+
+  const roman=
+    document.getElementById(
+      "modelRoman"
+    );
+
+  const modelExample=
+    document.getElementById(
+      "modelExample"
+    );
+
+  const trace=
+    document.getElementById(
+      "traceCharacter"
+    );
+
+
+  if(model){
+
+    model.textContent=
+      lowerCharacter
+      ? mainCharacter+" "+lowerCharacter
+      : mainCharacter;
+
+  }
+
+
+  if(roman){
+
+    roman.textContent=
+      type || "";
+
+  }
+
+
+  if(modelExample){
+
+    modelExample.innerHTML=`
+
+      <strong>${example}</strong>
+
+      <br>
+
+      ${description}
+
+    `;
+
+  }
+
+
+  if(trace){
+
+    trace.textContent=
+      lowerCharacter
+      ? mainCharacter+" "+lowerCharacter
+      : mainCharacter;
+
+    if(currentLanguage==="Arabic"){
+
+      trace.style.direction="rtl";
+
+    }else{
+
+      trace.style.direction="ltr";
+
+    }
+
+  }
+
+
+  const infoCharacter=
+    document.getElementById(
+      "infoCharacter"
+    );
+
+  const infoExample=
+    document.getElementById(
+      "infoExample"
+    );
+
+
+  if(infoCharacter){
+
+    infoCharacter.textContent=
+      mainCharacter;
+
+  }
+
+
+  if(infoExample){
+
+    infoExample.textContent=
+      example;
+
+  }
+
+
+  updateProgress();
+
+
+  clearCanvas();
+
+
+  const feedback=
+    document.getElementById(
+      "writingFeedback"
+    );
+
+  if(feedback){
+
+    feedback.className="feedback";
+
+    feedback.innerHTML="";
+
+  }
+
+
+  updateNavigation();
+
+}
+
+
+/* ================================================= */
+/* PROGRESS                                         */
+/* ================================================= */
+
+function updateProgress(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  const total=
+    data.items.length;
+
+  const completed=
+    Object.keys(
+      completedWriting
+    ).length;
+
+  const current=
+    writingIndex+1;
+
+  const progressText=
+    document.getElementById(
+      "worksheetProgressText"
+    );
+
+  const percent=
+    document.getElementById(
+      "worksheetPercent"
+    );
+
+  const fill=
+    document.getElementById(
+      "worksheetProgressFill"
+    );
+
+
+  if(progressText){
+
+    progressText.textContent=
+      current+" / "+total;
+
+  }
+
+
+  const percentage=
+    Math.round(
+      (completed/total)*100
+    );
+
+
+  if(percent){
+
+    percent.textContent=
+      percentage+"% completed";
+
+  }
+
+
+  if(fill){
+
+    fill.style.width=
+      percentage+"%";
+
+  }
+
+}
+
+
+/* ================================================= */
+/* NAVIGATION                                       */
+/* ================================================= */
+
+function previousWritingItem(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(writingIndex>0){
+
+    writingIndex--;
+
+    renderWritingItem();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+
+function nextWritingItem(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  if(writingIndex<
+     data.items.length-1){
+
+    writingIndex++;
+
+    renderWritingItem();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }else{
+
+    showCompletionMessage();
+
+  }
+
+}
+
+
+function updateNavigation(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  const buttons=
+    document.querySelectorAll(
+      ".navigation button"
+    );
+
+  if(buttons.length<2){
+    return;
+  }
+
+
+  buttons[0].disabled=
+    writingIndex===0;
+
+  buttons[1].textContent=
+    writingIndex===
+    data.items.length-1
+    ? "Finish ✓"
+    : "Next →";
+
+
+  buttons[0].style.opacity=
+    writingIndex===0
+    ? ".5"
+    : "1";
+
+}
+
+
+/* ================================================= */
+/* CANVAS SETUP                                     */
+/* ================================================= */
+
+function setupCanvas(){
+
+  canvas=
+    document.getElementById(
+      "writingCanvas"
+    );
+
+  if(!canvas){
+    return;
+  }
+
+  ctx=
+    canvas.getContext("2d");
+
+  resizeCanvas();
+
+
+  canvas.onpointerdown=
+    startDrawing;
+
+  canvas.onpointermove=
+    draw;
+
+  canvas.onpointerup=
+    stopDrawing;
+
+  canvas.onpointercancel=
+    stopDrawing;
+
+  canvas.onpointerleave=
+    stopDrawing;
+
+}
+
+
+function resizeCanvas(){
+
+  if(!canvas){
+    return;
+  }
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  const ratio=
+    window.devicePixelRatio || 1;
+
+  canvas.width=
+    rect.width*ratio;
+
+  canvas.height=
+    rect.height*ratio;
+
+  ctx=
+    canvas.getContext("2d");
+
+  ctx.scale(
+    ratio,
+    ratio
+  );
+
+  ctx.lineWidth=5;
+
+  ctx.lineCap="round";
+
+  ctx.lineJoin="round";
+
+  ctx.strokeStyle="#6f4328";
+
+}
+
+
+window.addEventListener(
+  "resize",
+  ()=>{
+    if(canvas){
+      resizeCanvas();
+    }
+  }
+);
+
+
+/* ================================================= */
+/* DRAWING                                          */
+/* ================================================= */
+
+function getCanvasPosition(e){
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  return {
+
+    x:e.clientX-rect.left,
+
+    y:e.clientY-rect.top
+
+  };
+
+}
+
+
+function startDrawing(e){
+
+  if(!canvas){
+    return;
+  }
+
+  drawing=true;
+
+  canvas.setPointerCapture(
+    e.pointerId
+  );
+
+  const pos=
+    getCanvasPosition(e);
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    pos.x,
+    pos.y
+  );
+
+}
+
+
+function draw(e){
+
+  if(!drawing){
+    return;
+  }
+
+  const pos=
+    getCanvasPosition(e);
+
+  ctx.lineTo(
+    pos.x,
+    pos.y
+  );
+
+  ctx.stroke();
+
+}
+
+
+function stopDrawing(){
+
+  drawing=false;
+
+}
+
+
+/* ================================================= */
+/* CLEAR CANVAS                                    */
+/* ================================================= */
+
+function clearCanvas(){
+
+  if(!canvas || !ctx){
+    return;
+  }
+
+  const rect=
+    canvas.getBoundingClientRect();
+
+  ctx.clearRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+
+}
+
+
+/* ================================================= */
+/* CHECK WRITING                                   */
+/* ================================================= */
+
+function checkWriting(){
+
+  if(!canvas){
+    return;
+  }
+
+
+  const data=
+    ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+  let hasInk=false;
+
+
+  for(
+    let i=3;
+    i<data.data.length;
+    i+=4
+  ){
+
+    if(data.data[i]>30){
+
+      hasInk=true;
+
+      break;
+
+    }
+
+  }
+
+
+  const feedback=
+    document.getElementById(
+      "writingFeedback"
+    );
+
+
+  if(!feedback){
+    return;
+  }
+
+
+  feedback.className=
+    "feedback show";
+
+
+  if(!hasInk){
+
+    feedback.classList.add(
+      "info"
+    );
+
+    feedback.innerHTML=
+      "✏️ Write the character in the box first, then press Check.";
+
+    return;
+
+  }
+
+
+  completedWriting[
+    writingIndex
+  ]=true;
+
+
+  saveWritingProgress();
+
+  updateProgress();
+
+
+  feedback.classList.add(
+    "success"
+  );
+
+  feedback.innerHTML=
+    "🎉 Great work! You completed this writing exercise. Now try it again or move to the next character.";
+
+}
+
+
+/* ================================================= */
+/* COMPLETION                                    */
+/* ================================================= */
+
+function showCompletionMessage(){
+
+  const data=
+    worksheetData[currentLanguage];
+
+  const total=
+    data.items.length;
+
+  completedWriting={};
+
+  for(let i=0;i<total;i++){
+    completedWriting[i]=true;
+  }
+
+  saveWritingProgress();
+
+  updateProgress();
+
+
+  const feedback=
+    document.getElementById(
+      "writingFeedback"
+    );
+
+  if(feedback){
+
+    feedback.className=
+      "feedback show success";
+
+    feedback.innerHTML=`
+
+      🎉 <strong>Worksheet completed!</strong>
+
+      <br>
+
+      You practiced all ${total}
+      ${currentLanguage} writing exercises.
+
+    `;
+
+  }
+
+}
+
+
+/* ================================================= */
+/* RESET PROGRESS                                   */
+/* ================================================= */
+
+function resetWritingProgress(){
+
+  if(
+    !confirm(
+      "Reset your writing progress for "+
+      currentLanguage+"?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  completedWriting={};
+
+  localStorage.removeItem(
+    getProgressKey()
+  );
+
+  writingIndex=0;
+
+  renderWritingItem();
+
+}
+
+
+/* ================================================= */
+/* LISTEN CURRENT CHARACTER                        */
+/* ================================================= */
+
+function listenCurrentCharacter(){
+
+  const item=
+    getCurrentWorksheet();
+
+  if(!item){
+    return;
+  }
+
+  const text=
+    item[2] || item[0];
+
+  const code=
+    languageData[
+      currentLanguage
+    ].code;
+
+  speak(
+    text,
+    code
+  );
+
+}
+
+
+/* ================================================= */
+/* PRINT                                           */
+/* ================================================= */
+
+function printWorksheet(){
+
+  window.print();
+
+}
+
+
+/* ================================================= */
+/* ESCAPE SPEECH                                   */
+/* ================================================= */
+
+function escapeSpeech(text){
+
+  return String(text)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,'\\"')
+    .replace(/\n/g," ");
+
+}
+
+
+/* ================================================= */
+/* STORY LISTENING                                 */
+/* ================================================= */
+
+function speakStory(){
+
+  const data=
+    languageData[currentLanguage];
+
+  speak(
+    data.story.text,
+    data.code
+  );
+
+}
+
+
+/* ================================================= */
+/* STORY VOCABULARY                                */
+/* ================================================= */
+
+function showStoryVocabulary(){
+
+  const words=[
+
+    ["Story","A written or spoken tale."],
+
+    ["Book","Something we read."],
+
+    ["Library","A place with many books."],
+
+    ["Language","A way people communicate."],
+
+    ["Learn","To gain knowledge."],
+
+    ["Discover","To find something new."],
+
+    ["Curious","Wanting to know something."]
+
+  ];
+
+
+  document.getElementById(
+    "storyVocabulary"
+  ).innerHTML=`
+
+    <h3
+      style="
+        color:var(--brown);
+        margin-top:25px
+      ">
+
+      🧠 Useful Story Words
+
+    </h3>
+
+    <div class="contentGrid">
+
+      ${words.map(w=>`
+
+        <div class="word">
+
+          <strong>
+            ${w[0]}
+          </strong>
+
+          <p>
+            ${w[1]}
+          </p>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `;
+
+}
+
+
+/* ================================================= */
+/* SPEECH                                          */
+/* ================================================= */
+
+function speak(
+  text,
+  lang="en-US"
+){
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+
+    alert(
+      "Your browser does not support voice."
+    );
+
+    return;
+
+  }
+
+
+  speechSynthesis.cancel();
+
+
+  const utterance=
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+
+  utterance.lang=lang;
+
+  utterance.rate=.85;
+
+
+  speechSynthesis.speak(
+    utterance
+  );
+
+}
+
+
+/* ================================================= */
+/* SCIENCE                                         */
+/* ================================================= */
+
+const scientists=[
+
+ ["Albert Einstein",
+  "Theory of Relativity",
+  "Changed our understanding of space, time, gravity and energy."],
+
+ ["Isaac Newton",
+  "Laws of Motion",
+  "Developed important laws describing motion and gravity."],
+
+ ["Marie Curie",
+  "Radioactivity",
+  "Important pioneer in research on radioactivity."],
+
+ ["Charles Darwin",
+  "Evolution",
+  "Developed the theory of evolution by natural selection."],
+
+ ["Galileo Galilei",
+  "Astronomy",
+  "Made important observations that changed astronomy."],
+
+ ["Nikola Tesla",
+  "Electricity",
+  "Worked on alternating-current electrical systems."],
+
+ ["James Clerk Maxwell",
+  "Electromagnetism",
+  "Developed equations describing electricity and magnetism."],
+
+ ["Gregor Mendel",
+  "Genetics",
+  "Studied inheritance using pea plants."],
+
+ ["Louis Pasteur",
+  "Germ Theory",
+  "Made major contributions to microbiology and vaccination."],
+
+ ["Stephen Hawking",
+  "Black Holes",
+  "Made important contributions to the study of black holes and cosmology."]
+
+];
+
+
+function loadScientists(){
+
+  document.getElementById(
+    "scientistsGrid"
+  ).innerHTML=
+
+  scientists.map(s=>`
+
+    <div class="infoCard">
+
+      <button
+        class="favorite"
+        onclick="addFavorite('${s[0]}')">
+
+        ☆
+
+      </button>
+
+      <h3>${s[0]}</h3>
+
+      <p>
+        <strong>${s[1]}</strong>
+      </p>
+
+      <p>
+        ${s[2]}
+      </p>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* ================================================= */
+/* NOBEL PEOPLE                                    */
+/* ================================================= */
+
+const nobel=[
+
+ ["Marie Curie",
+  "Physics and Chemistry",
+  "Received Nobel Prizes in Physics and Chemistry."],
+
+ ["Albert Einstein",
+  "Physics",
+  "Received the 1921 Nobel Prize in Physics."],
+
+ ["Rabindranath Tagore",
+  "Literature",
+  "Received the 1913 Nobel Prize in Literature."],
+
+ ["Naguib Mahfouz",
+  "Literature",
+  "Received the 1988 Nobel Prize in Literature."],
+
+ ["Malala Yousafzai",
+  "Peace",
+  "Received the 2014 Nobel Peace Prize."],
+
+ ["Abdus Salam",
+  "Physics",
+  "Received the 1979 Nobel Prize in Physics."],
+
+ ["Ernest Hemingway",
+  "Literature",
+  "Received the 1954 Nobel Prize in Literature."],
+
+ ["Gabriel García Márquez",
+  "Literature",
+  "Received the 1982 Nobel Prize in Literature."],
+
+ ["Nelson Mandela",
+  "Peace",
+  "Received the 1993 Nobel Peace Prize."],
+
+ ["Doris Lessing",
+  "Literature",
+  "Received the 2007 Nobel Prize in Literature."]
+
+];
+
+
+function loadNobel(){
+
+  document.getElementById(
+    "nobelGrid"
+  ).innerHTML=
+
+  nobel.map(n=>`
+
+    <div class="infoCard">
+
+      <button
+        class="favorite"
+        onclick="addFavorite('${n[0]}')">
+
+        ☆
+
+      </button>
+
+      <h3>${n[0]}</h3>
+
+      <p>
+        <strong>${n[1]}</strong>
+      </p>
+
+      <p>
+        ${n[2]}
+      </p>
+
+    </div>
+
+  `).join("");
+
+}
+
+
+/* ================================================= */
+/* FAVORITES                                       */
+/* ================================================= */
+
+function addFavorite(name){
+
+  let fav=
+    JSON.parse(
+      localStorage.getItem(
+        "litFavorites"
+      ) || "[]"
+    );
+
+
+  if(!fav.includes(name)){
+
+    fav.push(name);
+
+    localStorage.setItem(
+      "litFavorites",
+      JSON.stringify(fav)
+    );
+
+    alert(
+      "Added to Favorites ⭐"
+    );
+
+  }
+
+}
+
+
+function loadFavorites(){
+
+  const box=
+    document.getElementById(
+      "favoritesGrid"
+    );
+
+
+  let fav=
+    JSON.parse(
+      localStorage.getItem(
+        "litFavorites"
+      ) || "[]"
+    );
+
+
+  if(fav.length===0){
+
+    box.innerHTML=`
+
+      <div class="infoCard">
+
+        <h3>
+          No favorites yet
+        </h3>
+
+        <p>
+          Tap ☆ on an item to save it here.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML=
+    fav.map(name=>`
+
+      <div class="infoCard">
+
+        <h3>
+          ⭐ ${name}
+        </h3>
+
+        <p>
+          Saved in your Lit en Lingo favorites.
+        </p>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* ================================================= */
+/* SEARCH                                          */
+/* ================================================= */
+
+function globalSearch(){
+
+  const query=
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  if(!query){
+
+    alert(
+      "Please type something to search."
+    );
+
+    return;
+
+  }
+
+
+  let results=[];
+
+
+  writers.forEach(w=>{
+
+    if(
+      w.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:w[0],
+
+        info:
+          w[1]+" — "+w[2]
+
+      });
+
+    }
+
+  });
+
+
+  works.forEach(w=>{
+
+    if(
+      w.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:w[0],
+
+        info:
+          w[1]+" — "+w[2]
+
+      });
+
+    }
+
+  });
+
+
+  scientists.forEach(s=>{
+
+    if(
+      s.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:s[0],
+
+        info:
+          s[1]+" — "+s[2]
+
+      });
+
+    }
+
+  });
+
+
+  nobel.forEach(n=>{
+
+    if(
+      n.join(" ")
+       .toLowerCase()
+       .includes(query)
+    ){
+
+      results.push({
+
+        title:n[0],
+
+        info:
+          n[1]+" — "+n[2]
+
+      });
+
+    }
+
+  });
+
+
+  const box=
+    document.getElementById(
+      "resultsGrid"
+    );
+
+
+  if(results.length===0){
+
+    box.innerHTML=`
+
+      <div class="infoCard">
+
+        <h3>
+          No results
+        </h3>
+
+        <p>
+          Try another word.
+        </p>
+
+      </div>
+
+    `;
+
+  }else{
+
+    box.innerHTML=
+
+      results.map(r=>`
+
+        <div class="infoCard">
+
+          <h3>
+            ${r.title}
+          </h3>
+
+          <p>
+            ${r.info}
+          </p>
+
+        </div>
+
+      `).join("");
+
+  }
+
+
+  showScreen(
+    "searchResults"
+  );
+
+}
+
+
+/* ================================================= */
+/* START APP                                       */
+/* ================================================= */
+
+loadHistory();
+
+loadWriters();
+
+loadWorks();
+
+loadScientists();
+
+loadNobel();
+
+buildLanguageSelector();
+
+setLanguage("English");
+
+randomDiscovery();
+
+</script>
+
+</body>
+  </html>
