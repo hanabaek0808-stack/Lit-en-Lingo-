@@ -3894,21 +3894,7 @@ const scientists=[
 
  ["James Clerk Maxwell",
   "Electromagnetism",
-  "Developed equations describing electricity and magnetism."],
-
- ["Gregor Mendel",
-  "Genetics",
-  "Studied inheritance using pea plants."],
-
- ["Louis Pasteur",
-  "Germ Theory",
-  "Made major contributions to microbiology and vaccination."],
-
- ["Stephen Hawking",
-  "Black Holes",
-  "Made important contributions to the study of black holes and cosmology."]
-
-];
+  "
 
 
 function loadScientists(){
@@ -3952,47 +3938,473 @@ function loadScientists(){
 
 const nobel=[
 
- ["Marie Curie",
-  "Physics and Chemistry",
-  "Received Nobel Prizes in Physics and Chemistry."],
+ {
+  name: "Marie Curie",
+  icon: "🔬",
+  country: "Poland / France",
+  year: "1903 & 1911",
+  category: "Nobel Laureate",
+  info: "Marie Curie was a pioneering physicist and chemist whose research on radioactivity led to the discovery of polonium and radium. She received the Nobel Prize in Physics in 1903 and Chemistry in 1911."
+},
 
- ["Albert Einstein",
-  "Physics",
-  "Received the 1921 Nobel Prize in Physics."],
+{
+  name: "Albert Einstein",
+  icon: "💡",
+  country: "Germany / Switzerland",
+  year: "1921",
+  category: "Nobel Laureate",
+  info: "Albert Einstein made foundational contributions to modern physics. His Nobel Prize recognized his work on the photoelectric effect. His famous 1905 papers also addressed Brownian motion and special relativity."
+},
 
- ["Rabindranath Tagore",
-  "Literature",
-  "Received the 1913 Nobel Prize in Literature."],
+{
+  name: "Malala Yousafzai",
+  icon: "🎓",
+  country: "Pakistan",
+  year: "2014",
+  category: "Nobel Laureate",
+  info: "Malala Yousafzai is a Pakistani education activist. She shared the 2014 Nobel Peace Prize with Kailash Satyarthi for their struggle for the rights of children and young people, including the right to education."
+},
 
- ["Naguib Mahfouz",
-  "Literature",
-  "Received the 1988 Nobel Prize in Literature."],
+{
+  name: "Rabindranath Tagore",
+  icon: "📖",
+  country: "India",
+  year: "1913",
+  category: "Nobel Laureate",
+  info: "Rabindranath Tagore was a poet, novelist, playwright, philosopher, composer and painter. He received the 1913 Nobel Prize in Literature and became the first Asian Nobel Laureate."
+},
 
- ["Malala Yousafzai",
-  "Peace",
-  "Received the 2014 Nobel Peace Prize."],
+{
+  name: "Naguib Mahfouz",
+  icon: "📚",
+  country: "Egypt",
+  year: "1988",
+  category: "Nobel Laureate",
+  info: "Naguib Mahfouz was an Egyptian novelist and one of the major figures of modern Arabic literature. His famous works include the Cairo Trilogy and Children of the Alley."
+},
 
- ["Abdus Salam",
-  "Physics",
-  "Received the 1979 Nobel Prize in Physics."],
+{
+  name: "Gabriel García Márquez",
+  icon: "🌹",
+  country: "Colombia",
+  year: "1982",
+  category: "Nobel Laureate",
+  info: "Gabriel García Márquez was a Colombian novelist and journalist. His famous works include One Hundred Years of Solitude, Love in the Time of Cholera and Chronicle of a Death Foretold."
+},
 
- ["Ernest Hemingway",
-  "Literature",
-  "Received the 1954 Nobel Prize in Literature."],
+{
+  name: "Ernest Hemingway",
+  icon: "🎣",
+  country: "United States",
+  year: "1954",
+  category: "Nobel Laureate",
+  info: "Ernest Hemingway was an American novelist and short-story writer known for his concise writing style. His major works include The Old Man and the Sea and A Farewell to Arms."
+},
 
- ["Gabriel García Márquez",
-  "Literature",
-  "Received the 1982 Nobel Prize in Literature."],
+{
+  name: "Abdus Salam",
+  icon: "⚛️",
+  country: "Pakistan",
+  year: "1979",
+  category: "Nobel Laureate",
+  info: "Abdus Salam was a Pakistani theoretical physicist. He shared the 1979 Nobel Prize in Physics for contributions to the theory of the unified electromagnetic and weak interactions."
+},
 
- ["Nelson Mandela",
-  "Peace",
-  "Received the 1993 Nobel Peace Prize."],
+{
+  name: "Doris Lessing",
+  icon: "✍️",
+  country: "United Kingdom",
+  year: "2007",
+  category: "Nobel Laureate",
+  info: "Doris Lessing was a British writer whose works explored politics, psychology, social change and women's experiences. She received the 2007 Nobel Prize in Literature."
+},
 
- ["Doris Lessing",
-  "Literature",
-  "Received the 2007 Nobel Prize in Literature."]
+{
+  name: "Milton Friedman",
+  icon: "💰",
+  country: "United States",
+  year: "1976",
+  category: "Nobel Laureate",
+  info: "Milton Friedman was an influential economist associated with the Chicago School. He received the 1976 Nobel Prize in Economic Sciences for achievements in consumption analysis, monetary history and theory, and stabilization policy."
+},
 
-];
+{
+  name: "Amartya Sen",
+  icon: "💰",
+  country: "India",
+  year: "1998",
+  category: "Nobel Laureate",
+  info: "Amartya Sen received the 1998 Nobel Prize in Economic Sciences for contributions to welfare economics. His work includes social choice theory, poverty measurement and the capability approach."
+},
+
+{
+  name: "Paul Krugman",
+  icon: "💰",
+  country: "United States",
+  year: "2008",
+  category: "Nobel Laureate",
+  info: "Paul Krugman received the 2008 Nobel Prize in Economic Sciences for his analysis of trade patterns and the location of economic activity."
+},
+
+{
+  name: "Abhijit Banerjee",
+  icon: "💰",
+  country: "India / United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Abhijit Banerjee shared the 2019 Nobel Prize in Economic Sciences for an experimental approach to alleviating global poverty."
+},
+
+{
+  name: "Esther Duflo",
+  icon: "💰",
+  country: "France / United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Esther Duflo shared the 2019 Nobel Prize in Economic Sciences for an experimental approach to alleviating global poverty. She became one of the youngest recipients of the prize."
+},
+
+{
+  name: "Michael Kremer",
+  icon: "💰",
+  country: "United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Michael Kremer shared the 2019 Nobel Prize in Economic Sciences with Abhijit Banerjee and Esther Duflo for their experimental approach to alleviating global poverty."
+},
+
+{
+  name: "Ivan Pavlov",
+  icon: "🧬",
+  country: "Russia",
+  year: "1904",
+  category: "Nobel Laureate",
+  info: "Ivan Pavlov received the 1904 Nobel Prize in Physiology or Medicine for his work on the physiology of digestion. His later research became closely associated with classical conditioning."
+},
+
+{
+  name: "Robert Koch",
+  icon: "🧬",
+  country: "Germany",
+  year: "1905",
+  category: "Nobel Laureate",
+  info: "Robert Koch was a pioneer of medical microbiology. He received the 1905 Nobel Prize in Physiology or Medicine for his investigations concerning tuberculosis."
+},
+
+{
+  name: "Alexander Fleming",
+  icon: "💊",
+  country: "United Kingdom",
+  year: "1945",
+  category: "Nobel Laureate",
+  info: "Alexander Fleming shared the 1945 Nobel Prize in Physiology or Medicine with Ernst Chain and Howard Florey for the discovery of penicillin and its curative effect in infectious diseases."
+},
+
+{
+  name: "James Watson",
+  icon: "🧬",
+  country: "United States",
+  year: "1962",
+  category: "Nobel Laureate",
+  info: "James Watson shared the 1962 Nobel Prize in Physiology or Medicine with Francis Crick and Maurice Wilkins for discoveries concerning the molecular structure of nucleic acids."
+},
+
+{
+  name: "Francis Crick",
+  icon: "🧬",
+  country: "United Kingdom",
+  year: "1962",
+  category: "Nobel Laureate",
+  info: "Francis Crick shared the 1962 Nobel Prize in Physiology or Medicine with James Watson and Maurice Wilkins for discoveries concerning the molecular structure of nucleic acids."
+},
+
+{
+  name: "Barbara McClintock",
+  icon: "🧬",
+  country: "United States",
+  year: "1983",
+  category: "Nobel Laureate",
+  info: "Barbara McClintock received the 1983 Nobel Prize in Physiology or Medicine for her discovery of mobile genetic elements, also known as transposons."
+},
+
+{
+  name: "Tu Youyou",
+  icon: "🌿",
+  country: "China",
+  year: "2015",
+  category: "Nobel Laureate",
+  info: "Tu Youyou shared the 2015 Nobel Prize in Physiology or Medicine for her discovery of artemisinin, a drug that has significantly reduced mortality from malaria."
+},
+
+{
+  name: "Jacobus Henricus van 't Hoff",
+  icon: "🧪",
+  country: "Netherlands",
+  year: "1901",
+  category: "Nobel Laureate",
+  info: "Jacobus Henricus van 't Hoff was the first recipient of the Nobel Prize in Chemistry. He was awarded the 1901 prize for his discovery of the laws of chemical dynamics and osmotic pressure in solutions."
+},
+
+{
+  name: "Ernest Rutherford",
+  icon: "⚛️",
+  country: "New Zealand / United Kingdom",
+  year: "1908",
+  category: "Nobel Laureate",
+  info: "Ernest Rutherford received the 1908 Nobel Prize in Chemistry for his investigations into the disintegration of the elements and the chemistry of radioactive substances."
+},
+
+{
+  name: "Linus Pauling",
+  icon: "🧪",
+  country: "United States",
+  year: "1954",
+  category: "Nobel Laureate",
+  info: "Linus Pauling received the 1954 Nobel Prize in Chemistry for his research into the nature of the chemical bond. He later received the Nobel Peace Prize in 1962."
+},
+
+{
+  name: "Frederick Sanger",
+  icon: "🧬",
+  country: "United Kingdom",
+  year: "1958 & 1980",
+  category: "Nobel Laureate",
+  info: "Frederick Sanger won the Nobel Prize in Chemistry twice. His first prize recognized his work on the structure of proteins, especially insulin, and his second recognized his contributions concerning DNA sequencing."
+},
+
+{
+  name: "Frances Arnold",
+  icon: "🧪",
+  country: "United States",
+  year: "2018",
+  category: "Nobel Laureate",
+  info: "Frances Arnold received the 2018 Nobel Prize in Chemistry for her work on the directed evolution of enzymes."
+},
+
+{
+  name: "John B. Goodenough",
+  icon: "🔋",
+  country: "United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "John B. Goodenough shared the 2019 Nobel Prize in Chemistry for the development of lithium-ion batteries."
+},
+
+{
+  name: "Wilhelm Röntgen",
+  icon: "⚛️",
+  country: "Germany",
+  year: "1901",
+  category: "Nobel Laureate",
+  info: "Wilhelm Röntgen received the first Nobel Prize in Physics in 1901 for the discovery of X-rays."
+},
+
+{
+  name: "Niels Bohr",
+  icon: "⚛️",
+  country: "Denmark",
+  year: "1922",
+  category: "Nobel Laureate",
+  info: "Niels Bohr received the 1922 Nobel Prize in Physics for his investigation of the structure of atoms and the radiation emanating from them."
+},
+
+{
+  name: "Werner Heisenberg",
+  icon: "⚛️",
+  country: "Germany",
+  year: "1932",
+  category: "Nobel Laureate",
+  info: "Werner Heisenberg received the 1932 Nobel Prize in Physics for the creation of quantum mechanics. He is also famous for the uncertainty principle."
+},
+
+{
+  name: "Erwin Schrödinger",
+  icon: "⚛️",
+  country: "Austria",
+  year: "1933",
+  category: "Nobel Laureate",
+  info: "Erwin Schrödinger shared the 1933 Nobel Prize in Physics with Paul Dirac for the discovery of new productive forms of atomic theory."
+},
+
+{
+  name: "Richard Feynman",
+  icon: "⚛️",
+  country: "United States",
+  year: "1965",
+  category: "Nobel Laureate",
+  info: "Richard Feynman shared the 1965 Nobel Prize in Physics for fundamental work in quantum electrodynamics."
+},
+
+{
+  name: "Peter Higgs",
+  icon: "⚛️",
+  country: "United Kingdom",
+  year: "2013",
+  category: "Nobel Laureate",
+  info: "Peter Higgs shared the 2013 Nobel Prize in Physics with François Englert for the theoretical discovery of the mechanism associated with the Higgs boson."
+},
+
+{
+  name: "James Peebles",
+  icon: "🌌",
+  country: "Canada / United States",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "James Peebles received half of the 2019 Nobel Prize in Physics for theoretical discoveries in physical cosmology."
+},
+
+{
+  name: "Theodore Roosevelt",
+  icon: "🕊️",
+  country: "United States",
+  year: "1906",
+  category: "Nobel Laureate",
+  info: "Theodore Roosevelt received the 1906 Nobel Peace Prize for his role in bringing about an end to the Russo-Japanese War and for his interest in arbitration."
+},
+
+{
+  name: "Fridtjof Nansen",
+  icon: "🕊️",
+  country: "Norway",
+  year: "1922",
+  category: "Nobel Laureate",
+  info: "Fridtjof Nansen received the 1922 Nobel Peace Prize for his humanitarian work, particularly his work with refugees through the League of Nations."
+},
+
+{
+  name: "Albert Schweitzer",
+  icon: "🕊️",
+  country: "Germany / France",
+  year: "1952",
+  category: "Nobel Laureate",
+  info: "Albert Schweitzer received the 1952 Nobel Peace Prize for his philosophy of Reverence for Life and his humanitarian and medical work in Africa."
+},
+
+{
+  name: "Martin Luther King Jr.",
+  icon: "🕊️",
+  country: "United States",
+  year: "1964",
+  category: "Nobel Laureate",
+  info: "Martin Luther King Jr. received the 1964 Nobel Peace Prize for his nonviolent struggle for civil rights for African Americans in the United States."
+},
+
+{
+  name: "Mother Teresa",
+  icon: "🕊️",
+  country: "India",
+  year: "1979",
+  category: "Nobel Laureate",
+  info: "Mother Teresa received the 1979 Nobel Peace Prize for her work in bringing help to suffering humanity, particularly through her service to poor and sick people."
+},
+
+{
+  name: "Desmond Tutu",
+  icon: "🕊️",
+  country: "South Africa",
+  year: "1984",
+  category: "Nobel Laureate",
+  info: "Desmond Tutu received the 1984 Nobel Peace Prize for his role as a unifying leader in the anti-apartheid movement in South Africa."
+},
+
+{
+  name: "Aung San Suu Kyi",
+  icon: "🕊️",
+  country: "Myanmar",
+  year: "1991",
+  category: "Nobel Laureate",
+  info: "Aung San Suu Kyi received the 1991 Nobel Peace Prize for her nonviolent struggle for democracy and human rights in Myanmar."
+},
+
+{
+  name: "Kailash Satyarthi",
+  icon: "🕊️",
+  country: "India",
+  year: "2014",
+  category: "Nobel Laureate",
+  info: "Kailash Satyarthi shared the 2014 Nobel Peace Prize with Malala Yousafzai for their struggle against the suppression of children and young people and for children's right to education."
+},
+
+{
+  name: "Abiy Ahmed Ali",
+  icon: "🕊️",
+  country: "Ethiopia",
+  year: "2019",
+  category: "Nobel Laureate",
+  info: "Abiy Ahmed Ali received the 2019 Nobel Peace Prize for his efforts to achieve peace and international cooperation, particularly his initiative to resolve the border conflict between Ethiopia and Eritrea."
+},
+
+{
+  name: "Rudyard Kipling",
+  icon: "📚",
+  country: "United Kingdom",
+  year: "1907",
+  category: "Nobel Laureate",
+  info: "Rudyard Kipling was a British writer and poet. His famous works include The Jungle Book, Kim and many poems and short stories."
+},
+
+{
+  name: "Selma Lagerlöf",
+  icon: "📖",
+  country: "Sweden",
+  year: "1909",
+  category: "Nobel Laureate",
+  info: "Selma Lagerlöf was a Swedish writer and the first woman to receive the Nobel Prize in Literature."
+},
+
+{
+  name: "George Bernard Shaw",
+  icon: "🎭",
+  country: "Ireland / United Kingdom",
+  year: "1925",
+  category: "Nobel Laureate",
+  info: "George Bernard Shaw was an Irish playwright and critic famous for his wit, satire and social commentary. He received the 1925 Nobel Prize in Literature."
+},
+
+{
+  name: "Thomas Mann",
+  icon: "📚",
+  country: "Germany",
+  year: "1929",
+  category: "Nobel Laureate",
+  info: "Thomas Mann was a German novelist and essayist. His famous works include Buddenbrooks, The Magic Mountain and Death in Venice."
+},
+
+{
+  name: "Winston Churchill",
+  icon: "✍️",
+  country: "United Kingdom",
+  year: "1953",
+  category: "Nobel Laureate",
+  info: "Winston Churchill received the 1953 Nobel Prize in Literature for his historical and biographical writing and his brilliant oratory."
+},
+
+{
+  name: "Albert Camus",
+  icon: "📖",
+  country: "France",
+  year: "1957",
+  category: "Nobel Laureate",
+  info: "Albert Camus was a French writer and philosopher. His major works include The Stranger, The Plague and The Myth of Sisyphus."
+},
+
+{
+  name: "Toni Morrison",
+  icon: "📖",
+  country: "United States",
+  year: "1993",
+  category: "Nobel Laureate",
+  info: "Toni Morrison was an American novelist whose major works include Beloved, Song of Solomon and The Bluest Eye. She received the 1993 Nobel Prize in Literature."
+},
+
+{
+  name: "Olga Tokarczuk",
+  icon: "📖",
+  country: "Poland",
+  year: "2018",
+  category: "Nobel Laureate",
+  info: "Olga Tokarczuk is a Polish novelist and essayist known for imaginative and complex narratives. She received the Nobel Prize in Literature for 2018."
+  }
 
 
 function loadNobel(){
