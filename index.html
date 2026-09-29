@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#6f4328">
+<title>Lit en Lingo</title>
+<style>
+:root{
+  --bg:#f4e8d8;--card:#fffaf2;--brown:#6f4328;--brown2:#8b5e3c;
+  --gold:#c6924b;--text:#34251d;--muted:#806c5d;--border:#dfcdb9;
+  --shadow:0 10px 30px rgba(70,40,20,.12);--success:#4d8b62;--danger:#b64545;
+}
+body.dark{
+  --bg:#1a1310;--card:#2a1f18;--brown:#c18a5b;--brown2:#a66d43;
+  --gold:#d4a15e;--text:#f8eee3;--muted:#c5b09d;--border:#4a382c;
+  --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;
+  transition:.3s;padding-bottom:70px;overflow-x:hidden;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+
+header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(135deg,var(--brown),var(--brown2));
+  color:white;padding:10px 14px;box-shadow:var(--shadow);
+}
+.headerInner{
+  max-width:1200px;margin:auto;display:flex;
+  align-items:center;justify-content:space-between;gap:10px;
+}
+.logo{display:flex;align-items:center;gap:9px;font-weight:bold}
+.logoBadge{
+  width:38px;height:38px;border-radius:11px;background:#f2d2a2;
+  color:var(--brown);display:grid;place-items:center;font-size:17px;
+}
+.logoText{font-size:16px;letter-spacing:.3px}
+.coinBadge{
+  display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);
+  padding:7px 13px;border-radius:20px;font-weight:bold;font-size:14px;
+}
+.coinBadge .c{font-size:16px}
+
+.bottomNav{
+  position:fixed;bottom:0;left:0;right:0;z-index:60;
+  background:var(--card);border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;
+  padding:6px 4px 8px;box-shadow:0 -4px 20px rgba(0,0,0,.08);
+}
+.bottomNav button{
+  background:none;flex:1;display:flex;flex-direction:column;
+  align-items:center;gap:2px;padding:6px 2px;border-radius:10px;
+  color:var(--muted);font-size:10px;font-weight:bold;
+}
+.bottomNav button.active{color:var(--brown);background:rgba(198,146,75,.12)}
+.bottomNav .ic{font-size:19px}
+
+main{position:relative;z-index:1;max-width:1200px;margin:auto;padding:18px 14px 30px}
+.screen{display:none;animation:fade .3s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{text-align:center;padding:22px 8px 14px}
+.hero h1{font-size:34px;color:var(--brown);margin-bottom:8px}
+.hero p{color:var(--muted);max-width:640px;margin:auto;line-height:1.6;font-size:14px}
+
+.sectionTitle{text-align:center;margin:14px 0 18px}
+.sectionTitle h2{color:var(--brown);margin-bottom:6px;font-size:22px}
+.sectionTitle p{color:var(--muted);font-size:13px}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.contentGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.storyList{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:16px;box-shadow:var(--shadow);transition:.25s;cursor:pointer;
+}
+.card:active{transform:scale(.97)}
+.cardIcon{font-size:30px;margin-bottom:8px}
+.card h3{color:var(--brown);margin-bottom:6px;font-size:15px}
+.card p{color:var(--muted);line-height:1.5;font-size:12.5px;margin-bottom:12px}
+
+.card button,.primary,.secondary,.backBtn,.shopBuy{
+  border:0;border-radius:10px;padding:9px 13px;font-weight:bold;font-size:13px;
+}
+.card button,.primary{background:var(--brown);color:white}
+.secondary{background:var(--gold);color:#2c1c10}
+.backBtn{background:var(--card);color:var(--brown);border:1px solid var(--border);margin-bottom:14px}
+
+.infoCard{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:15px;box-shadow:var(--shadow);position:relative;
+}
+.infoCard h3{color:var(--brown);margin-bottom:6px;font-size:14.5px;padding-right:26px}
+.infoCard p{color:var(--muted);line-height:1.55;font-size:12.5px}
+.infoCard p+p{margin-top:6px}
+.favorite{position:absolute;top:10px;right:10px;background:none;font-size:19px;color:var(--gold)}
+
+.detail{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.detail h2{color:var(--brown);margin-bottom:8px}
+.detail>p{color:var(--muted);line-height:1.65;font-size:13.5px}
+
+.searchBox{display:flex;gap:7px;margin:16px auto;max-width:620px}
+.searchBox input{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);outline:none;font-size:14px}
+.searchBox button{border:0;border-radius:12px;background:var(--brown);color:white;padding:0 16px;font-weight:bold}
+
+.languageSelector{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.languageSelector button{border:1px solid var(--border);background:var(--card);color:var(--text);padding:7px 11px;border-radius:18px;font-size:12px}
+.languageSelector button.active{background:var(--brown);color:white}
+
+.languageIntro{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}
+.languageIntro h2{color:var(--brown);font-size:20px}
+
+.word{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}
+.word strong{color:var(--brown);font-size:14px;display:block;margin-bottom:4px}
+.word p{color:var(--muted);font-size:12.5px;line-height:1.5;margin-bottom:8px}
+.word button{padding:5px 10px;font-size:11.5px}
+
+.storyCard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.storyCard h3{color:var(--brown);margin-bottom:6px;font-size:14.5px}
+.storyCard p{color:var(--muted);line-height:1.6;font-size:12.5px}
+.storyCard button{margin-top:10px;background:var(--brown);color:white;border:0;padding:7px 11px;border-radius:9px;font-size:12px;font-weight:bold}
+
+.gameWrap{max-width:620px;margin:0 auto}
+.gameHud{display:flex;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.hudBox{
+  flex:1;min-width:90px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:10px;text-align:center;box-shadow:var(--shadow);
+}
+.hudBox .lab{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.hudBox .val{font-size:19px;font-weight:bold;color:var(--brown);margin-top:2px}
+
+.shapeBoard{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.shapeTarget{text-align:center;font-size:13px;color:var(--muted);margin-bottom:10px}
+.shapeTarget strong{color:var(--brown);font-size:15px}
+.shapeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.shapeBtn{
+  aspect-ratio:1;border-radius:16px;border:2px solid var(--border);
+  background:var(--card);display:grid;place-items:center;font-size:44px;
+  transition:.2s;cursor:pointer;color:var(--brown);
+}
+.shapeBtn:active{transform:scale(.95)}
+.shapeBtn.correct{background:rgba(77,139,98,.18);border-color:var(--success);animation:pop .4s ease}
+.shapeBtn.wrong{background:rgba(182,69,69,.15);border-color:var(--danger);animation:shake .35s ease}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+.gameMsg{text-align:center;margin-top:14px;font-weight:bold;font-size:14px;min-height:22px;color:var(--brown)}
+.gameActions{display:flex;gap:8px;margin-top:12px}
+.gameActions button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:bold;font-size:14px}
+
+.shopTabs{display:flex;gap:8px;margin-bottom:14px}
+.shopTabs button{flex:1;padding:10px;border-radius:11px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:bold;font-size:13px}
+.shopTabs button.active{background:var(--brown);color:white;border-color:var(--brown)}
+.shopGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.shopItem{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+.shopItem .quoteText{font-style:italic;color:var(--text);line-height:1.55;font-size:13px;flex:1}
+.shopItem .author{font-size:11.5px;color:var(--muted);text-align:right}
+.shopBuy{background:var(--gold);color:#2c1c10;font-weight:bold;display:flex;align-items:center;justify-content:center;gap:5px}
+.shopBuy.owned{background:var(--success);color:white}
+.poemItem{grid-column:1/-1}
+.poemItem .pTitle{font-weight:bold;color:var(--brown);font-size:14px;margin-bottom:4px}
+.poemItem .pAuthor{font-size:11.5px;color:var(--muted);margin-bottom:8px}
+.poemItem .pText{white-space:pre-line;line-height:1.7;font-size:12.5px;color:var(--text)}
+
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--brown);color:white;padding:12px 20px;border-radius:12px;
+  font-weight:bold;font-size:13.5px;z-index:200;opacity:0;
+  transition:.3s;pointer-events:none;box-shadow:var(--shadow);max-width:90%;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.empty{text-align:center;padding:30px 20px;color:var(--muted);background:var(--card);border:1px dashed var(--border);border-radius:16px}
+footer{text-align:center;color:var(--muted);padding:18px;font-size:11.5px}
+
+@media(max-width:850px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .contentGrid{grid-template-columns:repeat(2,1fr)}
+  .shapeGrid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .shopGrid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .hero h1{font-size:26px}
+  .grid{grid-template-columns:1fr 1fr;gap:9px}
+  .card{padding:13px}
+  .cardIcon{font-size:26px}
+  .contentGrid,.storyList{grid-template-columns:1fr}
+  .shapeBtn{font-size:34px;border-radius:12px}
+  .logoText{display:none}
+  .detail{padding:15px}
+  .shapeBoard{padding:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headerInner">
+    <div class="logo">
+      <div class="logoBadge">📖</div>
+      <div class="logoText">Lit en Lingo</div>
+    </div>
+    <div class="coinBadge"><span class="c">🪙</span><span id="coinDisplay">0</span></div>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="screen active">
+  <div class="hero">
+    <h1>Lit en Lingo</h1>
+    <p>Learn literature, languages, science and famous people — in one beautiful app.</p>
+  </div>
+  <div class="searchBox">
+    <input id="searchInput" placeholder="Search anything...">
+    <button onclick="globalSearch()">🔎</button>
+  </div>
+  <div class="grid">
+    <div class="card" onclick="showScreen('literature')">
+      <div class="cardIcon">📚</div><h3>Literature</h3><p>Writers, periods and classics.</p><button>Open →</button>
+    </div>
+    <div class="card" onclick="showScreen('languages')">
+      <div class="cardIcon">🌍</div><h3>Languages</h3><p>15 languages to learn.</p><button>Open →</button>
+    </div>
+    <div class="card" onclick="showScreen('science')">
+      <div class="cardIcon">🔬</div><h3>Science</h3><p>Scientists & theories.</p><button>Open →</button>
+    </div>
+    <div class="card" onclick="showScreen('personalities')">
+      <div class="cardIcon">🏆</div><h3>Nobel People</h3><p>Famous laureates.</p><button>Open →</button>
+    </div>
+    <div class="card" onclick="showScreen('game')">
+      <div class="cardIcon">🎮</div><h3>Shape Game</h3><p>Earn coins by matching.</p><button>Play →</button>
+    </div>
+    <div class="card" onclick="showScreen('shop')">
+      <div class="cardIcon">🛒</div><h3>Shop</h3><p>Buy quotes & poems.</p><button>Open →</button>
+    </div>
+    <div class="card" onclick="showScreen('history')">
+      <div class="cardIcon">🕰️</div><h3>History</h3><p>World literary history.</p><button>Open →</button>
+    </div>
+    <div class="card" onclick="showScreen('favorites')">
+      <div class="cardIcon">⭐</div><h3>Favorites</h3><p>Your saved items.</p><button>Open →</button>
+    </div>
+  </div>
+</section>
+
+<!-- LITERATURE -->
+<section id="literature" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>📚 Literature</h2><p>Explore world literature.</p></div>
+  <div class="grid">
+    <div class="card" onclick="showScreen('writers')">
+      <div class="cardIcon">✍️</div><h3>Writers</h3><p>150+ worldwide authors.</p><button>Explore →</button>
+    </div>
+    <div class="card" onclick="showScreen('works')">
+      <div class="cardIcon">📖</div><h3>Works</h3><p>250+ classics.</p><button>Explore →</button>
+    </div>
+    <div class="card" onclick="showScreen('explorer')">
+      <div class="cardIcon">🔎</div><h3>Explorer</h3><p>Random discovery.</p><button>Explore →</button>
+    </div>
+    <div class="card" onclick="showScreen('history')">
+      <div class="cardIcon">🕰️</div><h3>History</h3><p>By country.</p><button>Explore →</button>
+    </div>
+  </div>
+</section>
+
+<section id="writers" class="screen">
+  <button class="backBtn" onclick="showScreen('literature')">← Back</button>
+  <div class="sectionTitle"><h2>✍️ Writers & Poets</h2></div>
+  <div id="writersGrid" class="contentGrid"></div>
+</section>
+
+<section id="works" class="screen">
+  <button class="backBtn" onclick="showScreen('literature')">← Back</button>
+  <div class="sectionTitle"><h2>📖 Works & Classics</h2></div>
+  <div id="worksGrid" class="contentGrid"></div>
+</section>
+
+<section id="explorer" class="screen">
+  <button class="backBtn" onclick="showScreen('literature')">← Back</button>
+  <div class="detail">
+    <h2>🔎 Literature Explorer</h2>
+    <p>Discover something interesting.</p>
+    <div id="randomDiscovery" style="margin-top:16px;padding:18px;background:rgba(198,146,75,.12);border-left:5px solid var(--gold);border-radius:12px;line-height:1.7;font-size:13.5px"></div>
+    <button class="primary" style="margin-top:14px" onclick="randomDiscovery()">🎲 Discover Again</button>
+  </div>
+</section>
+
+<section id="history" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🕰️ World Literary History</h2><p>Organized by country & movement.</p></div>
+  <div id="historyGrid" class="contentGrid"></div>
+</section>
+
+<section id="languages" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🌍 Languages</h2><p>Choose a language and start learning.</p></div>
+  <div class="languageSelector" id="languageSelector"></div>
+  <div id="languageIntro" class="languageIntro"></div>
+  <div class="grid">
+    <div class="card" onclick="showLanguage('writing')">
+      <div class="cardIcon">✍️</div><h3>Writing</h3><p>Practice characters.</p><button>Practice →</button>
+    </div>
+    <div class="card" onclick="showLanguage('listening')">
+      <div class="cardIcon">🎧</div><h3>Listening</h3><p>Hear words & sentences.</p><button>Listen →</button>
+    </div>
+    <div class="card" onclick="showLanguage('vocabulary')">
+      <div class="cardIcon">📚</div><h3>Vocabulary</h3><p>Build your word bank.</p><button>Learn →</button>
+    </div>
+    <div class="card" onclick="showLanguage('sentences')">
+      <div class="cardIcon">💬</div><h3>Sentences</h3><p>Daily phrases.</p><button>Learn →</button>
+    </div>
+    <div class="card" onclick="showLanguage('stories')">
+      <div class="cardIcon">📖</div><h3>Stories</h3><p>Easy reading practice.</p><button>Read →</button>
+    </div>
+  </div>
+  <div id="languageLesson" style="margin-top:18px"></div>
+</section>
+
+<section id="science" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🔬 Science</h2><p>Scientists and their theories.</p></div>
+  <div id="scientistsGrid" class="contentGrid"></div>
+</section>
+
+<section id="personalities" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🏆 Nobel Prize People</h2></div>
+  <div id="nobelGrid" class="contentGrid"></div>
+</section>
+
+<section id="game" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🎮 Shape Matching Game</h2><p>Match the target shape. Earn 10 coins per level.</p></div>
+  <div class="gameWrap">
+    <div class="gameHud">
+      <div class="hudBox"><div class="lab">Level</div><div class="val" id="gLevel">1</div></div>
+      <div class="hudBox"><div class="lab">Coins</div><div class="val" id="gCoins">0</div></div>
+      <div class="hudBox"><div class="lab">Streak</div><div class="val" id="gStreak">0</div></div>
+    </div>
+    <div class="shapeBoard">
+      <div class="shapeTarget">Find the shape: <strong id="targetShape">●</strong></div>
+      <div class="shapeGrid" id="shapeGrid"></div>
+      <div class="gameMsg" id="gameMsg"></div>
+      <div class="gameActions">
+        <button class="secondary" onclick="newGameRound()">🔄 New Round</button>
+        <button class="primary" onclick="resetGame()">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="shop" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🛒 Shop</h2><p>Spend your coins on quotes and poems.</p></div>
+  <div class="shopTabs">
+    <button id="tabQuotes" class="active" onclick="switchShop('quotes')">💬 Quotes (5🪙)</button>
+    <button id="tabPoems" onclick="switchShop('poems')">📜 Poems (20🪙)</button>
+  </div>
+  <div id="shopGrid" class="shopGrid"></div>
+</section>
+
+<section id="favorites" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>⭐ Favorites</h2></div>
+  <div id="favoritesGrid" class="contentGrid"></div>
+</section>
+
+<section id="searchResults" class="screen">
+  <button class="backBtn" onclick="showScreen('home')">← Back</button>
+  <div class="sectionTitle"><h2>🔎 Search Results</h2></div>
+  <div id="resultsGrid" class="contentGrid"></div>
+</section>
+
+</main>
+
+<nav class="bottomNav">
+  <button data-screen="home" onclick="showScreen('home')"><span class="ic">🏠</span>Home</button>
+  <button data-screen="languages" onclick="showScreen('languages')"><span class="ic">🌍</span>Languages</button>
+  <button data-screen="game" onclick="showScreen('game')"><span class="ic">🎮</span>Game</button>
+  <button data-screen="shop" onclick="showScreen('shop')"><span class="ic">🛒</span>Shop</button>
+  <button data-screen="favorites" onclick="showScreen('favorites')"><span class="ic">⭐</span>Favs</button>
+</nav>
+
+<div id="toast" class="toast"></div>
+<footer>Lit en Lingo • Learn • Explore • Discover</footer>
+
+<script>
+/* ============ CORE ============ */
+const $ = id => document.getElementById(id);
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const t=$(id);
+  if(t){ t.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+  document.querySelectorAll('.bottomNav button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.screen===id);
+  });
+  if(id==='favorites') loadFavorites();
+  if(id==='game') renderGame();
+  if(id==='shop') renderShop();
+}
+
+function toast(msg){
+  const t=$('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+let coins = parseInt(localStorage.getItem('litCoins')||'0');
+function saveCoins(){ localStorage.setItem('litCoins',coins); updateCoinDisplay(); }
+function updateCoinDisplay(){
+  $('coinDisplay').textContent=coins;
+  if($('gCoins')) $('gCoins').textContent=coins;
+}
+function addCoins(n){ coins+=n; saveCoins(); }
+function spendCoins(n){
+  if(coins<n){ toast('Not enough coins! 🪙'); return false; }
+  coins-=n; saveCoins(); return true;
+}
+updateCoinDisplay();
+
+if(localStorage.getItem('litDark')==='true') document.body.classList.add('dark');
+
+/* ============ WRITERS ============ */
+const writers=[
+["William Shakespeare","England (1564–1616)","The greatest playwright in English. Wrote 39 plays, 154 sonnets. Works: Hamlet, Macbeth, Othello, King Lear, Romeo and Juliet."],
+["Geoffrey Chaucer","England (c.1343–1400)","Father of English literature. The Canterbury Tales paints medieval society."],
+["Jane Austen","England (1775–1817)","Master of the novel of manners. Pride and Prejudice, Emma, Persuasion."],
+["Charles Dickens","England (1812–1870)","Victorian social critic. Oliver Twist, Great Expectations, A Christmas Carol."],
+["Virginia Woolf","England (1882–1941)","Modernist pioneer. Mrs Dalloway, To the Lighthouse, A Room of One's Own."],
+["William Wordsworth","England (1770–1850)","Romantic poet. Lyrical Ballads, The Prelude."],
+["John Keats","England (1795–1821)","Romantic poet. Odes to a Nightingale and a Grecian Urn."],
+["Lord Byron","England (1788–1824)","Romantic poet and satirist. Don Juan, Childe Harold."],
+["Mary Shelley","England (1797–1851)","Wrote Frankenstein (1818), first science-fiction novel."],
+["George Orwell","England (1903–1950)","1984, Animal Farm. Coined Big Brother."],
+["J.R.R. Tolkien","England (1892–1973)","The Hobbit, The Lord of the Rings."],
+["C.S. Lewis","England/Ireland (1898–1963)","The Chronicles of Narnia."],
+["Emily Brontë","England (1818–1848)","Wuthering Heights."],
+["Charlotte Brontë","England (1816–1855)","Jane Eyre, Villette."],
+["Anne Brontë","England (1820–1849)","Agnes Grey, The Tenant of Wildfell Hall."],
+["Alfred Lord Tennyson","England (1809–1892)","Poet Laureate. In Memoriam."],
+["T.S. Eliot","USA/England (1888–1965)","The Waste Land. Nobel 1948."],
+["W.B. Yeats","Ireland (1865–1939)","The Second Coming. Nobel 1923."],
+["James Joyce","Ireland (1882–1941)","Ulysses, Dubliners."],
+["Oscar Wilde","Ireland (1854–1900)","The Picture of Dorian Gray, The Importance of Being Earnest."],
+["Samuel Beckett","Ireland/France (1906–1989)","Waiting for Godot. Nobel 1969."],
+["Seamus Heaney","Ireland (1939–2013)","Nobel 1995."],
+["Bram Stoker","Ireland (1847–1912)","Dracula."],
+["Jonathan Swift","Ireland (1667–1745)","Gulliver's Travels, A Modest Proposal."],
+["Mark Twain","USA (1835–1910)","Huckleberry Finn, Tom Sawyer."],
+["Edgar Allan Poe","USA (1809–1849)","The Raven, The Tell-Tale Heart."],
+["Herman Melville","USA (1819–1891)","Moby-Dick."],
+["Nathaniel Hawthorne","USA (1804–1864)","The Scarlet Letter."],
+["Walt Whitman","USA (1819–1892)","Leaves of Grass."],
+["Emily Dickinson","USA (1830–1886)","1,800 poems of intense inwardness."],
+["F. Scott Fitzgerald","USA (1896–1940)","The Great Gatsby."],
+["Ernest Hemingway","USA (1899–1961)","The Old Man and the Sea. Nobel 1954."],
+["William Faulkner","USA (1897–1962)","The Sound and the Fury. Nobel 1949."],
+["John Steinbeck","USA (1902–1968)","The Grapes of Wrath. Nobel 1962."],
+["Toni Morrison","USA (1931–2019)","Beloved. Nobel 1993."],
+["Maya Angelou","USA (1928–2014)","I Know Why the Caged Bird Sings."],
+["Sylvia Plath","USA (1932–1963)","The Bell Jar, Ariel."],
+["Ralph Ellison","USA (1914–1994)","Invisible Man."],
+["Harper Lee","USA (1926–2016)","To Kill a Mockingbird."],
+["J.D. Salinger","USA (1919–2010)","The Catcher in the Rye."],
+["Kurt Vonnegut","USA (1922–2007)","Slaughterhouse-Five."],
+["Ray Bradbury","USA (1920–2012)","Fahrenheit 451."],
+["Isaac Asimov","USA (1920–1992)","Foundation, I, Robot."],
+["Victor Hugo","France (1802–1885)","Les Misérables, Notre-Dame de Paris."],
+["Gustave Flaubert","France (1821–1880)","Madame Bovary."],
+["Honoré de Balzac","France (1799–1850)","La Comédie Humaine."],
+["Marcel Proust","France (1871–1922)","In Search of Lost Time."],
+["Albert Camus","France/Algeria (1913–1960)","The Stranger. Nobel 1957."],
+["Jean-Paul Sartre","France (1905–1980)","Nausea. Nobel 1964 (declined)."],
+["Voltaire","France (1694–1778)","Candide."],
+["Molière","France (1622–1673)","Tartuffe, The Misanthrope."],
+["Émile Zola","France (1840–1902)","Germinal."],
+["Simone de Beauvoir","France (1908–1986)","The Second Sex."],
+["Antoine de Saint-Exupéry","France (1900–1944)","The Little Prince."],
+["Johann Wolfgang von Goethe","Germany (1749–1832)","Faust."],
+["Friedrich Schiller","Germany (1759–1805)","Ode to Joy, William Tell."],
+["Franz Kafka","Austria-Hungary (1883–1924)","The Metamorphosis, The Trial."],
+["Thomas Mann","Germany (1875–1955)","The Magic Mountain. Nobel 1929."],
+["Hermann Hesse","Germany/Switzerland (1877–1962)","Siddhartha. Nobel 1946."],
+["Bertolt Brecht","Germany (1898–1956)","Mother Courage."],
+["Günter Grass","Germany (1927–2015)","The Tin Drum. Nobel 1999."],
+["Rainer Maria Rilke","Austria (1875–1926)","Letters to a Young Poet."],
+["Dante Alighieri","Italy (1265–1321)","The Divine Comedy."],
+["Francesco Petrarch","Italy (1304–1374)","Canzoniere."],
+["Giovanni Boccaccio","Italy (1313–1375)","The Decameron."],
+["Niccolò Machiavelli","Italy (1469–1527)","The Prince."],
+["Italo Calvino","Italy (1923–1985)","Invisible Cities."],
+["Umberto Eco","Italy (1932–2016)","The Name of the Rose."],
+["Primo Levi","Italy (1919–1987)","If This Is a Man."],
+["Miguel de Cervantes","Spain (1547–1616)","Don Quixote."],
+["Federico García Lorca","Spain (1898–1936)","Blood Wedding, Gypsy Ballads."],
+["Pablo Neruda","Chile (1904–1973)","Twenty Love Poems. Nobel 1971."],
+["Jorge Luis Borges","Argentina (1899–1986)","Ficciones, The Aleph."],
+["Gabriel García Márquez","Colombia (1927–2014)","One Hundred Years of Solitude. Nobel 1982."],
+["Julio Cortázar","Argentina (1914–1984)","Hopscotch."],
+["Isabel Allende","Chile (1942– )","The House of the Spirits."],
+["Octavio Paz","Mexico (1914–1998)","The Labyrinth of Solitude. Nobel 1990."],
+["Mario Vargas Llosa","Peru (1936– )","The Feast of the Goat. Nobel 2010."],
+["Leo Tolstoy","Russia (1828–1910)","War and Peace, Anna Karenina."],
+["Fyodor Dostoevsky","Russia (1821–1881)","Crime and Punishment."],
+["Alexander Pushkin","Russia (1799–1837)","Eugene Onegin."],
+["Anton Chekhov","Russia (1860–1904)","The Cherry Orchard."],
+["Nikolai Gogol","Russia (1809–1852)","Dead Souls."],
+["Boris Pasternak","Russia (1890–1960)","Doctor Zhivago. Nobel 1958."],
+["Aleksandr Solzhenitsyn","Russia (1918–2008)","The Gulag Archipelago. Nobel 1970."],
+["Anna Akhmatova","Russia (1889–1966)","Requiem."],
+["Murasaki Shikibu","Japan (c.973–c.1014)","The Tale of Genji, first novel."],
+["Matsuo Bashō","Japan (1644–1694)","Greatest haiku master."],
+["Yasunari Kawabata","Japan (1899–1972)","Snow Country. Nobel 1968."],
+["Yukio Mishima","Japan (1925–1970)","The Sea of Fertility."],
+["Haruki Murakami","Japan (1949– )","Norwegian Wood, Kafka on the Shore."],
+["Natsume Sōseki","Japan (1867–1916)","Kokoro."],
+["Lu Xun","China (1881–1936)","Father of modern Chinese literature."],
+["Li Bai","China (701–762)","Greatest Tang poet."],
+["Du Fu","China (712–770)","Poet Sage."],
+["Mo Yan","China (1955– )","Red Sorghum. Nobel 2012."],
+["Naguib Mahfouz","Egypt (1911–2006)","Cairo Trilogy. Nobel 1988."],
+["Kahlil Gibran","Lebanon/USA (1883–1931)","The Prophet."],
+["Rabindranath Tagore","India (1861–1941)","Gitanjali. Nobel 1913."],
+["Rumi","Persia (1207–1273)","Masnavi."],
+["Hafez","Persia (1315–1390)","Divan."],
+["Chinua Achebe","Nigeria (1930–2013)","Things Fall Apart."],
+["Wole Soyinka","Nigeria (1934– )","Nobel 1986."],
+["Ngũgĩ wa Thiong'o","Kenya (1938– )","Weep Not, Child."],
+["Nadine Gordimer","South Africa (1923–2014)","Nobel 1991."],
+["J.M. Coetzee","South Africa (1940– )","Disgrace. Nobel 2003."],
+["Derek Walcott","Saint Lucia (1930–2017)","Omeros. Nobel 1992."],
+["Kazuo Ishiguro","Japan/UK (1954– )","The Remains of the Day. Nobel 2017."],
+["Margaret Atwood","Canada (1939– )","The Handmaid's Tale."],
+["Alice Munro","Canada (1931–2024)","Nobel 2013."],
+["Patrick White","Australia (1912–1990)","Nobel 1973."],
+["Peter Carey","Australia (1943– )","True History of the Kelly Gang."],
+["Katherine Mansfield","New Zealand (1888–1923)","The Garden Party."],
+["Hans Christian Andersen","Denmark (1805–1875)","Fairy tales."],
+["Henrik Ibsen","Norway (1828–1906)","A Doll's House."],
+["Knut Hamsun","Norway (1859–1952)","Hunger. Nobel 1920."],
+["Selma Lagerlöf","Sweden (1858–1940)","First woman Nobel Literature 1909."],
+["Astrid Lindgren","Sweden (1907–2002)","Pippi Longstocking."],
+["Tove Jansson","Finland (1914–2001)","Moomins."],
+["Milan Kundera","Czech/France (1929–2023)","The Unbearable Lightness of Being."],
+["Vaclav Havel","Czech (1936–2011)","Playwright and president."],
+["Wisława Szymborska","Poland (1923–2012)","Nobel 1996."],
+["Czesław Miłosz","Poland (1911–2004)","Nobel 1980."],
+["Olga Tokarczuk","Poland (1962– )","Flights. Nobel 2018."],
+["Imre Kertész","Hungary (1929–2016)","Fatelessness. Nobel 2002."],
+["Elias Canetti","Bulgaria/Austria (1905–1994)","Nobel 1981."],
+["Odysseas Elytis","Greece (1911–1996)","Nobel 1979."],
+["Giorgos Seferis","Greece (1900–1971)","Nobel 1963."],
+["Orhan Pamuk","Turkey (1952– )","My Name Is Red. Nobel 2006."],
+["Elif Shafak","Turkey (1971– )","The Forty Rules of Love."],
+["Nizami Ganjavi","Azerbaijan (1141–1209)","Khamsa."],
+["Mahmoud Darwish","Palestine (1941–2008)","National poet of Palestine."],
+["Adonis","Syria/Lebanon (1930– )","Modern Arab poet."],
+["Salman Rushdie","India/UK (1947– )","Midnight's Children."],
+["Arundhati Roy","India (1961– )","The God of Small Things."],
+["Aravind Adiga","India (1974– )","The White Tiger."],
+["Khushwant Singh","India (1915–2014)","Train to Pakistan."],
+["R.K. Narayan","India (1906–2001)","Malgudi Days."],
+["Vikram Seth","India (1952– )","A Suitable Boy."],
+["Rohinton Mistry","India/Canada (1952– )","A Fine Balance."],
+["Amitav Ghosh","India (1956– )","The Glass Palace."],
+["Kamala Das","India (1934–2009)","My Story."],
+["Faiz Ahmed Faiz","Pakistan (1911–1984)","Revolutionary Urdu poet."],
+["Allama Iqbal","Pakistan (1877–1938)","Poet-philosopher of Pakistan."],
+["Bulleh Shah","Punjab (1680–1757)","Sufi poet."],
+["Mirza Ghalib","India (1797–1869)","Greatest Urdu poet."],
+["Sadequain","Pakistan (1930–1987)","Painter and calligrapher."],
+["Gabriel Okara","Nigeria (1921–2019)","The Voice."],
+["Ama Ata Aidoo","Ghana (1940–2023)","Our Sister Killjoy."],
+["Mariama Bâ","Senegal (1929–1981)","So Long a Letter."],
+["Tayeb Salih","Sudan (1929–2009)","Season of Migration to the North."],
+["Assia Djebar","Algeria (1936–2015)","Fantasia."],
+["Yasmina Khadra","Algeria (1955– )","The Swallows of Kabul."],
+["Hanan al-Shaykh","Lebanon (1945– )","The Story of Zahra."],
+["Elias Khoury","Lebanon (1948– )","Gate of the Sun."],
+["Amos Oz","Israel (1939–2018)","A Tale of Love and Darkness."],
+["David Grossman","Israel (1954– )","A Horse Walks into a Bar."],
+["Etgar Keret","Israel (1967– )","Suddenly, a Knock on the Door."]
+];
+
+/* ============ WORKS ============ */
+const works=[
+["Hamlet","William Shakespeare (c.1600)","Tragedy of revenge and mortality."],
+["Macbeth","William Shakespeare (1606)","Ambition and guilt destroy a Scottish general."],
+["King Lear","William Shakespeare (1606)","An ageing king divides his kingdom."],
+["Othello","William Shakespeare (1603)","Jealousy and manipulation."],
+["Romeo and Juliet","William Shakespeare (1597)","The most famous love tragedy."],
+["The Tempest","William Shakespeare (1611)","Prospero, magic and forgiveness."],
+["A Midsummer Night's Dream","William Shakespeare (1600)","Comedy of lovers and fairies."],
+["The Merchant of Venice","William Shakespeare (1600)","A bond, a pound of flesh."],
+["Pride and Prejudice","Jane Austen (1813)","Elizabeth and Mr Darcy."],
+["Sense and Sensibility","Jane Austen (1811)","Two sisters navigate love."],
+["Emma","Jane Austen (1815)","A young woman meddles in love."],
+["Persuasion","Jane Austen (1817)","Anne Elliot's second chance."],
+["Mansfield Park","Jane Austen (1814)","Fanny Price's quiet strength."],
+["Great Expectations","Charles Dickens (1861)","Pip's rise in society."],
+["Oliver Twist","Charles Dickens (1838)","An orphan among criminals."],
+["A Tale of Two Cities","Charles Dickens (1859)","Love and sacrifice in revolution."],
+["A Christmas Carol","Charles Dickens (1843)","Scrooge's redemption."],
+["David Copperfield","Charles Dickens (1850)","Semi-autobiographical novel."],
+["Bleak House","Charles Dickens (1853)","Satire of the legal system."],
+["Mrs Dalloway","Virginia Woolf (1925)","A single day in London."],
+["To the Lighthouse","Virginia Woolf (1927)","Time, art and memory."],
+["Orlando","Virginia Woolf (1928)","A poet who changes sex and lives centuries."],
+["Ulysses","James Joyce (1922)","One day in Dublin. Modernist landmark."],
+["Dubliners","James Joyce (1914)","Fifteen Dublin stories."],
+["A Portrait of the Artist as a Young Man","James Joyce (1916)","Stephen Dedalus's awakening."],
+["Frankenstein","Mary Shelley (1818)","The first science-fiction novel."],
+["Wuthering Heights","Emily Brontë (1847)","Destructive love on the moors."],
+["Jane Eyre","Charlotte Brontë (1847)","Gothic romance with a strong heroine."],
+["Middlemarch","George Eliot (1871–72)","A study of provincial life."],
+["The Mill on the Floss","George Eliot (1860)","Maggie and Tom Tulliver."],
+["Silas Marner","George Eliot (1861)","A miser's redemption."],
+["1984","George Orwell (1949)","Total surveillance and thought control."],
+["Animal Farm","George Orwell (1945)","Satire of the Russian Revolution."],
+["The Hobbit","J.R.R. Tolkien (1937)","Bilbo's journey to the dragon."],
+["The Lord of the Rings","J.R.R. Tolkien (1954–55)","Epic fantasy trilogy."],
+["The Silmarillion","J.R.R. Tolkien (1977)","Mythology of Middle-earth."],
+["The Chronicles of Narnia","C.S. Lewis (1950–56)","Seven fantasy novels."],
+["The Waste Land","T.S. Eliot (1922)","Modernist poem of disillusionment."],
+["Four Quartets","T.S. Eliot (1943)","Poems on time and eternity."],
+["The Great Gatsby","F. Scott Fitzgerald (1925)","The American Dream."],
+["Tender Is the Night","F. Scott Fitzgerald (1934)","A psychiatrist's decline."],
+["The Old Man and the Sea","Ernest Hemingway (1952)","A fisherman and a marlin."],
+["A Farewell to Arms","Ernest Hemingway (1929)","Love in WWI Italy."],
+["For Whom the Bell Tolls","Ernest Hemingway (1940)","Spanish Civil War."],
+["The Sun Also Rises","Ernest Hemingway (1926)","The Lost Generation."],
+["The Sound and the Fury","William Faulkner (1929)","The Compson family."],
+["As I Lay Dying","William Faulkner (1930)","A family's coffin journey."],
+["The Grapes of Wrath","John Steinbeck (1939)","The Joad family's migration."],
+["Of Mice and Men","John Steinbeck (1937)","George and Lennie's dream."],
+["East of Eden","John Steinbeck (1952)","Cain and Abel retold."],
+["Moby-Dick","Herman Melville (1851)","Ahab's hunt for the white whale."],
+["The Scarlet Letter","Nathaniel Hawthorne (1850)","Hester Prynne's punishment."],
+["Leaves of Grass","Walt Whitman (1855)","Poetry of democracy."],
+["The Adventures of Huckleberry Finn","Mark Twain (1884)","Huck and Jim on the Mississippi."],
+["The Adventures of Tom Sawyer","Mark Twain (1876)","Boyhood in a river town."],
+["The Raven","Edgar Allan Poe (1845)","A talking raven and a grieving lover."],
+["Beloved","Toni Morrison (1987)","A former slave haunted. Pulitzer 1988."],
+["Song of Solomon","Toni Morrison (1977)","Milkman Dead's journey."],
+["The Bluest Eye","Toni Morrison (1970)","A girl prays for blue eyes."],
+["Invisible Man","Ralph Ellison (1952)","A nameless Black narrator."],
+["I Know Why the Caged Bird Sings","Maya Angelou (1969)","The first of seven memoirs."],
+["The Bell Jar","Sylvia Plath (1963)","A novel about mental illness."],
+["To Kill a Mockingbird","Harper Lee (1960)","Racial injustice in the South."],
+["The Catcher in the Rye","J.D. Salinger (1951)","Holden Caulfield's rebellion."],
+["Slaughterhouse-Five","Kurt Vonnegut (1969)","Time-travel and war."],
+["Fahrenheit 451","Ray Bradbury (1953)","A world where books are burned."],
+["Foundation","Isaac Asimov (1951)","Galactic empire's fall."],
+["I, Robot","Isaac Asimov (1950)","Stories of robots and ethics."],
+["Les Misérables","Victor Hugo (1862)","Jean Valjean's redemption."],
+["The Hunchback of Notre-Dame","Victor Hugo (1831)","Quasimodo and Esmeralda."],
+["Madame Bovary","Gustave Flaubert (1856)","Emma Bovary's adulteries."],
+["Père Goriot","Honoré de Balzac (1835)","A father ruined by love."],
+["In Search of Lost Time","Marcel Proust (1913–27)","Memory, time and art."],
+["The Stranger","Albert Camus (1942)","Meursault's indifference."],
+["The Plague","Albert Camus (1947)","A plague strikes Oran."],
+["Nausea","Jean-Paul Sartre (1938)","Existential nausea."],
+["Candide","Voltaire (1759)","Satire of optimism."],
+["Tartuffe","Molière (1664)","A religious impostor."],
+["Germinal","Émile Zola (1885)","Miners' strike in France."],
+["The Second Sex","Simone de Beauvoir (1949)","Foundational feminist text."],
+["The Little Prince","Antoine de Saint-Exupéry (1943)","A pilot and a young prince."],
+["Faust","Goethe (1808/1832)","A scholar's pact with the devil."],
+["The Sorrows of Young Werther","Goethe (1774)","Unrequited love."],
+["The Metamorphosis","Franz Kafka (1915)","Gregor Samsa becomes an insect."],
+["The Trial","Franz Kafka (1925)","Josef K. arrested for unknown crime."],
+["The Castle","Franz Kafka (1926)","A land surveyor and a castle."],
+["Buddenbrooks","Thomas Mann (1901)","Decline of a German family."],
+["The Magic Mountain","Thomas Mann (1924)","Seven years in a sanatorium."],
+["Death in Venice","Thomas Mann (1912)","A writer's obsession."],
+["Siddhartha","Hermann Hesse (1922)","A spiritual journey in India."],
+["Steppenwolf","Hermann Hesse (1927)","A man torn between natures."],
+["The Tin Drum","Günter Grass (1959)","A boy who refuses to grow."],
+["Letters to a Young Poet","Rilke (1929)","Advice on art and life."],
+["The Divine Comedy","Dante (c.1320)","Hell, Purgatory and Paradise."],
+["The Decameron","Boccaccio (1353)","100 tales told during plague."],
+["The Prince","Machiavelli (1532)","A treatise on political power."],
+["Invisible Cities","Italo Calvino (1972)","55 imaginary cities."],
+["The Name of the Rose","Umberto Eco (1980)","Murder in a medieval monastery."],
+["If This Is a Man","Primo Levi (1947)","Holocaust memoir."],
+["Don Quixote","Cervantes (1605/1615)","A gentleman becomes a knight."],
+["Gypsy Ballads","Lorca (1928)","Andalusian poetry."],
+["Twenty Love Poems","Pablo Neruda (1924)","Neruda's most popular book."],
+["Ficciones","Borges (1944)","Stories of infinity and mirrors."],
+["One Hundred Years of Solitude","García Márquez (1967)","The Buendía family."],
+["Love in the Time of Cholera","García Márquez (1985)","A love story of fifty years."],
+["Hopscotch","Julio Cortázar (1963)","A novel with multiple readings."],
+["The House of the Spirits","Isabel Allende (1982)","Three generations in Chile."],
+["The Labyrinth of Solitude","Octavio Paz (1950)","Essays on Mexican identity."],
+["The Feast of the Goat","Vargas Llosa (2000)","Trujillo's Dominican Republic."],
+["War and Peace","Leo Tolstoy (1869)","Napoleonic Wars and Russian life."],
+["Anna Karenina","Leo Tolstoy (1878)","A married woman's affair."],
+["Crime and Punishment","Dostoevsky (1866)","Raskolnikov's murder and conscience."],
+["The Brothers Karamazov","Dostoevsky (1880)","Faith, doubt and patricide."],
+["The Idiot","Dostoevsky (1869)","Prince Myshkin in Russian society."],
+["Eugene Onegin","Pushkin (1833)","A novel in verse."],
+["The Cherry Orchard","Chekhov (1904)","An aristocratic family loses its estate."],
+["Dead Souls","Gogol (1842)","Satire of Russian serfdom."],
+["Doctor Zhivago","Pasternak (1957)","A doctor-poet in revolution."],
+["The Gulag Archipelago","Solzhenitsyn (1973)","Soviet labour camps."],
+["Requiem","Anna Akhmatova (1963)","Poem of Stalinist terror."],
+["The Tale of Genji","Murasaki Shikibu (c.1010)","Courtly life in Heian Japan."],
+["The Narrow Road to the Deep North","Bashō (1689)","Travel diary in haiku."],
+["Snow Country","Kawabata (1937)","A love affair in a hot spring."],
+["The Sea of Fertility","Mishima (1965–70)","Tetralogy of reincarnation."],
+["Norwegian Wood","Murakami (1987)","Coming of age in 1960s Tokyo."],
+["Kafka on the Shore","Murakami (2002)","Two parallel quests."],
+["1Q84","Murakami (2009–10)","A dystopian Tokyo."],
+["Kokoro","Natsume Sōseki (1914)","A sensei's confession."],
+["The True Story of Ah Q","Lu Xun (1921)","Satire of Chinese character."],
+["Red Sorghum","Mo Yan (1987)","A family saga in wartime China."],
+["The Cairo Trilogy","Mahfouz (1956–57)","Three generations in Cairo."],
+["The Prophet","Kahlil Gibran (1923)","26 poetic essays."],
+["Gitanjali","Tagore (1910)","Song offerings. Nobel 1913."],
+["Masnavi","Rumi (13th c.)","Six-volume mystical poem."],
+["Divan","Hafez (14th c.)","Persian lyric poetry."],
+["Things Fall Apart","Achebe (1958)","Igbo society and colonisation."],
+["Death and the King's Horseman","Soyinka (1975)","Ritual and colonial interference."],
+["Weep Not, Child","Ngũgĩ (1964)","Boyhood during Mau Mau."],
+["July's People","Gordimer (1981)","A white family in hiding."],
+["Disgrace","Coetzee (1999)","A professor's fall in South Africa."],
+["Omeros","Walcott (1990)","Homer reimagined in the Caribbean."],
+["The Remains of the Day","Ishiguro (1989)","A butler reflects on his life."],
+["Never Let Me Go","Ishiguro (2005)","Cloned students."],
+["The Handmaid's Tale","Atwood (1985)","Dystopia of female subjugation."],
+["Alias Grace","Atwood (1996)","A 19th-century murderess."],
+["Oryx and Crake","Atwood (2003)","A post-apocalyptic world."],
+["Runaway","Alice Munro (2004)","Short stories of women."],
+["Voss","Patrick White (1957)","Explorer's journey into Australia."],
+["True History of the Kelly Gang","Peter Carey (2000)","Ned Kelly's life."],
+["The Garden Party","Mansfield (1922)","A story of class and death."],
+["Fairy Tales","Hans Christian Andersen (1835–72)","Mermaid, Ugly Duckling, Snow Queen."],
+["A Doll's House","Ibsen (1879)","Nora Helmer's awakening."],
+["Hedda Gabler","Ibsen (1890)","A general's daughter in a stifling marriage."],
+["Peer Gynt","Ibsen (1867)","A Norwegian folk hero."],
+["Hunger","Knut Hamsun (1890)","A starving writer."],
+["The Wonderful Adventures of Nils","Lagerlöf (1906–07)","A boy travels Sweden on a goose."],
+["Pippi Longstocking","Lindgren (1945)","The world's strongest girl."],
+["The Brothers Lionheart","Lindgren (1973)","A tale of courage."],
+["Moomins","Tove Jansson (1945–70)","A family of trolls."],
+["The Unbearable Lightness of Being","Kundera (1984)","Love and politics in Prague."],
+["The Garden Party (play)","Havel (1963)","Absurdist theatre."],
+["View with a Grain of Sand","Szymborska (1995)","Selected poems. Nobel 1996."],
+["The Captive Mind","Miłosz (1953)","Intellectuals under Stalinism."],
+["Flights","Tokarczuk (2007)","Fragmented travel narratives."],
+["Fatelessness","Kertész (1975)","A teenager in the Holocaust."],
+["Auto-da-Fé","Canetti (1935)","A scholar destroyed by his library."],
+["To Axion Esti","Elytis (1959)","A Greek poetic liturgy."],
+["Mythistorema","Seferis (1935)","A poem of Greek identity."],
+["My Name Is Red","Pamuk (1998)","Murder among miniaturists."],
+["Snow","Pamuk (2002)","A poet in a snowbound Turkish town."],
+["Istanbul","Pamuk (2003)","A memoir of the city."],
+["The Forty Rules of Love","Elif Shafak (2009)","Rumi and Shams."],
+["Khamsa","Nizami (12th c.)","Five epic poems."],
+["Memory for Forgetfulness","Darwish (1987)","A meditation on Beirut."],
+["Songs of Mihyar the Damascene","Adonis (1961)","Modern Arabic poetry."],
+["Midnight's Children","Rushdie (1981)","Saleem Sinai at India's birth."],
+["The God of Small Things","Roy (1997)","Twins in Kerala."],
+["The White Tiger","Adiga (2008)","Class and ambition in India."],
+["Train to Pakistan","Khushwant Singh (1956)","A village divided by Partition."],
+["Malgudi Days","R.K. Narayan (1943)","Short stories of Malgudi."],
+["A Suitable Boy","Vikram Seth (1993)","Four families in 1950s India."],
+["A Fine Balance","Rohinton Mistry (1995)","Four strangers in 1970s India."],
+["The Glass Palace","Amitav Ghosh (2000)","A saga across Burma and India."],
+["My Story","Kamala Das (1976)","A memoir."],
+["Waiting for Godot","Beckett (1953)","Two men wait for someone."],
+["Endgame","Beckett (1957)","A post-apocalyptic play."],
+["The Importance of Being Earnest","Wilde (1895)","A comedy of manners."],
+["The Picture of Dorian Gray","Wilde (1890)","A man stays young, his portrait ages."],
+["De Profundis","Wilde (1897)","A prison letter."],
+["The Second Coming","Yeats (1920)","A world falling apart."],
+["Sailing to Byzantium","Yeats (1928)","Art, age and immortality."],
+["The Tower","Yeats (1928)","A major poetry collection."],
+["The Love Song of J. Alfred Prufrock","T.S. Eliot (1915)","Modern anxiety."],
+["In Memoriam A.H.H.","Tennyson (1850)","A long elegy."],
+["The Charge of the Light Brigade","Tennyson (1854)","A disastrous cavalry charge."],
+["Lyrical Ballads","Wordsworth & Coleridge (1798)","Founding text of Romanticism."],
+["Ode to a Nightingale","Keats (1819)","Beauty and death."],
+["Ode on a Grecian Urn","Keats (1819)","'Beauty is truth, truth beauty'."],
+["Don Juan","Byron (1819–24)","A satirical epic."],
+["Childe Harold's Pilgrimage","Byron (1812–18)","Made Byron famous."],
+["Mere Christianity","C.S. Lewis (1952)","Christian apologetics."],
+["The Screwtape Letters","C.S. Lewis (1942)","Letters from a devil."],
+["The Prelude","Wordsworth (1850)","Growth of a poet's mind."],
+["Shirley","Charlotte Brontë (1849)","Luddite riots novel."],
+["Villette","Charlotte Brontë (1853)","Based on time in Brussels."],
+["Agnes Grey","Anne Brontë (1847)","A governess's story."],
+["The Tenant of Wildfell Hall","Anne Brontë (1848)","A woman flees abuse."],
+["Barchester Towers","Trollope (1857)","Church politics comedy."],
+["The Way We Live Now","Trollope (1875)","Satire of finance."],
+["Vanity Fair","Thackeray (1848)","Becky Sharp's adventures."],
+["Tom Jones","Fielding (1749)","A comic epic."],
+["Robinson Crusoe","Defoe (1719)","A castaway's journal."],
+["Moll Flanders","Defoe (1722)","A resourceful woman's life."],
+["Gulliver's Travels","Swift (1726)","Satirical voyages."],
+["A Modest Proposal","Swift (1729)","A savage satire."],
+["Tristram Shandy","Sterne (1759–67)","A playful novel."],
+["Dracula","Bram Stoker (1897)","The classic vampire novel."],
+["Carmilla","Le Fanu (1872)","A vampire novella."],
+["The Turn of the Screw","Henry James (1898)","A ghost story."],
+["The Portrait of a Lady","Henry James (1881)","Isabel Archer's fate."],
+["Heart of Darkness","Conrad (1899)","A journey up the Congo."],
+["Lord Jim","Conrad (1900)","A sailor's redemption."],
+["Nostromo","Conrad (1904)","South American intrigue."],
+["The Secret Agent","Conrad (1907)","A bombing plot in London."],
+["Howards End","E.M. Forster (1910)","Class conflict."],
+["A Passage to India","E.M. Forster (1924)","Colonial friendship."],
+["A Room with a View","E.M. Forster (1908)","A young woman's awakening."],
+["Brave New World","Huxley (1932)","Engineered happiness."],
+["Point Counter Point","Huxley (1928)","A novel of ideas."],
+["Down and Out in Paris and London","Orwell (1933)","A memoir of poverty."],
+["Homage to Catalonia","Orwell (1938)","Spanish Civil War."],
+["Burmese Days","Orwell (1934)","Colonial Burma."],
+["The Road to Wigan Pier","Orwell (1937)","Working-class life."],
+["Coming Up for Air","Orwell (1939)","A man recalls his youth."],
+["Keep the Aspidistra Flying","Orwell (1936)","A poet rejects money."],
+["Beren and Lúthien","Tolkien (2017)","A love story in Middle-earth."],
+["The Fall of Gondolin","Tolkien (2018)","A hidden city's tale."],
+["The Lion, the Witch and the Wardrobe","C.S. Lewis (1950)","Four children enter Narnia."],
+["Prince Caspian","C.S. Lewis (1951)","Return to Narnia."],
+["The Voyage of the Dawn Treader","C.S. Lewis (1952)","A sea voyage."],
+["The Silver Chair","C.S. Lewis (1953)","Search for Prince Rilian."],
+["The Horse and His Boy","C.S. Lewis (1954)","A boy and a talking horse."],
+["The Magician's Nephew","C.S. Lewis (1955)","Creation of Narnia."],
+["The Last Battle","C.S. Lewis (1956)","The end of Narnia."]
+];
+
+/* ============ SCIENTISTS ============ */
+const scientists=[
+["Albert Einstein","Theory of Relativity","E=mc². Nobel 1921 for photoelectric effect."],
+["Isaac Newton","Laws of Motion & Gravitation","Principia Mathematica (1687). Also invented calculus."],
+["Marie Curie","Radioactivity","Discovered polonium and radium. Only person to win Nobel in two sciences."],
+["Charles Darwin","Evolution by Natural Selection","On the Origin of Species (1859)."],
+["Galileo Galilei","Observational Astronomy","Discovered Jupiter's moons. Father of modern science."],
+["Nikola Tesla","Alternating Current","Developed the AC system. Invented the Tesla coil."],
+["James Clerk Maxwell","Electromagnetism","Unified electricity and magnetism into four equations."],
+["Niels Bohr","Atomic Structure","Planetary model of the atom. Nobel 1922."],
+["Werner Heisenberg","Quantum Mechanics","Uncertainty principle. Nobel 1932."],
+["Erwin Schrödinger","Wave Mechanics","Wave equation. Schrödinger's cat. Nobel 1933."],
+["Richard Feynman","Quantum Electrodynamics","QED and Feynman diagrams. Nobel 1965."],
+["Stephen Hawking","Black Holes & Cosmology","Hawking radiation. A Brief History of Time."],
+["Rosalind Franklin","DNA Structure","Photo 51 was key to the double helix."],
+["Louis Pasteur","Germ Theory","Pasteurisation. Vaccines for anthrax and rabies."],
+["Gregor Mendel","Genetics","Laws of heredity through pea plants."],
+["Alexander Fleming","Penicillin","Discovered penicillin in 1928. Nobel 1945."],
+["Barbara McClintock","Transposons","Jumping genes. Nobel 1983."],
+["Tu Youyou","Artemisinin","Malaria treatment. Nobel 2015."],
+["Dmitri Mendeleev","Periodic Table","Created the periodic table in 1869."],
+["Antoine Lavoisier","Modern Chemistry","Role of oxygen in combustion."],
+["John Dalton","Atomic Theory","All matter is made of atoms (1803)."],
+["Michael Faraday","Electromagnetic Induction","Principle behind generators and transformers."],
+["James Watson & Francis Crick","DNA Double Helix","Proposed the structure in 1953. Nobel 1962."],
+["Jonas Salk","Polio Vaccine","First effective polio vaccine (1955)."],
+["Edward Jenner","Vaccination","First smallpox vaccine (1796)."],
+["Robert Koch","Bacteriology","Causes of TB, cholera and anthrax. Nobel 1905."],
+["Ivan Pavlov","Classical Conditioning","Conditioned reflexes. Nobel 1904."],
+["Sigmund Freud","Psychoanalysis","Id, ego, superego."],
+["Carl Jung","Analytical Psychology","Archetypes, collective unconscious."],
+["Max Planck","Quantum Theory","Planck's constant. Nobel 1918."],
+["Ernest Rutherford","Nuclear Physics","Discovered the atomic nucleus. Nobel 1908."],
+["Enrico Fermi","Nuclear Reactions","First nuclear reactor. Nobel 1938."],
+["J. Robert Oppenheimer","Atomic Bomb","Led the Manhattan Project."],
+["Lise Meitner","Nuclear Fission","Co-discovered fission."],
+["Emmy Noether","Abstract Algebra & Symmetry","Noether's theorem."],
+["Ada Lovelace","First Computer Programmer","First algorithm for a machine."],
+["Alan Turing","Computer Science & AI","Broke Enigma. Turing test."],
+["Grace Hopper","Compilers & COBOL","Pioneered compilers."],
+["Tim Berners-Lee","World Wide Web","Invented the Web in 1989."],
+["Vint Cerf & Bob Kahn","Internet Protocol","Designed TCP/IP."],
+["John von Neumann","Computer Architecture","Von Neumann architecture."],
+["Claude Shannon","Information Theory","Father of information theory."],
+["Edwin Hubble","Expanding Universe","Hubble's Law."],
+["Carl Sagan","Cosmology & Science Communication","Cosmos."],
+["Neil deGrasse Tyson","Astrophysics","Popular science communicator."],
+["Jane Goodall","Primatology","Chimpanzees make and use tools."],
+["Dian Fossey","Primatology","Mountain gorillas. Gorillas in the Mist."],
+["Rachel Carson","Environmental Science","Silent Spring (1962)."],
+["James Lovelock","Gaia Hypothesis","Earth as self-regulating system."],
+["Lynn Margulis","Endosymbiosis","Mitochondria from symbiotic bacteria."],
+["Francis Collins","Human Genome Project","Led the project to completion in 2003."],
+["Jennifer Doudna & Emmanuelle Charpentier","CRISPR-Cas9","Gene editing. Nobel 2020."],
+["Katalin Karikó & Drew Weissman","mRNA Vaccines","COVID-19 vaccines. Nobel 2023."],
+["Barry Marshall & Robin Warren","H. pylori","Stomach ulcers are bacterial. Nobel 2005."],
+["Harold Varmus & J. Michael Bishop","Oncogenes","Cellular origin of retroviral oncogenes. Nobel 1989."],
+["Elizabeth Blackburn & Carol Greider","Telomeres","Telomerase. Nobel 2009."],
+["Yuan Tseh Lee","Chemical Dynamics","Nobel 1986."],
+["Ahmed Zewail","Femtochemistry","Ultrafast lasers. Nobel 1999."],
+["Aziz Sancar","DNA Repair","Nobel 2015."],
+["Christiane Nüsslein-Volhard","Developmental Genetics","Nobel 1995."],
+["May-Britt Moser & Edvard Moser","Grid Cells","Brain's positioning system. Nobel 2014."],
+["John O'Keefe","Place Cells","Brain's GPS. Nobel 2014."],
+["Roger Penrose","Black Hole Formation","Nobel 2020."],
+["Andrea Ghez & Reinhard Genzel","Galactic Centre","Supermassive object at Milky Way's centre. Nobel 2020."],
+["Didier Queloz & Michel Mayor","Exoplanets","First exoplanet around a Sun-like star. Nobel 2019."],
+["Giorgio Parisi","Complex Systems","Nobel 2021."],
+["Syukuro Manabe & Klaus Hasselmann","Climate Modelling","Nobel 2021."],
+["Alain Aspect, John Clauser & Anton Zeilinger","Quantum Entanglement","Nobel 2022."],
+["Pierre Agostini, Ferenc Krausz & Anne L'Huillier","Attosecond Physics","Nobel 2023."],
+["Moungi Bawendi, Louis Brus & Alexei Ekimov","Quantum Dots","Nobel 2023."],
+["Svante Pääbo","Ancient DNA","Neanderthal genome. Nobel 2022."],
+["David Julius & Ardem Patapoutian","Temperature & Touch Receptors","Nobel 2021."],
+["Harvey Alter, Michael Houghton & Charles Rice","Hepatitis C","Nobel 2020."],
+["William Kaelin, Peter Ratcliffe & Gregg Semenza","Oxygen Sensing","Nobel 2019."],
+["James Allison & Tasuko Honjo","Cancer Immunotherapy","Nobel 2018."],
+["Jeffrey Hall, Michael Rosbash & Michael Young","Circadian Rhythm","Nobel 2017."],
+["Yoshinori Ohsumi","Autophagy","Nobel 2016."],
+["William Campbell & Satoshi Ōmura","Anti-parasitic Drugs","Nobel 2015."],
+["Takaaki Kajita & Arthur McDonald","Neutrino Oscillation","Neutrinos have mass. Nobel 2015."],
+["Peter Higgs & François Englert","Higgs Boson","Nobel 2013."],
+["Serge Haroche & David Wineland","Quantum Optics","Nobel 2012."],
+["Saul Perlmutter, Brian Schmidt & Adam Riess","Accelerating Universe","Nobel 2011."],
+["Andre Geim & Konstantin Novoselov","Graphene","Nobel 2010."],
+["Charles Kao","Fibre Optics","Nobel 2009."],
+["Yoichiro Nambu","Spontaneous Symmetry Breaking","Nobel 2008."],
+["Albert Fert & Peter Grünberg","Giant Magnetoresistance","Nobel 2007."],
+["John Mather & George Smoot","Cosmic Microwave Background","Nobel 2006."],
+["Roy Glauber, John Hall & Theodor Hänsch","Quantum Optics","Nobel 2005."],
+["David Gross, Politzer & Wilczek","Asymptotic Freedom","Nobel 2004."],
+["Alexei Abrikosov, Vitaly Ginzburg & Anthony Leggett","Superconductivity","Nobel 2003."],
+["Raymond Davis, Masatoshi Koshiba & Riccardo Giacconi","Astrophysics","Nobel 2002."],
+["Eric Cornell, Wolfgang Ketterle & Carl Wieman","Bose-Einstein Condensate","Nobel 2001."],
+["Zhores Alferov, Herbert Kroemer & Jack Kilby","Semiconductors","Nobel 2000."],
+["Gerard 't Hooft & Martinus Veltman","Electroweak Theory","Nobel 1999."],
+["Robert Laughlin, Horst Störmer & Daniel Tsui","Fractional Quantum Hall Effect","Nobel 1998."],
+["Steven Chu, Claude Cohen-Tannoudji & William Phillips","Laser Cooling","Nobel 1997."],
+["David Lee, Douglas Osheroff & Robert Richardson","Superfluidity","Nobel 1996."],
+["Martin Perl & Frederick Reines","Lepton Physics","Nobel 1995."],
+["Bertram Brockhouse & Clifford Shull","Neutron Scattering","Nobel 1994."],
+["Russell Hulse & Joseph Taylor","Binary Pulsars","Nobel 1993."],
+["Georges Charpak","Particle Detectors","Nobel 1992."],
+["Pierre-Gilles de Gennes","Soft Matter","Nobel 1991."],
+["Jerome Friedman, Henry Kendall & Richard Taylor","Deep Inelastic Scattering","Nobel 1990."],
+["Norman Ramsey, Hans Dehmelt & Wolfgang Paul","Atomic Precision","Nobel 1989."],
+["Leon Lederman, Melvin Schwartz & Jack Steinberger","Neutrino Beam","Nobel 1988."],
+["Karl Alexander Müller & Georg Bednorz","High-Temperature Superconductivity","Nobel 1987."],
+["Ernst Ruska, Gerd Binnig & Heinrich Rohrer","Electron Microscopy & STM","Nobel 1986."],
+["Klaus von Klitzing","Quantum Hall Effect","Nobel 1985."],
+["Carlo Rubbia & Simon van der Meer","W and Z Bosons","Nobel 1984."],
+["Subrahmanyan Chandrasekhar & William Fowler","Stellar Structure","Nobel 1983."],
+["Kenneth Wilson","Critical Phenomena","Nobel 1982."],
+["Nicolaas Bloembergen, Arthur Schawlow & Kai Siegbahn","Laser Spectroscopy","Nobel 1981."],
+["James Cronin & Val Fitch","CP Violation","Nobel 1980."],
+["Sheldon Glashow, Abdus Salam & Steven Weinberg","Electroweak Unification","Nobel 1979."]
+];
+
+/* ============ NOBEL ============ */
+const nobel=[
+{name:"Marie Curie",icon:"🔬",country:"Poland/France",year:"1903 & 1911",info:"Radioactivity. Only person to win Nobel in two sciences."},
+{name:"Albert Einstein",icon:"💡",country:"Germany/Switzerland",year:"1921",info:"Photoelectric effect. Theory of relativity."},
+{name:"Malala Yousafzai",icon:"🎓",country:"Pakistan",year:"2014",info:"Youngest Nobel laureate. Girls' education activist."},
+{name:"Rabindranath Tagore",icon:"📖",country:"India",year:"1913",info:"First Asian Nobel laureate in Literature."},
+{name:"Naguib Mahfouz",icon:"📚",country:"Egypt",year:"1988",info:"First Arab Nobel laureate in Literature."},
+{name:"Gabriel García Márquez",icon:"🌹",country:"Colombia",year:"1982",info:"Magical realism. One Hundred Years of Solitude."},
+{name:"Ernest Hemingway",icon:"🎣",country:"USA",year:"1954",info:"The Old Man and the Sea."},
+{name:"Abdus Salam",icon:"⚛️",country:"Pakistan",year:"1979",info:"Electroweak unification theory."},
+{name:"Doris Lessing",icon:"✍️",country:"UK",year:"2007",info:"The Golden Notebook."},
+{name:"Milton Friedman",icon:"💰",country:"USA",year:"1976",info:"Monetary economics. Chicago School."},
+{name:"Amartya Sen",icon:"💰",country:"India",year:"1998",info:"Welfare economics and capability approach."},
+{name:"Paul Krugman",icon:"💰",country:"USA",year:"2008",info:"Trade patterns and economic geography."},
+{name:"Abhijit Banerjee",icon:"💰",country:"India/USA",year:"2019",info:"Experimental approach to poverty."},
+{name:"Esther Duflo",icon:"💰",country:"France/USA",year:"2019",info:"Youngest economics laureate."},
+{name:"Michael Kremer",icon:"💰",country:"USA",year:"2019",info:"Experimental poverty alleviation."},
+{name:"Ivan Pavlov",icon:"🧬",country:"Russia",year:"1904",info:"Digestion physiology. Classical conditioning."},
+{name:"Robert Koch",icon:"🧬",country:"Germany",year:"1905",info:"Tuberculosis research."},
+{name:"Alexander Fleming",icon:"💊",country:"UK",year:"1945",info:"Penicillin discovery."},
+{name:"James Watson",icon:"🧬",country:"USA",year:"1962",info:"DNA double helix."},
+{name:"Francis Crick",icon:"🧬",country:"UK",year:"1962",info:"DNA structure."},
+{name:"Barbara McClintock",icon:"🧬",country:"USA",year:"1983",info:"Transposons (jumping genes)."},
+{name:"Tu Youyou",icon:"🌿",country:"China",year:"2015",info:"Artemisinin for malaria."},
+{name:"Ernest Rutherford",icon:"⚛️",country:"NZ/UK",year:"1908",info:"Chemistry of radioactive substances."},
+{name:"Linus Pauling",icon:"🧪",country:"USA",year:"1954",info:"Chemical bond. Also Nobel Peace 1962."},
+{name:"Frederick Sanger",icon:"🧬",country:"UK",year:"1958 & 1980",info:"Proteins and DNA sequencing."},
+{name:"Frances Arnold",icon:"🧪",country:"USA",year:"2018",info:"Directed evolution of enzymes."},
+{name:"John B. Goodenough",icon:"🔋",country:"USA",year:"2019",info:"Lithium-ion batteries."},
+{name:"Wilhelm Röntgen",icon:"⚛️",country:"Germany",year:"1901",info:"Discovery of X-rays."},
+{name:"Niels Bohr",icon:"⚛️",country:"Denmark",year:"1922",info:"Atomic structure."},
+{name:"Werner Heisenberg",icon:"⚛️",country:"Germany",year:"1932",info:"Quantum mechanics."},
+{name:"Erwin Schrödinger",icon:"⚛️",country:"Austria",year:"1933",info:"Atomic theory."},
+{name:"Richard Feynman",icon:"⚛️",country:"USA",year:"1965",info:"Quantum electrodynamics."},
+{name:"Peter Higgs",icon:"⚛️",country:"UK",year:"2013",info:"Higgs boson."},
+{name:"James Peebles",icon:"🌌",country:"Canada/USA",year:"2019",info:"Physical cosmology."},
+{name:"Theodore Roosevelt",icon:"🕊️",country:"USA",year:"1906",info:"Peace and arbitration."},
+{name:"Fridtjof Nansen",icon:"🕊️",country:"Norway",year:"1922",info:"Refugee humanitarian work."},
+{name:"Albert Schweitzer",icon:"🕊️",country:"Germany/France",year:"1952",info:"Reverence for Life."},
+{name:"Martin Luther King Jr.",icon:"🕊️",country:"USA",year:"1964",info:"Civil rights movement."},
+{name:"Mother Teresa",icon:"🕊️",country:"India",year:"1979",info:"Service to the poor."},
+{name:"Desmond Tutu",icon:"🕊️",country:"South Africa",year:"1984",info:"Anti-apartheid leader."},
+{name:"Aung San Suu Kyi",icon:"🕊️",country:"Myanmar",year:"1991",info:"Democracy and human rights."},
+{name:"Kailash Satyarthi",icon:"🕊️",country:"India",year:"2014",info:"Children's rights."},
+{name:"Abiy Ahmed Ali",icon:"🕊️",country:"Ethiopia",year:"2019",info:"Peace with Eritrea."},
+{name:"Rudyard Kipling",icon:"📚",country:"UK",year:"1907",info:"The Jungle Book."},
+{name:"Selma Lagerlöf",icon:"📖",country:"Sweden",year:"1909",info:"First woman in Literature."},
+{name:"George Bernard Shaw",icon:"🎭",country:"Ireland/UK",year:"1925",info:"Pygmalion."},
+{name:"Thomas Mann",icon:"📚",country:"Germany",year:"1929",info:"Buddenbrooks."},
+{name:"Winston Churchill",icon:"✍️",country:"UK",year:"1953",info:"Historical writing and oratory."},
+{name:"Albert Camus",icon:"📖",country:"France",year:"1957",info:"The Stranger."},
+{name:"Toni Morrison",icon:"📖",country:"USA",year:"1993",info:"Beloved."},
+{name:"Olga Tokarczuk",icon:"📖",country:"Poland",year:"2018",info:"Flights."}
+];
+
+/* ============ HISTORY ============ */
+const historyData=[
+{country:"🇬🇧 British Literature",periods:[
+{t:"Old English (450–1066)",d:"Beowulf, The Wanderer. Oral poetry, alliterative verse."},
+{t:"Middle English (1066–1500)",d:"Chaucer's Canterbury Tales. Norman French influence."},
+{t:"Renaissance (1500–1660)",d:"Shakespeare, Spenser, Marlowe. Sonnets, drama, blank verse."},
+{t:"Restoration & Augustan (1660–1785)",d:"Dryden, Pope, Swift. Satire and reason."},
+{t:"Romantic (1785–1832)",d:"Wordsworth, Coleridge, Byron, Shelley, Keats. Emotion and nature."},
+{t:"Victorian (1832–1901)",d:"Dickens, Eliot, Brontës, Tennyson. Social criticism."},
+{t:"Modern (1901–1945)",d:"Woolf, Joyce, Eliot, Yeats. Stream of consciousness."},
+{t:"Contemporary (1945–now)",d:"Rushdie, Ishiguro, McEwan, Heaney."}
+]},
+{country:"🇺🇸 American Literature",periods:[
+{t:"Colonial (1607–1765)",d:"Puritan writings. Anne Bradstreet."},
+{t:"Revolutionary (1765–1790)",d:"Paine, Franklin, Jefferson. Political writing."},
+{t:"Romantic (1820–1865)",d:"Poe, Hawthorne, Melville, Whitman, Dickinson."},
+{t:"Realism (1865–1900)",d:"Twain, James, Howells. Everyday life."},
+{t:"Modernism (1900–1945)",d:"Hemingway, Fitzgerald, Faulkner, Eliot."},
+{t:"Postwar (1945–now)",d:"Morrison, Bellow, Vonnegut, Roth, DeLillo."}
+]},
+{country:"🇫🇷 French Literature",periods:[
+{t:"Medieval",d:"Chrétien de Troyes, Marie de France. Chansons de geste."},
+{t:"Renaissance",d:"Rabelais, Montaigne. Humanism."},
+{t:"Classicism",d:"Molière, Racine, Corneille. Reason and order."},
+{t:"Enlightenment",d:"Voltaire, Rousseau, Diderot. Reason and revolution."},
+{t:"Romantic",d:"Hugo, Lamartine, Musset. Emotion and nature."},
+{t:"Realism & Naturalism",d:"Balzac, Flaubert, Zola. Objective observation."},
+{t:"Modern",d:"Proust, Camus, Sartre, Beckett. Memory and existence."},
+{t:"Contemporary",d:"Modiano, Houellebecq, Ernaux (Nobel 2022)."}
+]},
+{country:"🇩🇪 German Literature",periods:[
+{t:"Medieval",d:"Nibelungenlied. Courtly romance."},
+{t:"Enlightenment",d:"Lessing, Wieland. Reason and tolerance."},
+{t:"Sturm und Drang",d:"Goethe, Schiller. Emotion and rebellion."},
+{t:"Weimar Classicism",d:"Goethe's Faust, Schiller's plays."},
+{t:"Romantic",d:"Novalis, E.T.A. Hoffmann, Brothers Grimm."},
+{t:"Realism",d:"Fontane, Keller. Social observation."},
+{t:"Modern",d:"Mann, Kafka, Hesse, Brecht, Grass."}
+]},
+{country:"🇮🇹 Italian Literature",periods:[
+{t:"Medieval",d:"Dante's Divine Comedy. Dolce stil novo."},
+{t:"Renaissance",d:"Petrarch, Boccaccio, Ariosto. Humanism."},
+{t:"Enlightenment",d:"Goldoni, Alfieri. Comedy and tragedy."},
+{t:"Romantic",d:"Leopardi, Manzoni. National identity."},
+{t:"Modern",d:"Pirandello, Calvino, Eco, Levi."}
+]},
+{country:"🇪🇸 Spanish Literature",periods:[
+{t:"Medieval",d:"El Cid, romances. Oral tradition."},
+{t:"Golden Age",d:"Cervantes, Lope de Vega, Calderón. Siglo de Oro."},
+{t:"Enlightenment",d:"Feijoo, Moratín. Reason."},
+{t:"Romantic",d:"Bécquer, Espronceda."},
+{t:"Modern",d:"Lorca, Machado, Cela, Vargas Llosa."}
+]},
+{country:"🇷🇺 Russian Literature",periods:[
+{t:"Golden Age (1800–1840)",d:"Pushkin, Lermontov, Gogol."},
+{t:"Realism (1840–1890)",d:"Tolstoy, Dostoevsky, Turgenev, Chekhov."},
+{t:"Symbolism (1890–1917)",d:"Blok, Bely, Akhmatova."},
+{t:"Soviet (1917–1991)",d:"Bulgakov, Pasternak, Solzhenitsyn, Sholokhov."},
+{t:"Post-Soviet",d:"Pelevin, Sorokin, Ulitskaya."}
+]},
+{country:"🇨🇳 Chinese Literature",periods:[
+{t:"Classical",d:"Confucius, Laozi, Zhuangzi. Philosophy and poetry."},
+{t:"Tang Poetry",d:"Li Bai, Du Fu, Wang Wei. Golden age of poetry."},
+{t:"Song & Ming",d:"Ci poetry, novels like Journey to the West."},
+{t:"Qing",d:"Dream of the Red Chamber, Cao Xueqin."},
+{t:"Modern",d:"Lu Xun, Mo Yan, Yu Hua."}
+]},
+{country:"🇯🇵 Japanese Literature",periods:[
+{t:"Classical",d:"Kojiki, Man'yōshū. Earliest works."},
+{t:"Heian",d:"Murasaki Shikibu's Tale of Genji. Courtly literature."},
+{t:"Medieval",d:"Heike Monogatari, noh drama."},
+{t:"Edo",d:"Bashō, Saikaku, Chikamatsu. Haiku and kabuki."},
+{t:"Meiji & Modern",d:"Sōseki, Kawabata, Mishima, Murakami."}
+]},
+{country:"🌙 Arabic Literature",periods:[
+{t:"Pre-Islamic",d:"Mu'allaqat. Oral poetry."},
+{t:"Islamic",d:"Quran, hadith, early prose."},
+{t:"Abbasid",d:"Al-Jahiz, Thousand and One Nights."},
+{t:"Andalusian",d:"Ibn Hazm, Ibn Arabi."},
+{t:"Modern",d:"Mahfouz, Adonis, Darwish, al-Shaykh."}
+]},
+{country:"🇮🇳 Indian Literature",periods:[
+{t:"Vedic",d:"Rigveda, Upanishads. Sanskrit."},
+{t:"Sanskrit Epics",d:"Mahabharata, Ramayana."},
+{t:"Classical",d:"Kalidasa. Sanskrit drama and poetry."},
+{t:"Bhakti",d:"Mirabai, Kabir, Tulsidas. Devotional."},
+{t:"Modern",d:"Tagore, Naipaul, Rushdie, Roy, Adiga."}
+]},
+{country:"🇵🇰 Pakistani Literature",periods:[
+{t:"Classical",d:"Allama Iqbal, Bulleh Shah, Faiz Ahmed Faiz."},
+{t:"Urdu Fiction",d:"Saadat Hasan Manto, Ismat Chughtai."},
+{t:"Modern",d:"Bapsi Sidhwa, Mohsin Hamid, Kamila Shamsie."}
+]},
+{country:"🇹🇷 Turkish Literature",periods:[
+{t:"Divan",d:"Court poetry under Ottoman influence."},
+{t:"Tanzimat",d:"Western-style reforms."},
+{t:"Modern",d:"Pamuk (Nobel 2006), Shafak."}
+]},
+{country:"🌍 African Literature",periods:[
+{t:"Pre-colonial",d:"Oral traditions and griots."},
+{t:"Colonial",d:"Negritude movement (Senghor, Césaire)."},
+{t:"Post-colonial",d:"Achebe, Soyinka, Ngũgĩ, Gordimer, Coetzee."}
+]},
+{country:"🌎 Latin American Literature",periods:[
+{t:"Colonial",d:"Chronicles of the conquest."},
+{t:"Independence",d:"Romantic and realist novels."},
+{t:"Modernismo",d:"Rubén Darío. Poetry renewal."},
+{t:"Boom",d:"Márquez, Cortázar, Vargas Llosa, Fuentes."},
+{t:"Post-Boom",d:"Allende, Bolaño, Puig."}
+]}
+];
+
+/* ============ DISCOVERIES ============ */
+const discoveries=[
+"Shakespeare invented over 1,700 words and phrases including 'eyeball' and 'break the ice'.",
+"The Epic of Gilgamesh (c.2100 BC) is one of the oldest surviving works of literature.",
+"Homer's Iliad and Odyssey were originally oral poems recited by bards.",
+"The Thousand and One Nights was compiled over many centuries.",
+"The Tale of Genji is often called the world's first novel (c.1010 AD).",
+"Dante's Divine Comedy has three parts, each with 33 cantos.",
+"Don Quixote is often voted the greatest novel ever written.",
+"Jane Austen published all her novels anonymously.",
+"Dickens serialised most of his novels in monthly instalments.",
+"Orwell coined 'Big Brother', 'doublethink' and 'Newspeak'.",
+"Mary Shelley wrote Frankenstein at 18 in a ghost-story contest.",
+"The 'Lost Generation' were American writers in 1920s Paris.",
+"Toni Morrison won both the Pulitzer and the Nobel.",
+"Sylvia Plath published The Bell Jar as Victoria Lucas.",
+"Borges never wrote a full-length novel; he preferred short stories.",
+"Tolstoy and Gandhi exchanged letters about nonviolence.",
+"Chekhov was a practising medical doctor throughout his career.",
+"Pushkin died in a duel at 37.",
+"Bashō is considered the greatest master of haiku.",
+"Tagore wrote the national anthems of both India and Bangladesh.",
+"Rumi is one of the best-selling poets in the US today.",
+"Achebe's Things Fall Apart has been translated into 50+ languages.",
+"Munro won the Nobel Prize for her short stories alone.",
+"Andersen was a gifted papercut artist.",
+"Lagerlöf was the first woman to win the Nobel Prize in Literature.",
+"Kundera lived in exile in France from 1975.",
+"Havel became president of Czechoslovakia after the Velvet Revolution.",
+"Kertész's Fatelessness is drawn from his own time in Auschwitz.",
+"Pamuk is a vocal critic of Turkish censorship.",
+"Shafak writes in both Turkish and English.",
+"Rushdie's Midnight's Children won the Booker of Bookers.",
+"Roy wrote The God of Small Things over four years.",
+"Adiga wrote The White Tiger in just a few months.",
+"Beckett won the Nobel Prize in 1969.",
+"Wilde wrote The Importance of Being Earnest in three weeks.",
+"Yeats was the first Irishman to win the Nobel in Literature.",
+"Tennyson was Poet Laureate for over 40 years.",
+"Wordsworth and Coleridge were neighbours in the Lake District.",
+"Keats trained as a surgeon before turning to poetry.",
+"Byron fought in the Greek War of Independence.",
+"Lewis and Tolkien were both members of the Inklings writing group.",
+"Defoe wrote more than 500 books and pamphlets.",
+"Swift was Dean of St Patrick's Cathedral in Dublin.",
+"Bram Stoker was business manager for the actor Henry Irving.",
+"Conrad did not learn English until his twenties.",
+"Huxley wrote Brave New World in four months.",
+"Kafka worked as an insurance officer and wrote at night.",
+"Eco's The Name of the Rose has sold over 50 million copies.",
+"Cervantes lost the use of his left hand at the Battle of Lepanto.",
+"Lorca was executed by Nationalist forces in 1936.",
+"Borges was blind for much of his adult life.",
+"Márquez was a journalist before becoming a novelist.",
+"Tolstoy was excommunicated by the Russian Orthodox Church in 1901.",
+"Dostoevsky was sentenced to death and reprieved at the last moment.",
+"Murasaki Shikibu was a lady-in-waiting at the Heian court.",
+"Mishima attempted a coup and committed seppuku in 1970.",
+"Lu Xun studied medicine in Japan before becoming a writer.",
+"Mahfouz survived a knife attack in 1994 that damaged his writing hand.",
+"Gibran's The Prophet has sold over 100 million copies.",
+"Soyinka was imprisoned during the Nigerian Civil War.",
+"Ngũgĩ stopped writing in English to write in Gikuyu.",
+"Coetzee was the first writer to win the Booker Prize twice.",
+"Ishiguro was born in Nagasaki and moved to England at five.",
+"Atwood invented the LongPen, a remote signing device."
+];
+
+/* ============ GAME ============ */
+const shapes=['●','■','▲','◆','★','♥','✦','✚','⬟','⬢','⬣','⬤','◼','◾','♦','▰','▱','◇'];
+let gameLevel=parseInt(localStorage.getItem('litLevel')||'1');
+let gameStreak=0;
+let currentTarget='';
+
+function renderGame(){
+  $('gLevel').textContent=gameLevel;
+  $('gCoins').textContent=coins;
+  $('gStreak').textContent=gameStreak;
+  newGameRound();
+}
+
+function newGameRound(){
+  const grid=$('shapeGrid');
+  grid.innerHTML='';
+  $('gameMsg').textContent='';
+  const pool=[...shapes].sort(()=>Math.random()-0.5).slice(0,9);
+  currentTarget=pool[Math.floor(Math.random()*pool.length)];
+  $('targetShape').textContent=currentTarget;
+  const cells=[...pool].sort(()=>Math.random()-0.5);
+  cells.forEach(sh=>{
+    const b=document.createElement('button');
+    b.className='shapeBtn';
+    b.textContent=sh;
+    b.onclick=()=>pickShape(b,sh);
+    grid.appendChild(b);
+  });
+}
+
+function pickShape(btn,sh){
+  if(btn.classList.contains('correct')||btn.classList.contains('wrong')) return;
+  if(sh===currentTarget){
+    btn.classList.add('correct');
+    gameStreak++; addCoins(10); gameLevel++;
+    localStorage.setItem('litLevel',gameLevel);
+    $('gLevel').textContent=gameLevel;
+    $('gCoins').textContent=coins;
+    $('gStreak').textContent=gameStreak;
+    $('gameMsg').textContent='✅ Correct! +10 coins';
+    setTimeout(newGameRound,700);
+  }else{
+    btn.classList.add('wrong');
+    gameStreak=0; $('gStreak').textContent=0;
+    $('gameMsg').textContent='❌ Try again!';
+    setTimeout(()=>btn.classList.remove('wrong'),500);
+  }
+}
+
+function resetGame(){
+  if(!confirm('Reset game progress?')) return;
+  gameLevel=1; gameStreak=0;
+  localStorage.setItem('litLevel',1);
+  renderGame();
+}
+
+/* ============ SHOP ============ */
+const quotes=[
+{q:"The unexamined life is not worth living.",a:"Socrates"},
+{q:"To be, or not to be, that is the question.",a:"Shakespeare"},
+{q:"All the world's a stage, and all the men and women merely players.",a:"Shakespeare"},
+{q:"It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",a:"Jane Austen"},
+{q:"Call me Ishmael.",a:"Herman Melville"},
+{q:"It was the best of times, it was the worst of times.",a:"Charles Dickens"},
+{q:"Happy families are all alike; every unhappy family is unhappy in its own way.",a:"Leo Tolstoy"},
+{q:"We are all in the gutter, but some of us are looking at the stars.",a:"Oscar Wilde"},
+{q:"The only way to get rid of temptation is to yield to it.",a:"Oscar Wilde"},
+{q:"Not all those who wander are lost.",a:"J.R.R. Tolkien"},
+{q:"The road goes ever on and on.",a:"J.R.R. Tolkien"},
+{q:"It is our choices that show what we truly are, far more than our abilities.",a:"J.K. Rowling"},
+{q:"The truth is rarely pure and never simple.",a:"Oscar Wilde"},
+{q:"Whatever our souls are made of, his and mine are the same.",a:"Emily Brontë"},
+{q:"I am no bird; and no net ensnares me.",a:"Charlotte Brontë"},
+{q:"There is no greater agony than bearing an untold story inside you.",a:"Maya Angelou"},
+{q:"It does not do to dwell on dreams and forget to live.",a:"J.K. Rowling"},
+{q:"Time is the coin of your life. It is the only coin you have.",a:"Carl Sandburg"},
+{q:"The world breaks everyone, and afterward, some are strong at the broken places.",a:"Ernest Hemingway"},
+{q:"There is nothing to writing. All you do is sit down at a typewriter and bleed.",a:"Ernest Hemingway"},
+{q:"A room without books is like a body without a soul.",a:"Cicero"},
+{q:"So many books, so little time.",a:"Frank Zappa"},
+{q:"I cannot live without books.",a:"Thomas Jefferson"},
+{q:"There is no friend as loyal as a book.",a:"Ernest Hemingway"},
+{q:"Books are a uniquely portable magic.",a:"Stephen King"},
+{q:"A reader lives a thousand lives before he dies.",a:"George R.R. Martin"},
+{q:"The more that you read, the more things you will know.",a:"Dr. Seuss"},
+{q:"We read to know we are not alone.",a:"C.S. Lewis"},
+{q:"There are years that ask questions and years that answer.",a:"Zora Neale Hurston"},
+{q:"You never really understand a person until you consider things from his point of view.",a:"Harper Lee"},
+{q:"Until I feared I would lose it, I never loved to read.",a:"Harper Lee"},
+{q:"I think there's just one kind of folks. Folks.",a:"Harper Lee"},
+{q:"It's not what we have in life but who we have in our life that matters.",a:"Ralph Waldo Emerson"},
+{q:"The only person you are destined to become is the person you decide to be.",a:"Ralph Waldo Emerson"},
+{q:"What lies behind us and what lies before us are tiny matters compared to what lies within us.",a:"Ralph Waldo Emerson"},
+{q:"To live is the rarest thing in the world. Most people exist, that is all.",a:"Oscar Wilde"},
+{q:"It is better to be hated for what you are than to be loved for what you are not.",a:"André Gide"},
+{q:"In three words I can sum up everything I've learned about life: it goes on.",a:"Robert Frost"},
+{q:"The best way out is always through.",a:"Robert Frost"},
+{q:"Two roads diverged in a wood, and I—I took the one less traveled by.",a:"Robert Frost"},
+{q:"Hope is the thing with feathers that perches in the soul.",a:"Emily Dickinson"},
+{q:"Forever is composed of nows.",a:"Emily Dickinson"},
+{q:"That it will never come again is what makes life so sweet.",a:"Emily Dickinson"},
+{q:"I dwell in possibility.",a:"Emily Dickinson"},
+{q:"If I can stop one heart from breaking, I shall not live in vain.",a:"Emily Dickinson"},
+{q:"I am nobody! Who are you? Are you nobody, too?",a:"Emily Dickinson"},
+{q:"The soul should always stand ajar, ready to welcome the ecstatic experience.",a:"Emily Dickinson"},
+{q:"Not knowing when the dawn will come, I open every door.",a:"Emily Dickinson"}
+];
+
+const poems=[
+{t:"The Road Not Taken",a:"Robert Frost",p:`Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;
+
+Then took the other, as just as fair,
+And having perhaps the better claim,
+Because it was grassy and wanted wear;
+Though as for that the passing there
+Had worn them really about the same,
+
+And both that morning equally lay
+In leaves no step had trodden black.
+Oh, I kept the first for another day!
+Yet knowing how way leads on to way,
+I doubted if I should ever come back.
+
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I—
+I took the one less traveled by,
+And that has made all the difference.`},
+{t:"Stopping by Woods on a Snowy Evening",a:"Robert Frost",p:`Whose woods these are I think I know.
+His house is in the village though;
+He will not see me stopping here
+To watch his woods fill up with snow.
+
+My little horse must think it queer
+To stop without a farmhouse near
+Between the woods and frozen lake
+The darkest evening of the year.
+
+He gives his harness bells a shake
+To ask if there is some mistake.
+The only other sound's the sweepOf easy wind and downy flake.
+
+The woods are lovely, dark and deep,
+But I have promises to keep,
+And miles to go before I sleep,
+And miles to go before I sleep.`},
+{t:"Hope is the thing with feathers",a:"Emily Dickinson",p:`"Hope" is the thing with feathers —
+That perches in the soul —
+And sings the tune without the words —
+And never stops — at all —
+
+And sweetest — in the Gale — is heard —
+And sore must be the storm —
+That could abash the little Bird
+That kept so many warm —
+
+I've heard it in the chillest land —
+And on the strangest Sea —
+Yet — never — in Extremity,
+It asked a crumb — of me.`},
+{t:"Because I could not stop for Death",a:"Emily Dickinson",p:`Because I could not stop for Death —
+He kindly stopped for me —
+The Carriage held but just Ourselves —
+And Immortality.
+
+We slowly drove — He knew no haste
+And I had put away
+My labor and my leisure too,
+For His Civility —
+
+We passed the School, where Children strove
+At Recess — in the Ring —
+We passed the Fields of Gazing Grain —
+We passed the Setting Sun —`},
+{t:"I Wandered Lonely as a Cloud",a:"William Wordsworth",p:`I wandered lonely as a cloud
+That floats on high o'er vales and hills,
+When all at once I saw a crowd,
+A host, of golden daffodils;
+Beside the lake, beneath the trees,
+Fluttering and dancing in the breeze.
+
+Continuous as the stars that shine
+And twinkle on the milky way,
+They stretched in never-ending line
+Along the margin of a bay:
+Ten thousand saw I at a glance,
+Tossing their heads in sprightly dance.
+
+The waves beside them danced; but they
+Out-did the sparkling waves in glee:
+A poet could not but be gay,
+In such a jocund company:
+I gazed—and gazed—but little thought
+What wealth the show to me had brought:
+
+For oft, when on my couch I lie
+In vacant or in pensive mood,
+They flash upon that inward eye
+Which is the bliss of solitude;
+And then my heart with pleasure fills,
+And dances with the daffodils.`},
+{t:"Ozymandias",a:"Percy Bysshe Shelley",p:`I met a traveller from an antique land,
+Who said—"Two vast and trunkless legs of stone
+Stand in the desert. . . . Near them, on the sand,
+Half sunk a shattered visage lies, whose frown,
+And wrinkled lip, and sneer of cold command,
+Tell that its sculptor well those passions read
+Which yet survive, stamped on these lifeless things,
+The hand that mocked them, and the heart that fed;
+And on the pedestal, these words appear:
+My name is Ozymandias, King of Kings;
+Look on my Works, ye Mighty, and despair!
+Nothing beside remains. Round the decay
+Of that colossal Wreck, boundless and bare
+The lone and level sands stretch far away."`},
+{t:"The Tyger",a:"William Blake",p:`Tyger Tyger, burning bright,
+In the forests of the night;
+What immortal hand or eye,
+Could frame thy fearful symmetry?
+
+In what distant deeps or skies.
+Burnt the fire of thine eyes?
+On what wings dare he aspire?
+What the hand, dare seize the fire?
+
+And what shoulder, & what art,
+Could twist the sinews of thy heart?
+And when thy heart began to beat,
+What dread hand? & what dread feet?
+
+What the hammer? what the chain,
+In what furnace was thy brain?
+What the anvil? what dread grasp,
+Dare its deadly terrors clasp!
+
+When the stars threw down their spears
+And water'd heaven with their tears:
+Did he smile his work to see?
+Did he who made the Lamb make thee?
+
+Tyger Tyger burning bright,
+In the forests of the night:
+What immortal hand or eye,
+Dare frame thy fearful symmetry?`},
+{t:"She Walks in Beauty",a:"Lord Byron",p:`She walks in beauty, like the night
+Of cloudless climes and starry skies;
+And all that's best of dark and bright
+Meet in her aspect and her eyes;
+Thus mellowed to that tender light
+Which heaven to gaudy day denies.
+
+One shade the more, one ray the less,
+Had half impaired the nameless grace
+Which waves in every raven tress,
+Or softly lightens o'er her face;
+Where thoughts serenely sweet express,
+How pure, how dear their dwelling-place.
+
+And on that cheek, and o'er that brow,
+So soft, so calm, yet eloquent,
+The smiles that win, the tints that glow,
+But tell of days in goodness spent,
+A mind at peace with all below,
+A heart whose love is innocent!`},
+{t:"Ode to a Nightingale (excerpt)",a:"John Keats",p:`My heart aches, and a drowsy numbness pains
+My sense, as though of hemlock I had drunk,
+Or emptied some dull opiate to the drains
+One minute past, and Lethe-wards had sunk:
+'Tis not through envy of thy happy lot,
+But being too happy in thine happiness,—
+That thou, light-winged Dryad of the trees
+In some melodious plot
+Of beechen green, and shadows numberless,
+Singest of summer in full-throated ease.`},
+{t:"The Second Coming",a:"W.B. Yeats",p:`Turning and turning in the widening gyre
+The falcon cannot hear the falconer;
+Things fall apart; the centre cannot hold;
+Mere anarchy is loosed upon the world,
+The blood-dimmed tide is loosed, and everywhere
+The ceremony of innocence is drowned;
+The best lack all conviction, while the worst
+Are full of passionate intensity.
+
+Surely some revelation is at hand;
+Surely the Second Coming is at hand.
+The Second Coming! Hardly are those words out
+When a vast image out of Spiritus Mundi
+Troubles my sight: somewhere in sands of the desert
+A shape with lion body and the head of a man,
+A gaze blank and pitiless as the sun,
+Is moving its slow thighs, while all about it
+Reel shadows of the indignant desert birds.
+The darkness drops again; but now I know
+That twenty centuries of stony sleep
+Were vexed to nightmare by a rocking cradle,
+And what rough beast, its hour come round at last,
+Slouches towards Bethlehem to be born?`}
+];
+
+function switchShop(tab){
+  document.querySelectorAll('.shopTabs button').forEach(b=>b.classList.remove('active'));
+  $(tab==='quotes'?'tabQuotes':'tabPoems').classList.add('active');
+  renderShop(tab);
+}
+
+function renderShop(tab){
+  tab=tab||'quotes';
+  const grid=$('shopGrid');
+  const owned=JSON.parse(localStorage.getItem('litOwned')||'{}');
+  if(tab==='quotes'){
+    grid.innerHTML=quotes.map((q,i)=>{
+      const key='q'+i; const has=owned[key];
+      return `<div class="shopItem"><div class="quoteText">"${q.q}"</div>
+        <div class="author">— ${q.a}</div>
+        <button class="shopBuy ${has?'owned':''}" onclick="buyItem('${key}',5)">${has?'✔ Owned':'🪙 5 — Buy'}</button></div>`;
+    }).join('');
+  }else{
+    grid.innerHTML=poems.map((p,i)=>{
+      const key='p'+i; const has=owned[key];
+      return `<div class="shopItem poemItem">
+        <div class="pTitle">${p.t}</div>
+        <div class="pAuthor">by ${p.a}</div>
+        <div class="pText">${has?p.p:'🔒 Purchase to unlock this poem.'}</div>
+        <button class="shopBuy ${has?'owned':''}" onclick="buyItem('${key}',20)">${has?'✔ Owned':'🪙 20 — Buy'}</button></div>`;
+    }).join('');
+  }
+}
+
+function buyItem(key,cost){
+  const owned=JSON.parse(localStorage.getItem('litOwned')||'{}');
+  if(owned[key]){ toast('Already owned ✔'); return; }
+  if(!spendCoins(cost)) return;
+  owned[key]=true;
+  localStorage.setItem('litOwned',JSON.stringify(owned));
+  toast('Purchased! 🎉');
+  renderShop(document.querySelector('.shopTabs button.active').id==='tabPoems'?'poems':'quotes');
+}
+
+/* ============ LOADERS ============ */
+function loadWriters(){
+  $('writersGrid').innerHTML=writers.map(w=>`
+    <div class="infoCard">
+      <button class="favorite" onclick="addFavorite('${esc(w[0])}')">☆</button>
+      <h3>${w[0]}</h3><p><strong>${w[1]}</strong></p><p>${w[2]}</p>
+    </div>`).join('');
+}
+function loadWorks(){
+  $('worksGrid').innerHTML=works.map(w=>`
+    <div class="infoCard">
+      <button class="favorite" onclick="addFavorite('${esc(w[0])}')">☆</button>
+      <h3>${w[0]}</h3><p><strong>${w[1]}</strong></p><p>${w[2]}</p>
+    </div>`).join('');
+}
+function loadScientists(){
+  $('scientistsGrid').innerHTML=scientists.map(s=>`
+    <div class="infoCard">
+      <button class="favorite" onclick="addFavorite('${esc(s[0])}')">☆</button>
+      <h3>${s[0]}</h3><p><strong>${s[1]}</strong></p><p>${s[2]}</p>
+    </div>`).join('');
+}
+function loadNobel(){
+  $('nobelGrid').innerHTML=nobel.map(n=>`
+    <div class="infoCard">
+      <button class="favorite" onclick="addFavorite('${esc(n.name)}')">☆</button>
+      <h3>${n.icon} ${n.name}</h3><p><strong>${n.country} (${n.year})</strong></p><p>${n.info}</p>
+    </div>`).join('');
+}
+function loadHistory(){
+  $('historyGrid').innerHTML=historyData.map(h=>`
+    <div class="infoCard" style="grid-column:1/-1">
+      <h3>${h.country}</h3>
+      ${h.periods.map(p=>`<p style="margin-top:8px"><strong>${p.t}:</strong> ${p.d}</p>`).join('')}
+    </div>`).join('');
+}
+function esc(s){return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+
+function randomDiscovery(){
+  const item=discoveries[Math.floor(Math.random()*discoveries.length)];
+  $('randomDiscovery').innerHTML=`<strong>💡 Discovery</strong><p style="margin-top:8px">${item}</p>`;
+}
+
+/* ============ FAVORITES ============ */
+function addFavorite(name){
+  let fav=JSON.parse(localStorage.getItem('litFavorites')||'[]');
+  if(!fav.includes(name)){ fav.push(name); localStorage.setItem('litFavorites',JSON.stringify(fav)); toast('Added to Favorites ⭐'); }
+  else toast('Already in Favorites');
+}
+function loadFavorites(){
+  const fav=JSON.parse(localStorage.getItem('litFavorites')||'[]');
+  const box=$('favoritesGrid');
+  if(!fav.length){ box.innerHTML='<div class="empty">No favorites yet. Tap ☆ on any item.</div>'; return; }
+  box.innerHTML=fav.map(n=>`<div class="infoCard"><h3>⭐ ${n}</h3><p>Saved in your favorites.</p></div>`).join('');
+}
+
+/* ============ SEARCH ============ */
+function globalSearch(){
+  const q=$('searchInput').value.toLowerCase().trim();
+  if(!q){ toast('Type something to search'); return; }
+  let results=[];
+  writers.forEach(w=>{if(w.join(' ').toLowerCase().includes(q)) results.push({t:w[0],i:w[1]+' — '+w[2]});});
+  works.forEach(w=>{if(w.join(' ').toLowerCase().includes(q)) results.push({t:w[0],i:w[1]+' — '+w[2]});});
+  scientists.forEach(s=>{if(s.join(' ').toLowerCase().includes(q)) results.push({t:s[0],i:s[1]+' — '+s[2]});});
+  nobel.forEach(n=>{if((n.name+n.info+n.country).toLowerCase().includes(q)) results.push({t:n.icon+' '+n.name,i:n.info});});
+  const box=$('resultsGrid');
+  if(!results.length){ box.innerHTML='<div class="empty">No results. Try another word.</div>'; }
+  else{ box.innerHTML=results.slice(0,80).map(r=>`<div class="infoCard"><h3>${r.t}</h3><p>${r.i}</p></div>`).join(''); }
+  showScreen('searchResults');
+}
+
+/* ============ LANGUAGES ============ */
+const languageData={
+English:{code:'en-US',writing:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+words:[["Hello","Greeting"],["Goodbye","Farewell"],["Friend","A trusted person"],["Family","Parents & children"],["Book","Pages bound together"],["Water","Liquid of life"],["Sun","Star that lights us"],["Moon","Earth's satellite"],["Star","Bright night object"],["Love","Deep affection"],["Hope","Expectation of good"],["Dream","Images during sleep"],["Peace","Freedom from war"],["Joy","Great happiness"],["Smile","Happy expression"],["Heart","Organ that pumps blood"],["Music","Organised sound"],["Art","Creative expression"],["Science","Study of the world"],["Nature","The physical world"]],
+sentences:["Hello, how are you?","My name is Sara.","I am learning English.","Thank you very much.","Where is the library?","What time is it?","I would like a cup of tea.","Can you speak slowly?","How much does this cost?","I don't understand.","Please repeat that.","Nice to meet you.","Have a wonderful day!","See you tomorrow.","I love reading books.","The weather is beautiful today.","May I ask a question?","Excuse me, where is the station?","I am from Pakistan.","Could you help me?","I am sorry.","No problem.","Good morning.","Good night.","How old are you?","Where do you live?","What do you do?","I am a student.","Do you speak English?","A little.","I am hungry.","I am thirsty.","Where is the bathroom?","Turn left.","Turn right.","Go straight.","How far is it?","It is very far.","I am tired.","Let's go.","Wait a moment.","Hurry up.","Be careful.","I am happy.","I am sad.","Don't worry.","Everything is fine.","I agree.","I disagree.","Maybe.","Of course.","Certainly.","Absolutely.","Never mind.","Congratulations!","Good luck!","Well done!","I miss you.","Take care.","See you later.","Have a safe trip.","Welcome!","Please come in.","Make yourself at home.","I am busy.","I am free.","Call me later.","Send me a message.","What is your name?"],
+stories:[{title:"The Little Library",text:"Every morning, Sara walked to the library. She loved reading books because every book opened a new world. One day, she found a book about languages. She became curious and decided to learn a new language."},{title:"The Lost Kitten",text:"One rainy evening, a small kitten sat alone under a bench. A kind girl named Lina saw it and brought it home. She gave it milk and a warm blanket. The kitten purred softly. From that day, they were best friends."},{title:"The Mountain Journey",text:"Ali dreamed of climbing the great mountain. Every day he practised, and every night he read about the peaks. One summer, he finally began the climb. It was hard, but at the top he saw the whole world below him."},{title:"The Baker's Secret",text:"In a small village, there was a baker whose bread was the best in the land. People asked for his secret, but he only smiled. The secret was simple: he baked with patience, kindness and a little bit of love."},{title:"The Star Garden",text:"Maya planted seeds in her garden every spring. One night, she wished upon a star that her flowers would bloom forever. The next morning, the garden was full of glowing blossoms that shone like tiny stars."}]},
+
+French:{code:'fr-FR',writing:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+words:[["Bonjour","Hello"],["Au revoir","Goodbye"],["Ami","Friend"],["Famille","Family"],["Livre","Book"],["Eau","Water"],["Soleil","Sun"],["Lune","Moon"],["Étoile","Star"],["Amour","Love"],["Espoir","Hope"],["Rêve","Dream"],["Paix","Peace"],["Joie","Joy"],["Sourire","Smile"],["Cœur","Heart"],["Musique","Music"],["Art","Art"],["Science","Science"],["Nature","Nature"]],
+sentences:["Bonjour, comment allez-vous?","Je m'appelle Sara.","J'apprends le français.","Merci beaucoup.","Au revoir.","Où est la bibliothèque?","Quelle heure est-il?","Je voudrais une tasse de thé.","Pouvez-vous parler lentement?","Combien ça coûte?","Je ne comprends pas.","Répétez, s'il vous plaît.","Enchanté de vous rencontrer.","Bonne journée!","À demain.","J'aime lire des livres.","Le temps est beau aujourd'hui.","Puis-je poser une question?","Excusez-moi, où est la gare?","Je viens du Pakistan.","Comment tu t'appelles?","Je suis étudiant.","Parlez-vous anglais?","Un peu.","J'ai faim.","J'ai soif.","Où sont les toilettes?","Tournez à gauche.","Tournez à droite.","Allez tout droit.","C'est loin?","C'est très loin.","Je suis fatigué.","Allons-y.","Attendez un moment.","Dépêchez-vous.","Faites attention.","Je suis heureux.","Je suis triste.","Ne vous inquiétez pas.","Tout va bien.","Je suis d'accord.","Je ne suis pas d'accord.","Peut-être.","Bien sûr.","Certainement.","Absolument.","Ça ne fait rien.","Félicitations!","Bonne chance!","Bien joué!","Tu me manques.","Prends soin de toi.","À plus tard.","Bon voyage.","Bienvenue!","Entrez, s'il vous plaît.","Faites comme chez vous.","Je suis occupé.","Je suis libre.","Appelle-moi plus tard.","Envoie-moi un message.","Comment vous appelez-vous?"],
+stories:[{title:"Une petite histoire",text:"Sara aime lire des livres. Chaque matin, elle va à la bibliothèque. Un jour, elle trouve un livre sur les langues. Elle décide d'apprendre une nouvelle langue."},{title:"Le chat perdu",text:"Un soir pluvieux, un petit chat était assis seul sous un banc. Une gentille fille nommée Lina l'a vu et l'a ramené à la maison."},{title:"Le voyage à la montagne",text:"Ali rêvait de gravir la grande montagne. Chaque jour il s'entraînait, et chaque nuit il lisait sur les sommets."},{title:"Le secret du boulanger",text:"Dans un petit village, il y avait un boulanger dont le pain était le meilleur du pays."},{title:"Le jardin des étoiles",text:"Maya plantait des graines dans son jardin chaque printemps. Une nuit, elle fit un vœu sur une étoile."}]},
+
+Spanish:{code:'es-ES',writing:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+words:[["Hola","Hello"],["Adiós","Goodbye"],["Amigo","Friend"],["Familia","Family"],["Libro","Book"],["Agua","Water"],["Sol","Sun"],["Luna","Moon"],["Estrella","Star"],["Amor","Love"],["Esperanza","Hope"],["Sueño","Dream"],["Paz","Peace"],["Alegría","Joy"],["Sonrisa","Smile"],["Corazón","Heart"],["Música","Music"],["Arte","Art"],["Ciencia","Science"],["Naturaleza","Nature"]],
+sentences:["Hola, ¿cómo estás?","Me llamo Sara.","Estoy aprendiendo español.","Muchas gracias.","Hasta luego.","¿Dónde está la biblioteca?","¿Qué hora es?","Quisiera una taza de té.","¿Puedes hablar despacio?","¿Cuánto cuesta esto?","No entiendo.","Repite, por favor.","Encantado de conocerte.","¡Que tengas un buen día!","Hasta mañana.","Me encanta leer libros.","El tiempo es hermoso hoy.","¿Puedo hacer una pregunta?","Disculpe, ¿dónde está la estación?","Soy de Pakistán.","¿Cómo te llamas?","Soy estudiante.","¿Hablas inglés?","Un poco.","Tengo hambre.","Tengo sed.","¿Dónde está el baño?","Gira a la izquierda.","Gira a la derecha.","Ve recto.","¿Está lejos?","Está muy lejos.","Estoy cansado.","Vamos.","Espera un momento.","Date prisa.","Ten cuidado.","Estoy feliz.","Estoy triste.","No te preocupes.","Todo está bien.","Estoy de acuerdo.","No estoy de acuerdo.","Tal vez.","Por supuesto.","Ciertamente.","Absolutamente.","No importa.","¡Felicidades!","¡Buena suerte!","¡Bien hecho!","Te extraño.","Cuídate.","Hasta luego.","Buen viaje.","¡Bienvenido!","Pasa, por favor.","Siéntete como en casa.","Estoy ocupado.","Estoy libre.","Llámame más tarde.","Envíame un mensaje.","¿Cómo se llama usted?"],
+stories:[{title:"El pequeño libro",text:"Sara ama leer libros. Cada mañana va a la biblioteca. Un día encuentra un libro sobre idiomas."},{title:"El gatito perdido",text:"Una tarde lluviosa, un pequeño gatito estaba solo bajo un banco. Una niña amable llamada Lina lo vio."},{title:"El viaje a la montaña",text:"Ali soñaba con escalar la gran montaña. Cada día practicaba y cada noche leía sobre las cumbres."},{title:"El secreto del panadero",text:"En un pequeño pueblo vivía un panadero cuyo pan era el mejor de la región."},{title:"El jardín de estrellas",text:"Maya plantaba semillas en su jardín cada primavera."}]},
+
+German:{code:'de-DE',writing:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Ä Ö Ü ß',
+words:[["Hallo","Hello"],["Tschüss","Goodbye"],["Freund","Friend"],["Familie","Family"],["Buch","Book"],["Wasser","Water"],["Sonne","Sun"],["Mond","Moon"],["Stern","Star"],["Liebe","Love"],["Hoffnung","Hope"],["Traum","Dream"],["Frieden","Peace"],["Freude","Joy"],["Lächeln","Smile"],["Herz","Heart"],["Musik","Music"],["Kunst","Art"],["Wissenschaft","Science"],["Natur","Nature"]],
+sentences:["Hallo, wie geht es dir?","Ich heiße Sara.","Ich lerne Deutsch.","Vielen Dank.","Auf Wiedersehen.","Wo ist die Bibliothek?","Wie spät ist es?","Ich möchte eine Tasse Tee.","Kannst du langsam sprechen?","Wie viel kostet das?","Ich verstehe nicht.","Bitte wiederhole das.","Schön, dich kennenzulernen.","Einen schönen Tag noch!","Bis morgen.","Ich liebe es, Bücher zu lesen.","Das Wetter ist heute schön.","Darf ich eine Frage stellen?","Entschuldigung, wo ist der Bahnhof?","Ich komme aus Pakistan.","Wie heißt du?","Ich bin Student.","Sprichst du Englisch?","Ein bisschen.","Ich habe Hunger.","Ich habe Durst.","Wo ist die Toilette?","Links abbiegen.","Rechts abbiegen.","Geradeaus gehen.","Ist es weit?","Es ist sehr weit.","Ich bin müde.","Lass uns gehen.","Warte einen Moment.","Beeil dich.","Sei vorsichtig.","Ich bin glücklich.","Ich bin traurig.","Mach dir keine Sorgen.","Alles ist in Ordnung.","Ich stimme zu.","Ich stimme nicht zu.","Vielleicht.","Natürlich.","Sicher.","Absolut.","Kein Problem.","Herzlichen Glückwunsch!","Viel Glück!","Gut gemacht!","Ich vermisse dich.","Pass auf dich auf.","Bis später.","Gute Reise.","Willkommen!","Komm bitte herein.","Fühl dich wie zu Hause.","Ich bin beschäftigt.","Ich bin frei.","Ruf mich später an.","Schick mir eine Nachricht.","Wie heißen Sie?"],
+stories:[{title:"Das kleine Buch",text:"Sara liest gern Bücher. Jeden Morgen geht sie in die Bibliothek."},{title:"Das verlorene Kätzchen",text:"An einem regnerischen Abend saß ein kleines Kätzchen allein unter einer Bank."},{title:"Die Bergreise",text:"Ali träumte davon, den großen Berg zu besteigen."},{title:"Das Geheimnis des Bäckers",text:"In einem kleinen Dorf lebte ein Bäcker, dessen Brot das beste im Land war."},{title:"Der Sternengarten",text:"Maya pflanzte jeden Frühling Samen in ihrem Garten."}]},
+
+Italian:{code:'it-IT',writing:'A B C D E F G H I L M N O P Q R S T U V Z',
+words:[["Ciao","Hello"],["Arrivederci","Goodbye"],["Amico","Friend"],["Famiglia","Family"],["Libro","Book"],["Acqua","Water"],["Sole","Sun"],["Luna","Moon"],["Stella","Star"],["Amore","Love"],["Speranza","Hope"],["Sogno","Dream"],["Pace","Peace"],["Gioia","Joy"],["Sorriso","Smile"],["Cuore","Heart"],["Musica","Music"],["Arte","Art"],["Scienza","Science"],["Natura","Nature"]],
+sentences:["Ciao, come stai?","Mi chiamo Sara.","Sto imparando l'italiano.","Grazie mille.","Arrivederci.","Dov'è la biblioteca?","Che ora è?","Vorrei una tazza di tè.","Puoi parlare lentamente?","Quanto costa?","Non capisco.","Ripeti, per favore.","Piacere di conoscerti.","Buona giornata!","A domani.","Adoro leggere libri.","Il tempo è bello oggi.","Posso fare una domanda?","Scusi, dov'è la stazione?","Vengo dal Pakistan.","Come ti chiami?","Sono studente.","Parli inglese?","Un po'.","Ho fame.","Ho sete.","Dov'è il bagno?","Gira a sinistra.","Gira a destra.","Vai dritto.","È lontano?","È molto lontano.","Sono stanco.","Andiamo.","Aspetta un momento.","Sbrigati.","Attento.","Sono felice.","Sono triste.","Non preoccuparti.","Va tutto bene.","Sono d'accordo.","Non sono d'accordo.","Forse.","Certo.","Certamente.","Assolutamente.","Non importa.","Congratulazioni!","Buona fortuna!","Ben fatto!","Mi manchi.","Abbi cura di te.","A più tardi.","Buon viaggio.","Benvenuto!","Prego, entra.","Fai come se fossi a casa tua.","Sono occupato.","Sono libero.","Chiamami più tardi.","Mandami un messaggio.","Come si chiama?"],
+stories:[{title:"La piccola biblioteca",text:"Sara ama leggere. Ogni mattina va in biblioteca."},{title:"Il gattino perduto",text:"Una sera piovosa, un piccolo gattino sedeva solo sotto una panchina."},{title:"Il viaggio in montagna",text:"Ali sognava di scalare la grande montagna."},{title:"Il segreto del fornaio",text:"In un piccolo villaggio viveva un fornaio il cui pane era il migliore del paese."},{title:"Il giardino delle stelle",text:"Maya piantava semi nel suo giardino ogni primavera."}]},
+
+Arabic:{code:'ar-SA',writing:'ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي',
+words:[["مرحبا","Hello"],["مع السلامة","Goodbye"],["صديق","Friend"],["عائلة","Family"],["كتاب","Book"],["ماء","Water"],["شمس","Sun"],["قمر","Moon"],["نجمة","Star"],["حب","Love"],["أمل","Hope"],["حلم","Dream"],["سلام","Peace"],["فرح","Joy"],["ابتسامة","Smile"],["قلب","Heart"],["موسيقى","Music"],["فن","Art"],["علم","Science"],["طبيعة","Nature"]],
+sentences:["مرحبا، كيف حالك؟","اسمي سارة.","أنا أتعلم العربية.","شكرا جزيلا.","إلى اللقاء.","أين المكتبة؟","كم الساعة؟","أريد كوب شاي.","هل يمكنك التحدث ببطء؟","كم الثمن؟","لا أفهم.","أعد من فضلك.","تشرفت بلقائك.","أتمنى لك يوما سعيدا!","أراك غدا.","أحب قراءة الكتب.","الطقس جميل اليوم.","هل يمكنني أن أسأل سؤالا؟","عفوا، أين المحطة؟","أنا من باكستان.","ما اسمك؟","أنا طالب.","هل تتحدث الإنجليزية؟","قليلا.","أنا جائع.","أنا عطشان.","أين الحمام؟","انعطف يسارا.","انعطف يمينا.","امش مستقيما.","هل هو بعيد؟","إنه بعيد جدا.","أنا متعب.","لنذهب.","انتظر لحظة.","أسرع.","كن حذرا.","أنا سعيد.","أنا حزين.","لا تقلق.","كل شيء بخير.","أوافق.","لا أوافق.","ربما.","بالطبع.","بالتأكيد.","قطعا.","لا يهم.","تهانينا!","حظا سعيدا!","أحسنت!","أشتاق إليك.","اعتن بنفسك.","أراك لاحقا.","رحلة سعيدة.","أهلا وسهلا!","تفضل بالدخول.","اعتبره بيتك.","أنا مشغول.","أنا متفرغ.","اتصل بي لاحقا.","أرسل لي رسالة.","ما اسمك الكريم؟"],
+stories:[{title:"الكتاب الصغير",text:"تحب سارة قراءة الكتب. كل صباح تذهب إلى المكتبة."},{title:"القطة الضائعة",text:"في مساء ممطر، جلست قطة صغيرة وحيدة تحت مقعد."},{title:"رحلة الجبل",text:"كان علي يحلم بتسلق الجبل الكبير."},{title:"سر الخباز",text:"في قرية صغيرة، كان هناك خباز كان خبزه الأفضل في البلاد."},{title:"حديقة النجوم",text:"كانت مايا تزرع البذور في حديقتها كل ربيع."}]},
+
+Chinese:{code:'zh-CN',writing:'汉字 Chinese characters',
+words:[["你好","Hello"],["再见","Goodbye"],["朋友","Friend"],["家庭","Family"],["书","Book"],["水","Water"],["太阳","Sun"],["月亮","Moon"],["星星","Star"],["爱","Love"],["希望","Hope"],["梦","Dream"],["和平","Peace"],["快乐","Joy"],["微笑","Smile"],["心","Heart"],["音乐","Music"],["艺术","Art"],["科学","Science"],["自然","Nature"],["学校","School"],["老师","Teacher"],["学生","Student"],["医生","Doctor"],["家","Home"],["花","Flower"],["鸟","Bird"],["鱼","Fish"],["山","Mountain"],["河","River"],["海","Ocean"],["森林","Forest"],["花园","Garden"],["食物","Food"],["面包","Bread"],["茶","Tea"],["咖啡","Coffee"],["时间","Time"],["生活","Life"],["世界","World"]],
+sentences:["你好，你好吗？","我叫莎拉。","我学习中文。","谢谢你。","再见。","图书馆在哪里？","现在几点了？","我想要一杯茶。","你能说慢一点吗？","这个多少钱？","我不懂。","请再说一遍。","很高兴认识你。","祝你有美好的一天！","明天见。","我喜欢读书。","今天天气很好。","我可以问一个问题吗？","请问，车站在哪里？","我来自巴基斯坦。","你叫什么名字？","我是学生。","你会说英语吗？","一点点。","我饿了。","我渴了。","洗手间在哪里？","向左转。","向右转。","一直走。","远吗？","很远。","我累了。","我们走吧。","等一下。","快点。","小心。","我很开心。","我很难过。","别担心。","一切都好。","我同意。","我不同意。","也许。","当然。","一定。","绝对。","没关系。","恭喜！","祝你好运！","做得好！","我想你。","保重。","待会儿见。","旅途愉快。","欢迎！","请进。","就当在自己家。","我很忙。","我有空。","晚点打给我。","给我发消息。","请问您贵姓？"],
+stories:[{title:"小故事",text:"莎拉喜欢读书。每天早上，她去图书馆。"},{title:"迷路的小猫",text:"一个下雨的傍晚，一只小猫独自坐在长椅下。"},{title:"登山之旅",text:"阿里梦想攀登那座大山。"},{title:"面包师的秘密",text:"在一个小村庄里，有一位面包师，他的面包是全村最好的。"},{title:"星星花园",text:"玛雅每年春天在花园里种下种子。"}]},
+
+Japanese:{code:'ja-JP',writing:'ひらがな • カタカナ • 漢字',
+words:[["こんにちは","Hello"],["さようなら","Goodbye"],["友達","Friend"],["家族","Family"],["本","Book"],["水","Water"],["太陽","Sun"],["月","Moon"],["星","Star"],["愛","Love"],["希望","Hope"],["夢","Dream"],["平和","Peace"],["喜び","Joy"],["笑顔","Smile"],["心","Heart"],["音楽","Music"],["芸術","Art"],["科学","Science"],["自然","Nature"],["学校","School"],["先生","Teacher"],["学生","Student"],["医者","Doctor"],["家","Home"],["花","Flower"],["鳥","Bird"],["魚","Fish"],["山","Mountain"],["川","River"],["海","Ocean"],["森","Forest"],["庭","Garden"],["食べ物","Food"],["パン","Bread"],["お茶","Tea"],["コーヒー","Coffee"],["時間","Time"],["人生","Life"],["世界","World"]],
+sentences:["こんにちは。","私はサラです。","日本語を勉強しています。","ありがとうございます。","さようなら。","図書館はどこですか？","今、何時ですか？","お茶を一杯ください。","ゆっくり話してください。","これはいくらですか？","わかりません。","もう一度言ってください。","はじめまして。","良い一日を！","また明日。","本を読むのが好きです。","今日はいい天気ですね。","質問してもいいですか？","すみません、駅はどこですか？","私はパキスタン出身です。","お名前は？","学生です。","英語を話せますか？","少し。","お腹が空きました。","喉が渇きました。","トイレはどこですか？","左に曲がってください。","右に曲がってください。","まっすぐ行ってください。","遠いですか？","とても遠いです。","疲れました。","行きましょう。","ちょっと待ってください。","急いでください。","気をつけて。","嬉しいです。","悲しいです。","心配しないでください。","大丈夫です。","賛成です。","反対です。","たぶん。","もちろん。","きっと。","絶対に。","気にしないで。","おめでとう！","頑張って！","よくできました！","会いたいです。","お大事に。","また後で。","良い旅を。","ようこそ！","どうぞお入りください。","自分の家のように。","忙しいです。","暇です。","後で電話してください。","メッセージを送ってください。","お名前は何ですか？"],
+stories:[{title:"小さな図書館",text:"サラは本を読むのが好きです。毎朝、図書館へ行きます。"},{title:"迷子の子猫",text:"雨の夕方、小さな子猫がベンチの下に一人で座っていました。"},{title:"山の旅",text:"アリは大きな山に登ることを夢見ていました。"},{title:"パン屋の秘密",text:"小さな村に、国で一番おいしいパンを焼くパン屋がいました。"},{title:"星の庭",text:"マヤは毎年春に庭に種をまきました。"}]},
+
+Korean:{code:'ko-KR',writing:'한글 • Korean alphabet',
+words:[["안녕하세요","Hello"],["안녕히 가세요","Goodbye"],["친구","Friend"],["가족","Family"],["책","Book"],["물","Water"],["태양","Sun"],["달","Moon"],["별","Star"],["사랑","Love"],["희망","Hope"],["꿈","Dream"],["평화","Peace"],["기쁨","Joy"],["미소","Smile"],["마음","Heart"],["음악","Music"],["예술","Art"],["과학","Science"],["자연","Nature"]],
+sentences:["안녕하세요?","제 이름은 사라예요.","저는 한국어를 공부해요.","감사합니다.","안녕히 가세요.","도서관이 어디예요?","지금 몇 시예요?","차 한 잔 주세요.","천천히 말해 주세요.","이거 얼마예요?","이해하지 못했어요.","다시 말해 주세요.","만나서 반가워요.","좋은 하루 보내세요!","내일 봐요.","책 읽는 것을 좋아해요.","오늘 날씨가 좋아요.","질문해도 될까요?","실례합니다, 역이 어디예요?","저는 파키스탄에서 왔어요.","이름이 뭐예요?","저는 학생이에요.","영어 할 줄 아세요?","조금요.","배고파요.","목말라요.","화장실이 어디예요?","왼쪽으로 가세요.","오른쪽으로 가세요.","직진하세요.","멀어요?","아주 멀어요.","피곤해요.","갑시다.","잠시만 기다려 주세요.","서두르세요.","조심하세요.","행복해요.","슬퍼요.","걱정하지 마세요.","괜찮아요.","동의해요.","동의하지 않아요.","아마도.","물론이죠.","확실히.","절대적으로.","괜찮아요.","축하해요!","행운을 빌어요!","잘했어요!","보고 싶어요.","몸조심하세요.","나중에 봐요.","좋은 여행 되세요.","환영합니다!","들어오세요.","편하게 계세요.","바빠요.","한가해요.","나중에 전화해 주세요.","메시지 보내 주세요.","성함이 어떻게 되세요?"],
+stories:[{title:"작은 도서관",text:"사라는 책을 읽는 것을 좋아합니다. 매일 아침 도서관에 갑니다."},{title:"길 잃은 고양이",text:"비 오는 저녁, 작은 고양이가 벤치 아래에 혼자 앉아 있었습니다."},{title:"산 여행",text:"알리는 큰 산에 오르는 꿈을 꾸었습니다."},{title:"제빵사의 비밀",text:"작은 마을에 나라에서 가장 맛있는 빵을 굽는 제빵사가 있었습니다."},{title:"별의 정원",text:"마야는 매년 봄 정원에 씨앗을 심었습니다."}]},
+
+Russian:{code:'ru-RU',writing:'А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ы Э Ю Я',
+words:[["Привет","Hello"],["До свидания","Goodbye"],["Друг","Friend"],["Семья","Family"],["Книга","Book"],["Вода","Water"],["Солнце","Sun"],["Луна","Moon"],["Звезда","Star"],["Любовь","Love"],["Надежда","Hope"],["Мечта","Dream"],["Мир","Peace"],["Радость","Joy"],["Улыбка","Smile"],["Сердце","Heart"],["Музыка","Music"],["Искусство","Art"],["Наука","Science"],["Природа","Nature"]],
+sentences:["Привет, как дела?","Меня зовут Сара.","Я изучаю русский язык.","Большое спасибо.","До свидания.","Где библиотека?","Который час?","Я хочу чашку чая.","Пожалуйста, говорите медленно.","Сколько это стоит?","Я не понимаю.","Повторите, пожалуйста.","Приятно познакомиться.","Хорошего дня!","До завтра.","Я люблю читать книги.","Сегодня прекрасная погода.","Можно задать вопрос?","Извините, где вокзал?","Я из Пакистана.","Как тебя зовут?","Я студент.","Вы говорите по-английски?","Немного.","Я голоден.","Я хочу пить.","Где туалет?","Поверните налево.","Поверните направо.","Идите прямо.","Далеко?","Очень далеко.","Я устал.","Пойдём.","Подождите минуту.","Поторопитесь.","Будьте осторожны.","Я счастлив.","Мне грустно.","Не волнуйтесь.","Всё хорошо.","Я согласен.","Я не согласен.","Может быть.","Конечно.","Обязательно.","Абсолютно.","Ничего страшного.","Поздравляю!","Удачи!","Молодец!","Я скучаю по тебе.","Береги себя.","До встречи.","Хорошего путешествия.","Добро пожаловать!","Входите, пожалуйста.","Чувствуйте себя как дома.","Я занят.","Я свободен.","Позвони мне позже.","Отправь мне сообщение.","Как вас зовут?"],
+stories:[{title:"Маленькая библиотека",text:"Сара любит читать книги. Каждое утро она идет в библиотеку."},{title:"Потерянный котенок",text:"Однажды дождливым вечером маленький котенок сидел один под скамейкой."},{title:"Путешествие в горы",text:"Али мечтал покорить большую гору."},{title:"Секрет пекаря",text:"В маленькой деревне жил пекарь, чей хлеб был лучшим в стране."},{title:"Звёздный сад",text:"Майя каждую весну сажала семена в своем саду."}]},
+
+Turkish:{code:'tr-TR',writing:'A B C Ç D E F G Ğ H I İ J K L M N O Ö P R S Ş T U Ü V Y Z',
+words:[["Merhaba","Hello"],["Hoşça kal","Goodbye"],["Arkadaş","Friend"],["Aile","Family"],["Kitap","Book"],["Su","Water"],["Güneş","Sun"],["Ay","Moon"],["Yıldız","Star"],["Aşk","Love"],["Umut","Hope"],["Rüya","Dream"],["Barış","Peace"],["Sevinç","Joy"],["Gülümseme","Smile"],["Kalp","Heart"],["Müzik","Music"],["Sanat","Art"],["Bilim","Science"],["Doğa","Nature"]],
+sentences:["Merhaba, nasılsın?","Benim adım Sara.","Türkçe öğreniyorum.","Çok teşekkür ederim.","Hoşça kal.","Kütüphane nerede?","Saat kaç?","Bir bardak çay istiyorum.","Yavaş konuşabilir misin?","Bu ne kadar?","Anlamıyorum.","Lütfen tekrarla.","Tanıştığımıza memnun oldum.","İyi günler!","Yarın görüşürüz.","Kitap okumayı seviyorum.","Bugün hava güzel.","Bir soru sorabilir miyim?","Affedersiniz, istasyon nerede?","Pakistanlıyım.","Adın ne?","Öğrenciyim.","İngilizce konuşuyor musun?","Biraz.","Açım.","Susadım.","Tuvalet nerede?","Sola dön.","Sağa dön.","Düz git.","Uzak mı?","Çok uzak.","Yorgunum.","Hadi gidelim.","Bir dakika bekle.","Acele et.","Dikkatli ol.","Mutluyum.","Üzgünüm.","Endişelenme.","Her şey yolunda.","Katılıyorum.","Katılmıyorum.","Belki.","Tabii ki.","Kesinlikle.","Kesinlikle.","Önemli değil.","Tebrikler!","İyi şanslar!","Aferin!","Seni özlüyorum.","Kendine iyi bak.","Sonra görüşürüz.","İyi yolculuklar.","Hoş geldiniz!","Lütfen girin.","Kendi evin gibi hisset.","Meşgulüm.","Boşum.","Beni sonra ara.","Bana mesaj gönder.","Adınız nedir?"],
+stories:[{title:"Küçük Kütüphane",text:"Sara kitap okumayı sever. Her sabah kütüphaneye gider."},{title:"Kayıp Kedi",text:"Yağmurlu bir akşamda küçük bir kedi bir bankın altında oturuyordu."},{title:"Dağ Yolculuğu",text:"Ali büyük dağa tırmanmayı hayal ediyordu."},{title:"Fırıncının Sırrı",text:"Küçük bir köyde ekmeği ülkenin en iyisi olan bir fırıncı vardı."},{title:"Yıldız Bahçesi",text:"Maya her bahar bahçesine tohum ekerdi."}]},
+
+Portuguese:{code:'pt-PT',writing:'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z',
+words:[["Olá","Hello"],["Adeus","Goodbye"],["Amigo","Friend"],["Família","Family"],["Livro","Book"],["Água","Water"],["Sol","Sun"],["Lua","Moon"],["Estrela","Star"],["Amor","Love"],["Esperança","Hope"],["Sonho","Dream"],["Paz","Peace"],["Alegria","Joy"],["Sorriso","Smile"],["Coração","Heart"],["Música","Music"],["Arte","Art"],["Ciência","Science"],["Natureza","Nature"]],
+sentences:["Olá, como estás?","Meu nome é Sara.","Estou a aprender português.","Muito obrigado.","Adeus.","Onde fica a biblioteca?","Que horas são?","Queria uma chávena de chá.","Podes falar devagar?","Quanto custa isto?","Não entendo.","Repete, por favor.","Prazer em conhecer-te.","Bom dia!","Até amanhã.","Adoro ler livros.","O tempo está bonito hoje.","Posso fazer uma pergunta?","Desculpe, onde é a estação?","Sou do Paquistão.","Como te chamas?","Sou estudante.","Falas inglês?","Um pouco.","Estou com fome.","Estou com sede.","Onde é a casa de banho?","Vira à esquerda.","Vira à direita.","Vai em frente.","É longe?","É muito longe.","Estou cansado.","Vamos.","Espera um momento.","Despacha-te.","Tem cuidado.","Estou feliz.","Estou triste.","Não te preocupes.","Está tudo bem.","Concordo.","Não concordo.","Talvez.","Claro.","Certamente.","Absolutamente.","Não importa.","Parabéns!","Boa sorte!","Bem feito!","Tenho saudades tuas.","Cuida-te.","Até logo.","Boa viagem.","Bem-vindo!","Entra, por favor.","Sente-te em casa.","Estou ocupado.","Estou livre.","Liga-me mais tarde.","Envia-me uma mensagem.","Como se chama?"],
+stories:[{title:"A Pequena Biblioteca",text:"Sara adora ler livros. Todas as manhãs vai à biblioteca."},{title:"O Gatinho Perdido",text:"Numa noite chuvosa, um pequeno gatinho estava sozinho debaixo de um banco."},{title:"A Viagem à Montanha",text:"Ali sonhava em escalar a grande montanha."},{title:"O Segredo do Padeiro",text:"Numa pequena aldeia, havia um padeiro cujo pão era o melhor da região."},{title:"O Jardim das Estrelas",text:"Maya plantava sementes no seu jardim todas as primaveras."}]},
+
+Hindi:{code:'hi-IN',writing:'अ आ इ ई उ ऊ ए ऐ ओ औ क ख ग घ च छ ज झ ट ठ ड ढ त थ द ध न प फ ब भ म य र ल व श ष स ह',
+words:[["नमस्ते","Hello"],["अलविदा","Goodbye"],["दोस्त","Friend"],["परिवार","Family"],["किताब","Book"],["पानी","Water"],["सूरज","Sun"],["चाँद","Moon"],["तारा","Star"],["प्यार","Love"],["उम्मीद","Hope"],["सपना","Dream"],["शांति","Peace"],["खुशी","Joy"],["मुस्कान","Smile"],["दिल","Heart"],["संगीत","Music"],["कला","Art"],["विज्ञान","Science"],["प्रकृति","Nature"]],
+sentences:["नमस्ते, कैसे हो?","मेरा नाम सारा है।","मैं हिंदी सीख रहा हूँ।","बहुत धन्यवाद।","अलविदा।","पुस्तकालय कहाँ है?","कितने बजे हैं?","मुझे एक कप चाय चाहिए।","क्या आप धीरे बोल सकते हैं?","यह कितने का है?","मुझे समझ नहीं आया।","कृपया दोहराएँ।","आपसे मिलकर खुशी हुई।","आपका दिन शुभ हो!","कल मिलते हैं।","मुझे किताबें पढ़ना पसंद है।","आज मौसम अच्छा है।","क्या मैं एक सवाल पूछ सकता हूँ?","माफ़ कीजिए, स्टेशन कहाँ है?","मैं पाकिस्तान से हूँ।","आपका नाम क्या है?","मैं छात्र हूँ।","क्या आप अंग्रेज़ी बोलते हैं?","थोड़ा-थोड़ा।","मुझे भूख लगी है।","मुझे प्यास लगी है।","शौचालय कहाँ है?","बाएँ मुड़ें।","दाएँ मुड़ें।","सीधे जाएँ।","क्या यह दूर है?","बहुत दूर है।","मैं थक गया हूँ।","चलो चलें।","एक पल रुकिए।","जल्दी करो।","सावधान रहें।","मैं खुश हूँ।","मैं उदास हूँ।","चिंता मत करो।","सब ठीक है।","मैं सहमत हूँ।","मैं सहमत नहीं हूँ।","शायद।","बिल्कुल।","निश्चित रूप से।","बिल्कुल।","कोई बात नहीं।","बधाई हो!","शुभकामनाएँ!","शाबाश!","मुझे तुम्हारी याद आती है।","अपना ख्याल रखना।","बाद में मिलेंगे।","शुभ यात्रा।","स्वागत है!","कृपया अंदर आएँ।","अपने घर जैसा समझें।","मैं व्यस्त हूँ।","मैं खाली हूँ।","बाद में कॉल करें।","मुझे संदेश भेजें।","आपका शुभ नाम?"],
+stories:[{title:"छोटी लाइब्रेरी",text:"सारा को किताबें पढ़ना पसंद है। हर सुबह वह पुस्तकालय जाती है।"},{title:"खोई हुई बिल्ली",text:"बरसात की एक शाम, एक छोटी बिल्ली बेंच के नीचे अकेली बैठी थी।"},{title:"पहाड़ की यात्रा",text:"अली बड़े पहाड़ पर चढ़ने का सपना देखता था।"},{title:"नानबाई का रहस्य",text:"एक छोटे गाँव में एक नानबाई था जिसकी रोटी सबसे अच्छी थी।"},{title:"तारों का बगीचा",text:"माया हर वसंत में अपने बगीचे में बीज बोती थी।"}]},
+
+Urdu:{code:'ur-PK',writing:'ا ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں و ہ ھ ء ی ے',
+words:[["سلام","Hello"],["خدا حافظ","Goodbye"],["دوست","Friend"],["خاندان","Family"],["کتاب","Book"],["پانی","Water"],["سورج","Sun"],["چاند","Moon"],["ستارہ","Star"],["محبت","Love"],["امید","Hope"],["خواب","Dream"],["امن","Peace"],["خوشی","Joy"],["مسکراہٹ","Smile"],["دل","Heart"],["موسیقی","Music"],["فن","Art"],["سائنس","Science"],["فطرت","Nature"]],
+sentences:["سلام، کیسے ہو؟","میرا نام سارہ ہے۔","میں اردو سیکھ رہا ہوں۔","بہت شکریہ۔","خدا حافظ۔","لائبریری کہاں ہے؟","کتنے بجے ہیں؟","مجھے ایک کپ چائے چاہیے۔","کیا آپ آہستہ بول سکتے ہیں؟","یہ کتنے کا ہے؟","مجھے سمجھ نہیں آیا۔","براہ کرم دہرائیں۔","آپ سے مل کر خوشی ہوئی۔","آپ کا دن اچھا گزرے!","کل ملیں گے۔","مجھے کتابیں پڑھنا پسند ہے۔","آج موسم اچھا ہے۔","کیا میں ایک سوال پوچھ سکتا ہوں؟","معاف کیجیے، اسٹیشن کہاں ہے؟","میں پاکستان سے ہوں۔","آپ کا نام کیا ہے؟","میں طالب علم ہوں۔","کیا آپ انگریزی بولتے ہیں؟","تھوڑا سا۔","مجھے بھوک لگی ہے۔","مجھے پیاس لگی ہے۔","باتھ روم کہاں ہے؟","بائیں مڑیں۔","دائیں مڑیں۔","سیدھا جائیں۔","کیا یہ دور ہے؟","بہت دور ہے۔","میں تھک گیا ہوں۔","چلو چلیں۔","ایک لمحہ رکیں۔","جلدی کریں۔","احتیاط کریں۔","میں خوش ہوں۔","میں اداس ہوں۔","فکر نہ کریں۔","سب ٹھیک ہے۔","میں متفق ہوں۔","میں متفق نہیں ہوں۔","شاید۔","بالکل۔","یقیناً۔","قطعی۔","کوئی بات نہیں۔","مبارک ہو!","گڈ لک!","شاباش!","مجھے تمہاری یاد آتی ہے۔","اپنا خیال رکھیں۔","بعد میں ملیں گے۔","خوش سفر۔","خوش آمدید!","براہ کرم اندر آئیں۔","اپنے گھر جیسا سمجھیں۔","میں مصروف ہوں۔","میں فارغ ہوں۔","بعد میں کال کریں۔","مجھے پیغام بھیجیں۔","آپ کا نام کیا ہے؟"],
+stories:[{title:"چھوٹی لائبریری",text:"سارہ کو کتابیں پڑھنا پسند ہے۔ ہر صبح وہ لائبریری جاتی ہے۔"},{title:"کھوئی ہوئی بلی",text:"بارش کی ایک شام، ایک چھوٹی بلی بینچ کے نیچے اکیلی بیٹھی تھی۔"},{title:"پہاڑ کا سفر",text:"علی بڑے پہاڑ پر چڑھنے کا خواب دیکھتا تھا۔"},{title:"نانبائی کا راز",text:"ایک چھوٹے گاؤں میں ایک نانبائی تھا جس کی روٹی سب سے اچھی تھی۔"},{title:"ستاروں کا باغ",text:"مایا ہر بہار میں اپنے باغ میں بیج بوتی تھی۔"}]},
+
+Bengali:{code:'bn-BD',writing:'অ আ ই ঈ উ ঊ এ ঐ ও ঔ ক খ গ ঘ চ ছ জ ঝ ট ঠ ড ঢ ত থ দ ধ ন প ফ ব ভ ম য র ল শ ষ স হ',
+words:[["নমস্কার","Hello"],["বিদায়","Goodbye"],["বন্ধু","Friend"],["পরিবার","Family"],["বই","Book"],["পানি","Water"],["সূর্য","Sun"],["চাঁদ","Moon"],["তারা","Star"],["ভালোবাসা","Love"],["আশা","Hope"],["স্বপ্ন","Dream"],["শান্তি","Peace"],["আনন্দ","Joy"],["হাসি","Smile"],["হৃদয়","Heart"],["সংগীত","Music"],["শিল্প","Art"],["বিজ্ঞান","Science"],["প্রকৃতি","Nature"]],
+sentences:["নমস্কার, কেমন আছেন?","আমার নাম সারা।","আমি বাংলা শিখছি।","অনেক ধন্যবাদ।","বিদায়।","লাইব্রেরি কোথায়?","কয়টা বাজে?","আমি এক কাপ চা চাই।","আপনি ধীরে বলতে পারেন?","এটার দাম কত?","আমি বুঝতে পারছি না।","দয়া করে আবার বলুন।","আপনার সাথে দেখা হয়ে ভালো লাগলো।","আপনার দিন ভালো কাটুক!","কাল দেখা হবে।","আমি বই পড়তে ভালোবাসি।","আজ আবহাওয়া সুন্দর।","আমি একটা প্রশ্ন করতে পারি?","মাফ করবেন, স্টেশন কোথায়?","আমি পাকিস্তান থেকে এসেছি।","আপনার নাম কি?","আমি ছাত্র।","আপনি ইংরেজি বলতে পারেন?","একটু।","আমার খিদে পেয়েছে।","আমার তৃষ্ণা পেয়েছে।","বাথরুম কোথায়?","বামে ঘুরুন।","ডানে ঘুরুন।","সোজা যান।","এটা কি দূরে?","অনেক দূরে।","আমি ক্লান্ত।","চলুন যাই।","একটু অপেক্ষা করুন।","তাড়াতাড়ি করুন।","সাবধান।","আমি খুশি।","আমি দুঃখিত।","চিন্তা করবেন না।","সব ঠিক আছে।","আমি সম্মত।","আমি সম্মত নই।","হয়তো।","অবশ্যই।","নিশ্চিতভাবে।","একেবারে।","কিছু মনে করবেন না।","অভিনন্দন!","শুভ কামনা!","বাহ!","আমি তোমাকে মিস করি।","নিজের যত্ন নিন।","পরে দেখা হবে।","শুভ যাত্রা।","স্বাগতম!","দয়া করে ভিতরে আসুন।","নিজের বাড়ি ভাবুন।","আমি ব্যস্ত।","আমি ফ্রি।","পরে কল করুন।","আমাকে মেসেজ পাঠান।","আপনার নাম কি?"],
+stories:[{title:"ছোট লাইব্রেরি",text:"সারা বই পড়তে ভালোবাসে। প্রতিদিন সকালে সে লাইব্রেরিতে যায়।"},{title:"হারানো বিড়ালছানা",text:"এক বর্ষার সন্ধ্যায় একটি ছোট বিড়ালছানা বেঞ্চের নিচে একা বসে ছিল।"},{title:"পাহাড়ের যাত্রা",text:"আলি বড় পাহাড়ে ওঠার স্বপ্ন দেখত।"},{title:"বেকারের গোপন",text:"একটি ছোট গ্রামে একজন বেকার ছিলেন যার রুটি সবচেয়ে ভালো ছিল।"},{title:"তারার বাগান",text:"মায়া প্রতি বসন্তে তার বাগানে বীজ বুনত।"}]}
+};
+
+let currentLanguage='English';
+
+function buildLanguageSelector(){
+  const box=$('languageSelector');
+  box.innerHTML=Object.keys(languageData).map(l=>
+    `<button data-lang="${l}" onclick="setLanguage('${l}')">${l}</button>`).join('');
+}
+
+function setLanguage(lang){
+  currentLanguage=lang;
+  document.querySelectorAll('.languageSelector button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+  $('languageIntro').innerHTML=`<h2>🌍 ${lang}</h2><p>Start learning ${lang} step by step.</p>`;
+  $('languageLesson').innerHTML='';
+}
+
+function showLanguage(type){
+  const data=languageData[currentLanguage];
+  let html='';
+  if(type==='vocabulary'){
+    html=`<div class="detail"><h2>📚 ${currentLanguage} Vocabulary</h2><p>Learn these useful words:</p><div class="contentGrid">
+      ${data.words.map(w=>`<div class="word"><strong>${w[0]}</strong><p>${w[1]}</p>
+        <button class="secondary" onclick="speak('${escSpeech(w[0])}','${data.code}')">🔊</button></div>`).join('')}
+    </div></div>`;
+  }
+  if(type==='sentences'||type==='listening'){
+    html=`<div class="detail"><h2>💬 ${type==='listening'?'🎧 Listening':'Useful'} ${currentLanguage} Sentences</h2>
+      <div class="contentGrid">
+      ${data.sentences.map(s=>`<div class="word"><p>${s}</p>
+        <button class="secondary" onclick="speak('${escSpeech(s)}','${data.code}')">🔊 Listen</button></div>`).join('')}
+    </div></div>`;
+  }
+  if(type==='stories'){
+    html=`<div class="detail"><h2>📖 ${currentLanguage} Stories</h2><p>Read easy stories.</p><div class="storyList">
+      ${data.stories.map(s=>`<div class="storyCard"><h3>${s.title}</h3><p>${s.text}</p>
+        <button onclick="speak('${escSpeech(s.text)}','${data.code}')">🔊 Listen</button></div>`).join('')}
+    </div></div>`;
+  }
+  if(type==='writing'){
+    html=`<div class="detail"><h2>✍️ ${currentLanguage} Writing</h2>
+      <p>Practice writing the alphabet.</p>
+      <div style="margin-top:14px;padding:18px;background:rgba(198,146,75,.1);border-radius:14px;line-height:2;font-size:20px;text-align:center;word-spacing:10px">
+        ${data.writing}
+      </div></div>`;
+  }
+  $('languageLesson').innerHTML=html;
+  $('languageLesson').scrollIntoView({behavior:'smooth'});
+}
+
+function escSpeech(t){return String(t).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');}
+
+function speak(text,lang='en-US'){
+  if(!('speechSynthesis' in window)){ toast('Speech not supported'); return; }
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang; u.rate=.85;
+  speechSynthesis.speak(u);
+}
+
+/* ============ INIT ============ */
+loadWriters();
+loadWorks();
+loadScientists();
+loadNobel();
+loadHistory();
+buildLanguageSelector();
+setLanguage('English');
+randomDiscovery();
+
+document.querySelector('.bottomNav button[data-screen="home"]').classList.add('active');
+</script>
+
+</body>
+  </html>
